@@ -7,5 +7,11 @@
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true
-  }
+
+  },
+  "exclude": [
+    "./babel.config.js",
+    "./jest.config.js",
+    "./webpack.config.js"
+  ]
 }

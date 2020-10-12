@@ -1,42 +1,47 @@
 import { ParsedLineType } from "./parser";
-import { isNumber } from "./helpers";
-import {
-  mathOperators,
-  mathPriorities,
-  mathOperatorsPriorities,
-} from "./mathOperators";
+import { isNumber, getDeepestBracketsPair } from "./helpers";
+import { mathOperators, mathPriorities, mathOperatorsPriorities, ScalarOperationType, SingleOperationType, singleOperations } from "./mathOperators";
 
-const [FIRST, SECOND] = mathPriorities;
+export const processCals = (stack: ParsedLineType): number => {
+  let deepestPair: number[] = getDeepestBracketsPair(stack);
+  while (deepestPair.length) {
+    const [startIndex, endIndex] = deepestPair;
+    stack[startIndex] = allPrioritiesCalc(stack.slice(startIndex + 1, endIndex));
+    stack.splice(startIndex + 1, endIndex - startIndex);
+    deepestPair = getDeepestBracketsPair(stack);
+  }
+  return allPrioritiesCalc(stack);
+};
 
-export const firstPrioritiesCalc = (stack: ParsedLineType): ParsedLineType =>
-  stack.reduce<ParsedLineType>((result, nextItem) => {
-    const prevItem = result[result.length - 2];
-    const item = result[result.length - 1];
+export const allPrioritiesCalc = (stack: ParsedLineType): number => {
+  mathPriorities.forEach((priority: number) => {
+    stack = prioritiesCalc(priority, stack);
+  });
+  return Number(stack.join());
+};
 
-    if (!isNumber(String(item)) && mathOperatorsPriorities[item] === FIRST) {
-      if (!mathOperators[item]) {
+export const prioritiesCalc = (priority: number, stack: ParsedLineType): ParsedLineType => {
+  let index = stack.findIndex((element) => !isNumber(String(element)) && mathOperatorsPriorities[element] === priority);
+
+  while (index !== -1) {
+    const operation: ScalarOperationType | SingleOperationType = mathOperators[stack[index]];
+    const isSingleOperation: boolean = singleOperations.includes(String(stack[index]));
+    if (isSingleOperation) {
+      if (!isNumber(String(stack[index + 1]))) {
         throw new TypeError("Unexpected stack!");
       }
-      result = [
-        ...result.slice(0, -2),
-        mathOperators[item](Number(prevItem), Number(nextItem)),
-      ];
+      stack[index] = (operation as SingleOperationType)(Number(stack[index + 1]));
+      stack.splice(index + 1, 1);
     } else {
-      result.push(nextItem);
+      if (!isNumber(String(stack[index + 1])) || !isNumber(String(stack[index - 1]))) {
+        throw new TypeError("Unexpected stack!");
+      }
+      stack[index] = (operation as ScalarOperationType)(Number(stack[index - 1]), Number(stack[index + 1]));
+      stack.splice(index + 1, 1);
+      stack.splice(index - 1, 1);
     }
-    return result;
-  }, []);
+    index = stack.findIndex((element) => !isNumber(String(element)) && mathOperatorsPriorities[element] === priority);
+  }
 
-export const secondPrioritiesCalc = (stack: ParsedLineType): number =>
-  stack.reduce<number>((result, nextItem, key) => {
-    const item = stack[key - 1];
-
-    if (mathOperatorsPriorities[item] === FIRST) {
-      throw new TypeError("Unexpected stack!");
-    }
-
-    if (!isNumber(String(item)) && mathOperatorsPriorities[item] === SECOND) {
-      result = mathOperators[item](Number(result), Number(nextItem));
-    }
-    return result;
-  }, Number(stack[0]));
+  return stack;
+};
