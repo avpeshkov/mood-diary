@@ -3,11 +3,11 @@ import { parser } from "./parser";
 import { processCals } from "./calc-engine";
 
 export const runner = (line: string): number => {
-  const stack = parser(line);
+    const stack = parser(line);
 
-  if (stack === null) {
-    throw new TypeError("Unexpected string");
-  }
+    if (stack === null) {
+        throw new TypeError("Unexpected string");
+    }
 
-  return processCals(stack);
+    return processCals(stack);
 };

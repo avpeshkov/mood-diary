@@ -14,29 +14,29 @@ export const exponentiation: ScalarOperationType = (first: number, second: numbe
 export const squaring: SingleOperationType = (num: number): number => num ** 2;
 
 export const factorial: SingleOperationType = (num: number): number => {
-  let number: number = num;
-  let result: number = num;
-  if (number === 0 || number === 1) {
-    return 1;
-  }
+    let number: number = num;
+    let result: number = num;
+    if (number === 0 || number === 1) {
+        return 1;
+    }
 
-  while (number > 1) {
-    number--;
-    result = result * number;
-  }
-  return result;
+    while (number > 1) {
+        number--;
+        result = result * number;
+    }
+    return result;
 };
 
 export const mathOperators: {
-  [key: string]: ScalarOperationType | SingleOperationType;
+    [key: string]: ScalarOperationType | SingleOperationType;
 } = {
-  "*": mul,
-  "/": div,
-  "+": add,
-  "-": minus,
-  "^": exponentiation,
-  "!": factorial,
-  "**": squaring,
+    "*": mul,
+    "/": div,
+    "+": add,
+    "-": minus,
+    "^": exponentiation,
+    "!": factorial,
+    "**": squaring,
 };
 
 export const mathPriorities: number[] = [0, 1, 2, 3];
@@ -45,11 +45,11 @@ export const brackets: string[] = ["(", ")"];
 const [ZERO, FIRST, SECOND, THIRD] = mathPriorities;
 
 export const mathOperatorsPriorities: { [key: string]: number } = {
-  "!": ZERO,
-  "**": ZERO,
-  "^": FIRST,
-  "*": SECOND,
-  "/": SECOND,
-  "+": THIRD,
-  "-": THIRD,
+    "!": ZERO,
+    "**": ZERO,
+    "^": FIRST,
+    "*": SECOND,
+    "/": SECOND,
+    "+": THIRD,
+    "-": THIRD,
 };
