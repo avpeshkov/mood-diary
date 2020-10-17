@@ -65,4 +65,8 @@ describe("Runner long cases with brackets", () => {
   it("( ( 25 - 5 ) / ( 1 * 2 ) ) + 10", () => {
     expect(runner("( ( 25 - 5 ) / ( 1 * 2 ) ) + 10")).toEqual(20);
   });
+
+  it("( ( 25 - 5 ) * 2 ) + 10", () => {
+    expect(runner("( ( 25 - 5 ) * 2 ) + 10")).toEqual(50);
+  });
 });

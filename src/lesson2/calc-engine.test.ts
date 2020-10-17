@@ -81,6 +81,22 @@ describe("processCals test with brackets", () => {
     expect(processCals(["(", 10, "*", 10, ")"])).toEqual(100);
   });
 
+  it("[(, 10, + , 10, ), *, 2]", () => {
+    expect(processCals(["(", 10, "+", 10, ")", "*", 2])).toEqual(40);
+  });
+
+  it("[ 2, *, (, 10, + , 10, ) ]", () => {
+    expect(processCals([2, "*", "(", 10, "+", 10, ")"])).toEqual(40);
+  });
+
+  it("[ 2, *, (, (, 10, -, 5, ), * , 10, ) ]", () => {
+    expect(processCals([2, "*", "(", "(", 10, "-", 5, ")", "*", 10, ")"])).toEqual(100);
+  });
+
+  it("[ 2, *, (, 10, -, 5, ), ^, 2,  ]", () => {
+    expect(processCals([2, "*", "(", 10, "-", 5, ")", "^", 2])).toEqual(50);
+  });
+
   it("[(, 10, * , (, 10,), )]", () => {
     expect(processCals(["(", 10, "*", "(", 10, ")", ")"])).toEqual(100);
   });
