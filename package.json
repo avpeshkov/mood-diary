@@ -14,7 +14,8 @@
     "test:loki": "npm run build-storybook && npx loki --requireReference --reactUri file:./storybook-static",
     "check": "npm run lint && npm test && npm run test:loki",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "lint-staged": "lint-staged"
   },
   "husky": {
     "hooks": {
@@ -74,7 +75,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "html-webpack-plugin": "^4.0.3",
-    "husky": "^4.2.3",
+    "husky": "^4.3.0",
     "jest": "^25.2.4",
     "jest-emotion": "^10.0.32",
     "loki": "^0.20.3",
