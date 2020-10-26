@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "types/*": ["src/types/*"]
+    },
     "target": "es5",
     "module": "commonjs",
     "allowJs": true,
@@ -7,7 +11,6 @@
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true
-
   },
   "exclude": [
     "./babel.config.js",

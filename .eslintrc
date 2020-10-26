@@ -2,10 +2,38 @@
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
   ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ExportDefaultDeclaration",
+        "message": "Restricted default export, prefer named exports!"
+      }
+    ],
+//    "no-console": [
+//      "error",
+//      { "allow": [
+//        "warn",
+//        "error"
+//      ]
+//      }
+//    ],
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "react/prop-types": 0
   },
   "parserOptions": {
     "sourceType": "module",
@@ -14,16 +42,39 @@
   },
   "overrides": [
     {
-      "files": ["webpack.config.js"],
+      "files": [
+        "webpack.config.js"
+      ],
       "rules": {
-        "@typescript-eslint/no-var-requires": ["off"]
+        "@typescript-eslint/no-var-requires": [
+          "off"
+        ]
       }
     },
     {
-      "files": ["*.ts","*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "rules": {
-        "max-len": ["error", { "code": 160, "tabWidth": 4, "ignoreUrls": true ,"comments": 160 }],
-        "@typescript-eslint/no-use-before-define" : "off"
+        "max-len": [
+          "error",
+          {
+            "code": 160,
+            "tabWidth": 4,
+            "ignoreUrls": true,
+            "comments": 160
+          }
+        ],
+        "@typescript-eslint/no-use-before-define": "off"
+      }
+    },
+    {
+      "files": [
+        "*.stories.tsx"
+      ],
+      "rules": {
+        "no-restricted-syntax": ["off"]
       }
     }
   ]
