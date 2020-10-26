@@ -7,21 +7,31 @@
     "start": "npx webpack-dev-server --mode development --open --hot",
     "build": "npx webpack --mode production",
     "calc": "npx ts-node src/lesson2",
-    "lint": "npx eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "loki:update": "npm run build-storybook && npx loki update --requireReference --reactUri file:./storybook-static",
     "loki:approve": "npx loki approve",
-    "test": "npx jest",
-    "test:loki": "npm run build-storybook && npx loki --requireReference --reactUri file:./storybook-static",
-    "check": "npm run lint && npm test && npm run test:loki",
-    "pre-commit-check": "npm run lint && npm test && git add .",
+    "lint-staged": "lint-staged",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "check": "npm run lint && npm test && npm run test:loki",
+    "test:loki": "npm run build-storybook && npx loki --requireReference --reactUri file:./storybook-static",
+    "test": "npx jest",
+    "lint": "npx eslint --ext .js,.jsx,.ts,.tsx --fix ./",
+    "fix-style": "prettier --config .prettierrc --list-different src/**/*.{ts,scss} --write",
+    "pre-commit-check": "npm run fix-style && npm run lint && npm test && npm run test:loki && git add ."
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pre-commit-check",
-      "pre-push": "npm run check"
+      "pre-commit": "lint-staged",
+      "pre-push": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "npm run pre-commit-check"
+    ],
+    "*.scss": [
+      "npm run pre-commit-check"
+    ]
   },
   "repository": {
     "type": "git",
@@ -63,7 +73,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "html-webpack-plugin": "^4.0.3",
-    "husky": "^4.2.3",
+    "husky": "^4.3.0",
     "jest": "^25.2.4",
     "jest-emotion": "^10.0.32",
     "loki": "^0.20.3",
@@ -75,7 +85,8 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "lint-staged": "^10.4.2"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
