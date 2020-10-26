@@ -14,27 +14,13 @@
     "test:loki": "npm run build-storybook && npx loki --requireReference --reactUri file:./storybook-static",
     "check": "npm run lint && npm test && npm run test:loki",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "lint-staged": "lint-staged"
+    "build-storybook": "build-storybook"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run check",
+      "pre-push": "npm run check"
     }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --config .prettierrc --list-different --write",
-      "npm run lint"
-    ],
-    "*.tsx": [
-      "prettier --config .prettierrc --list-different --write",
-      "npm run lint"
-    ],
-    "*.scss": [
-      "prettier --config .prettierrc --list-different --write",
-      "npm run lint"
-    ]
   },
   "repository": {
     "type": "git",
@@ -76,7 +62,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "html-webpack-plugin": "^4.0.3",
-    "husky": "^4.3.0",
+    "husky": "^4.2.3",
     "jest": "^25.2.4",
     "jest-emotion": "^10.0.32",
     "loki": "^0.20.3",
@@ -88,8 +74,7 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "lint-staged": "^10.4.2"
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",

@@ -45,8 +45,10 @@ describe("Field", () => {
                 onClick={jest.fn()}
             />
         );
-        expect(field.findWhere((el) => el.html() === "x" && typeof el.type() !== "string").length).toBe(1);
-        expect(field.findWhere((el) => el.html() === "o" && typeof el.type() !== "string").length).toBe(2);
+        expect(field.findWhere((el) => el.html() === "x" && typeof el.type() !== "string"
+        ).length).toBe(1);
+        expect(field.findWhere((el) => el.html() === "o" && typeof el.type() !== "string").length
+        ).toBe(2);
     });
     it("passed onClick inside cells", () => {
         const onClick = jest.fn();
