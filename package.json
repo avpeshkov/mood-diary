@@ -13,12 +13,13 @@
     "test": "npx jest",
     "test:loki": "npm run build-storybook && npx loki --requireReference --reactUri file:./storybook-static",
     "check": "npm run lint && npm test && npm run test:loki",
+    "pre-commit-check": "npm run lint && npm test && git add .",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run check",
+      "pre-commit": "npm run pre-commit-check",
       "pre-push": "npm run check"
     }
   },
