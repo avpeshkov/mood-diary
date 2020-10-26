@@ -24,15 +24,16 @@
   },
   "lint-staged": {
     "*.ts": [
-      "tslint --fix",
-      "prettier --config .prettierrc --list-different --write"
+      "prettier --config .prettierrc --list-different --write",
+      "npm run lint"
     ],
     "*.tsx": [
-      "tslint --fix",
-      "prettier --config .prettierrc --list-different --write"
+      "prettier --config .prettierrc --list-different --write",
+      "npm run lint"
     ],
     "*.scss": [
-      "prettier --config .prettierrc --list-different --write"
+      "prettier --config .prettierrc --list-different --write",
+      "npm run lint"
     ]
   },
   "repository": {
@@ -87,7 +88,8 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "lint-staged": "^10.4.2"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
