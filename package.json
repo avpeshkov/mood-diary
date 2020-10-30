@@ -45,6 +45,8 @@
   "homepage": "https://github.com/nickovchinnikov/react-js-tutorial#readme",
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-transform-arrow-functions": "^7.12.1",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
@@ -76,6 +78,7 @@
     "husky": "^4.3.0",
     "jest": "^25.2.4",
     "jest-emotion": "^10.0.32",
+    "lint-staged": "^10.4.2",
     "loki": "^0.20.3",
     "prettier": "^2.0.2",
     "react-docgen-typescript-loader": "^3.7.2",
@@ -85,8 +88,7 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "lint-staged": "^10.4.2"
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
