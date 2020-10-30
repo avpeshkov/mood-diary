@@ -1,6 +1,13 @@
 import React from "react";
 import { render } from "react-dom";
+import { MoodScale } from "./components";
 
-import { InteractiveField, Field } from "./components";
-
-render(<InteractiveField xSize={3} ySize={3} playerMarks={["x", "y"]} fieldComponent={Field} />, document.getElementById("root"));
+render(
+    <MoodScale
+        currentMood={5}
+        onMoodUpdate={(mood: number) => {
+            console.log(mood);
+        }}
+    />,
+    document.getElementById("root")
+);
