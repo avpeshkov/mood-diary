@@ -1,13 +1,5 @@
 import React from "react";
 import { render } from "react-dom";
-import { MoodScale } from "./components";
+import { MoodForm } from "./components/MoodForm";
 
-render(
-    <MoodScale
-        currentMood={5}
-        onMoodUpdate={(mood: number) => {
-            console.log(mood);
-        }}
-    />,
-    document.getElementById("root")
-);
+render(<MoodForm />, document.getElementById("root"));
