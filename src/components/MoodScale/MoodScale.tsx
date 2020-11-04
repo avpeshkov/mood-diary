@@ -19,7 +19,7 @@ export class MoodScale extends React.Component<MoodScaleProps> {
         return (
             <MoodScaleWrapper>
                 {moods.map((mood: Mood) => (
-                    <MoodItem key={mood} mood={mood} isFilled={mood <= currentMood} onClick={onMoodUpdate.bind(this, mood)} />
+                    <MoodItem key={mood} mood={mood} isFilled={mood <= currentMood} onClick={() => onMoodUpdate(mood)} />
                 ))}
             </MoodScaleWrapper>
         );
