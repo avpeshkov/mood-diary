@@ -88,14 +88,14 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "snapshot-diff": "^0.8.1"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "snapshot-diff": "^0.8.1"
+    "react-dom": "^16.13.1"
   },
   "loki": {
     "configurations": {

@@ -4,3 +4,5 @@ node_modules
 dist
 .idea
 storybook-static
+.loki
+!.loki/reference
