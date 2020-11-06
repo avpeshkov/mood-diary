@@ -35,14 +35,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nickovchinnikov/react-js-tutorial.git"
+    "url": "git+https://github.com/avpeshkov/my-react-js-tutorial.git"
   },
-  "author": "Nick Ovchinnikov",
+  "author": "Aleksandr Peshkov",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nickovchinnikov/react-js-tutorial/issues"
-  },
-  "homepage": "https://github.com/nickovchinnikov/react-js-tutorial#readme",
+  "homepage": "https://github.com/avpeshkov/my-react-js-tutorial#readme",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
