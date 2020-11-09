@@ -42,13 +42,9 @@ export class MoodForm extends React.Component<MoodFormProps, MoodFormState> {
         }
     }
 
-    onMoodUpdate = (currentMood: Mood): void => {
-        this.setState({ mood: currentMood });
-    };
+    onMoodUpdate = (currentMood: Mood): void => this.setState({ mood: currentMood });
 
-    onDateUpdate = (currentDate: Date): void => {
-        this.setState({ date: currentDate });
-    };
+    onDateUpdate = (currentDate: Date): void => this.setState({ date: currentDate });
 
     render() {
         const { mood, date } = this.state;

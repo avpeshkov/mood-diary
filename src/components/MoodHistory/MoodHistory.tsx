@@ -4,6 +4,7 @@ import { MoodForm } from "../MoodForm";
 import styled from "@emotion/styled";
 import { backEndFake } from "./MoodHistoryBackEndFake";
 import { QuoteBlock } from "../QuoteBlock";
+import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "../QuoteBlock/consts";
 
 interface MoodHistoryState {
     moodList: Array<MoodObject>;
@@ -33,9 +34,9 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
         const { moodList } = this.state;
         return (
             <MoodHistoryWrapper>
-                <QuoteBlock interval={10000} isAutoSwitchEnabled={true} />
+                <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} />
                 {moodList.map((item: MoodObject, index: number) => (
-                    <MoodForm isViewMode={true} moodObject={item} key={index} />
+                    <MoodForm isViewMode={true} moodObject={item} key={item.mood} />
                 ))}
             </MoodHistoryWrapper>
         );

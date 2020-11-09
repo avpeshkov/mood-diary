@@ -79,6 +79,14 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         }
     }
 
+    shouldComponentUpdate(nextProps: Readonly<QuoteBlockProps>, nextState: Readonly<QuoteBlockState>, nextContext: any): boolean {
+        return (
+            this.state.quoteIndex !== nextState.quoteIndex ||
+            this.props.interval !== nextProps.interval ||
+            this.props.isAutoSwitchEnabled !== nextProps.isAutoSwitchEnabled
+        );
+    }
+
     componentDidUpdate(prevProps: QuoteBlockProps) {
         const didPropsChanged = prevProps.interval !== this.props.interval || this.props.isAutoSwitchEnabled !== prevProps.isAutoSwitchEnabled;
         if (didPropsChanged) {
@@ -120,7 +128,6 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         } else if (newId >= quoteListLength) {
             newId = quoteListLength - newId;
         }
-        // console.log(newId)
         this.setState({ quoteIndex: newId });
     }
 
@@ -135,12 +142,12 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         const { quoteIndex } = this.state;
         return (
             <QuoteWrapper>
-                <QuoteButton onClick={this.setQuote.bind(this, "previous")}>{"<"}</QuoteButton>
+                <QuoteButton onClick={() => this.setQuote("previous")}>{"<"}</QuoteButton>
                 <QuoteBlockView>
                     {backEndFake.quoteList[quoteIndex].quote}
                     <footer>{backEndFake.quoteList[quoteIndex].author}</footer>
                 </QuoteBlockView>
-                <QuoteButton onClick={this.setQuote.bind(this, "next")}>{">"}</QuoteButton>
+                <QuoteButton onClick={() => this.setQuote("next")}>{">"}</QuoteButton>
             </QuoteWrapper>
         );
     }
