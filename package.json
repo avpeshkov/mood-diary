@@ -76,7 +76,7 @@
     "jest": "^25.2.4",
     "jest-emotion": "^10.0.32",
     "lint-staged": "^10.4.2",
-    "loki": "^0.20.3",
+    "loki": "^0.25.1",
     "prettier": "^2.0.2",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-test-renderer": "^16.13.1",
@@ -86,11 +86,13 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "snapshot-diff": "^0.8.1"
+    "snapshot-diff": "^0.8.1",
+    "@types/ramda": "^0.27.6"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
