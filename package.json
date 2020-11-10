@@ -57,6 +57,7 @@
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^25.1.4",
     "@types/react": "^16.9.33",
+    "@types/react-datepicker": "^3.1.1",
     "@types/react-dom": "^16.9.6",
     "@types/react-test-renderer": "^16.9.2",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
@@ -76,22 +77,23 @@
     "jest": "^25.2.4",
     "jest-emotion": "^10.0.32",
     "lint-staged": "^10.4.2",
-    "loki": "^0.20.3",
+    "loki": "^0.25.1",
     "prettier": "^2.0.2",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-test-renderer": "^16.13.1",
+    "snapshot-diff": "^0.8.1",
     "storybook-addon-react-docgen": "^1.2.32",
     "ts-node": "^8.8.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "snapshot-diff": "^0.8.1"
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "react": "^16.13.1",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^16.13.1"
   },
   "loki": {

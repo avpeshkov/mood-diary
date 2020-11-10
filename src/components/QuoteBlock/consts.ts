@@ -1,0 +1,1 @@
+export const QUOTE_BLOCK_DEFAULT_INTERVAL = 10000;

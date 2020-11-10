@@ -1,5 +1,5 @@
 import React from "react";
 import { render } from "react-dom";
-import { MoodForm } from "./components/MoodForm";
+import { MoodHistory } from "./components/MoodHistory";
 
-render(<MoodForm />, document.getElementById("root"));
+render(<MoodHistory />, document.getElementById("root"));
