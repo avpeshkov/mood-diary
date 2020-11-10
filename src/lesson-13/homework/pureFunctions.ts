@@ -2,13 +2,7 @@
 export type Team = { name: string; score: number };
 
 export const getTopName = (teams: Team[]): string => {
-    return teams.reduce((prev: Team, next: Team) => {
-        if (prev.score > next.score) {
-            return prev;
-        } else {
-            return next;
-        }
-    }).name;
+    return teams.reduce((prev: Team, next: Team) => (prev.score > next.score ? prev : next)).name;
 };
 
 // Задание 2
@@ -16,14 +10,16 @@ export type QsObj = Record<string, string | number | boolean | object>;
 
 export const createQs = (qsObj: QsObj): string => {
     const objetToString = (objet: QsObj): string[] => {
-        const keysArr: string[] = Object.keys(objet);
-        return keysArr.map((key: string, index): string => {
-            if (typeof objet[key] === "object") {
-                return objetToString(objet[key] as QsObj).join("");
+        const result: string[] = [];
+        const objetEntries: Array<[string, string | number | boolean | object]> = Object.entries(objet);
+        for (const [index, [key, value]] of objetEntries.entries()) {
+            if (typeof value === "object") {
+                result.push(objetToString(value as QsObj).join(""));
             } else {
-                return `${key}=${String(qsObj[key])}${index < keysArr.length - 1 ? "&" : ""}`;
+                result.push(`${key}=${String(value)}${index < objetEntries.length - 1 ? "&" : ""}`);
             }
-        });
+        }
+        return result;
     };
     return `?${objetToString(qsObj).join("")}`;
 };
