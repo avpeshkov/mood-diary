@@ -57,6 +57,7 @@
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^25.1.4",
     "@types/react": "^16.9.33",
+    "@types/react-datepicker": "^3.1.1",
     "@types/react-dom": "^16.9.6",
     "@types/react-test-renderer": "^16.9.2",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
@@ -94,6 +95,7 @@
     "@emotion/styled": "^10.0.27",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^16.13.1"
   },
   "loki": {

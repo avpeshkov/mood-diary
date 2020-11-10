@@ -4,7 +4,7 @@ import { MoodItem, moods, Mood } from "./components/MoodItem";
 
 interface MoodScaleProps {
     currentMood: Mood;
-    onMoodUpdate: (currentMood: Mood) => void;
+    onMoodUpdate?: (currentMood: Mood) => void;
 }
 
 const MoodScaleWrapper = styled.div`
@@ -19,7 +19,7 @@ export class MoodScale extends React.Component<MoodScaleProps> {
         return (
             <MoodScaleWrapper>
                 {moods.map((mood: Mood) => (
-                    <MoodItem key={mood} mood={mood} isFilled={mood <= currentMood} onClick={() => onMoodUpdate(mood)} />
+                    <MoodItem key={mood} mood={mood} isFilled={mood <= currentMood} onClick={onMoodUpdate && (() => onMoodUpdate(mood))} />
                 ))}
             </MoodScaleWrapper>
         );
