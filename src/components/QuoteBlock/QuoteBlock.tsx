@@ -79,7 +79,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         }
     }
 
-    shouldComponentUpdate(nextProps: Readonly<QuoteBlockProps>, nextState: Readonly<QuoteBlockState>, nextContext: any): boolean {
+    shouldComponentUpdate(nextProps: Readonly<QuoteBlockProps>, nextState: Readonly<QuoteBlockState>): boolean {
         return (
             this.state.quoteIndex !== nextState.quoteIndex ||
             this.props.interval !== nextProps.interval ||

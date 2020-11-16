@@ -11,6 +11,8 @@ const MoodScaleWrapper = styled.div`
     display: inline-block;
     padding: 10px;
     border: 2px solid lightgray;
+    max-width: fit-content;
+    width: fit-content;
 `;
 
 export class MoodScale extends React.Component<MoodScaleProps> {
@@ -19,7 +21,7 @@ export class MoodScale extends React.Component<MoodScaleProps> {
         return (
             <MoodScaleWrapper>
                 {moods.map((mood: Mood) => (
-                    <MoodItem key={mood} mood={mood} isFilled={mood <= currentMood} onClick={onMoodUpdate && (() => onMoodUpdate(mood))} />
+                    <MoodItem type="button" key={mood} mood={mood} isFilled={mood <= currentMood} onClick={onMoodUpdate && (() => onMoodUpdate(mood))} />
                 ))}
             </MoodScaleWrapper>
         );

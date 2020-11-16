@@ -11,4 +11,4 @@ export default {
 
 const MoodButtonClicked = action("MoodButton clicked (element)");
 
-export const withRealField = () => <MoodScale currentMood={number("current_mood", 5) as Mood} onMoodUpdate={MoodButtonClicked} />;
+export const simpleData = () => <MoodScale currentMood={number("current_mood", 5) as Mood} onMoodUpdate={MoodButtonClicked} />;

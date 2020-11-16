@@ -88,15 +88,19 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "snapshot-diff": "^0.8.1",
-    "@types/ramda": "^0.27.6"
+    "@types/ramda": "^0.27.6",
+    "@types/react-modal": "^3.10.6"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "formik": "^2.2.5",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-datepicker": "^3.3.0",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-modal": "^3.11.2",
+    "yup": "^0.29.3"
   },
   "loki": {
     "configurations": {

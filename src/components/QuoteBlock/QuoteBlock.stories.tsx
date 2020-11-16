@@ -8,4 +8,4 @@ export default {
     decorators: [withKnobs],
 };
 
-export const withRealField = () => <QuoteBlock interval={number("interval", QUOTE_BLOCK_DEFAULT_INTERVAL)} isAutoSwitchEnabled={boolean("isActive", true)} />;
+export const simpleData = () => <QuoteBlock interval={number("interval", QUOTE_BLOCK_DEFAULT_INTERVAL)} isAutoSwitchEnabled={boolean("isActive", true)} />;

@@ -5,21 +5,38 @@ import { MoodScale } from "../MoodScale";
 import { MoodObject } from "types/mood";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
 
 interface MoodFormProps {
-    isViewMode?: boolean;
-    moodObject?: MoodObject;
+    moodObject: MoodObject | null;
+    createUpdateMoodObject: (object: MoodObject) => void;
 }
-
-type MoodFormState = MoodObject;
 
 const MoodFormWrapper = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px;
     border-bottom: 2px solid lightgray;
-    height: 100px;
     width: 500px;
+`;
+
+const FieldWrapper = styled.div`
+    display: inline-flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+`;
+
+const SaveButton = styled.button`
+    display: inline-flex;
+    background-color: darkgreen;
+    border-radius: 5px;
+    border: 0px;
+    color: white;
+    width: 70px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    align-self: flex-end;
 `;
 
 export const DateWrapper = styled.div`
@@ -28,32 +45,51 @@ export const DateWrapper = styled.div`
     font-weight: bold;
 `;
 
-// в следующем домашнем задании этот компонент будет переписан на формы сейчас в нем конечно есть несколько недостатков.
-export class MoodForm extends React.Component<MoodFormProps, MoodFormState> {
-    state: MoodFormState = {
-        mood: 1,
-        date: new Date(),
-    };
+// Комнпонент для редактирования/добавления основной модели прилоежния(Formik форма).
 
-    componentDidMount() {
-        const { moodObject } = this.props;
-        if (moodObject) {
-            this.setState({ mood: moodObject.mood, date: moodObject.date });
-        }
-    }
-
-    onMoodUpdate = (currentMood: Mood): void => this.setState({ mood: currentMood });
-
-    onDateUpdate = (currentDate: Date): void => this.setState({ date: currentDate });
-
-    render() {
-        const { mood, date } = this.state;
-        const { isViewMode } = this.props;
-        return (
-            <MoodFormWrapper>
-                <DateWrapper> {isViewMode ? date.toDateString() : <DatePicker selected={date} onChange={this.onDateUpdate} />}</DateWrapper>
-                <MoodScale currentMood={mood} onMoodUpdate={isViewMode ? undefined : this.onMoodUpdate} />
-            </MoodFormWrapper>
-        );
-    }
-}
+export const MoodForm: React.FC<MoodFormProps> = (props) => {
+    const { moodObject } = props;
+    const { createUpdateMoodObject } = props;
+    const initialValues: MoodObject = moodObject ? moodObject : { date: new Date(), mood: 5, comment: "" };
+    return (
+        <Formik
+            initialValues={initialValues}
+            onSubmit={(values: MoodObject, actions: FormikHelpers<MoodObject>) => {
+                createUpdateMoodObject(values);
+            }}
+        >
+            {(props: FormikProps<MoodObject>) => {
+                const { values, setFieldValue } = props;
+                return (
+                    <Form>
+                        <MoodFormWrapper>
+                            <FieldWrapper>
+                                <label htmlFor="date">Date</label>
+                                <DatePicker
+                                    selected={values.date}
+                                    onChange={(date: Date) => {
+                                        setFieldValue("date", date);
+                                    }}
+                                />
+                            </FieldWrapper>
+                            <FieldWrapper>
+                                <label htmlFor="mood">Mood</label>
+                                <MoodScale
+                                    currentMood={values.mood}
+                                    onMoodUpdate={(mood: Mood) => {
+                                        setFieldValue("mood", mood);
+                                    }}
+                                />
+                            </FieldWrapper>
+                            <FieldWrapper>
+                                <label htmlFor="comment">Comment</label>
+                                <Field label="Comment" name="comment" component="textarea" />
+                            </FieldWrapper>
+                            <SaveButton type="submit">Save</SaveButton>
+                        </MoodFormWrapper>
+                    </Form>
+                );
+            }}
+        </Formik>
+    );
+};
