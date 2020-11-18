@@ -77,8 +77,8 @@ export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
                 <MoodScale currentMood={moodObject.mood} />
                 {moodObject.comment && (
                     <>
-                        <label>Comment: </label>
-                        <span>{moodObject.comment}</span>
+                        <label>Comment:</label>
+                        <span id="comment">{moodObject.comment}</span>
                     </>
                 )}
             </MoodContentWrapper>

@@ -58,8 +58,7 @@ export const MoodForm: React.FC<MoodFormProps> = (props) => {
                 createUpdateMoodObject(values);
             }}
         >
-            {(props: FormikProps<MoodObject>) => {
-                const { values, setFieldValue } = props;
+            {({ values, setFieldValue }: FormikProps<MoodObject>) => {
                 return (
                     <Form>
                         <MoodFormWrapper>

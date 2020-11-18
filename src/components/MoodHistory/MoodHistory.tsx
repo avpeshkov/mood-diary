@@ -19,7 +19,7 @@ const MoodHistoryWrapper = styled.div`
     align-items: center;
 `;
 
-const AddNewMoodButton = styled.button`
+export const AddNewMoodButton = styled.button`
     display: inline-flex;
     background-color: darkgreen;
     border-radius: 5px;
@@ -36,17 +36,10 @@ const AddNewMoodButton = styled.button`
 
 // компонент для оборажения накопленной истории
 export class MoodHistory extends React.Component<{}, MoodHistoryState> {
-    constructor(props: {}) {
-        super(props);
-        this.state = {
-            moodList: [],
-            moodObjectToEdit: null,
-        };
-    }
-
-    shouldComponentUpdate(nextProps: Readonly<{}>, nextState: Readonly<MoodHistoryState>): boolean {
-        return nextState.moodList.length !== this.state.moodList.length || nextState.moodObjectToEdit !== this.state.moodObjectToEdit;
-    }
+    state: MoodHistoryState = {
+        moodList: [],
+        moodObjectToEdit: null,
+    };
 
     componentDidMount() {
         this.setState({ moodList: backEndFake.moodList });
@@ -124,8 +117,10 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
                     moodList[index] = moodObject;
                 }
             } else {
-                moodObject.id = Math.max(...moodList.map((mood: MoodObject) => (mood.id ? mood.id : 0))) + 1;
-                moodList.push(moodObject);
+                moodList.push({
+                    ...moodObject,
+                    id: moodList.length ? Math.max(...moodList.map((mood: MoodObject) => (mood.id ? mood.id : 0))) + 1 : 1,
+                });
             }
             return { moodList, moodObjectToEdit: null };
         });
