@@ -44,7 +44,6 @@ const QuoteBlockView = styled.span`
 
 const QuoteButton = styled.a`
     text-decoration: none;
-    font-family: Arial;
     display: block;
     background-color: transparent;
     align-items: center;
@@ -79,7 +78,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         }
     }
 
-    shouldComponentUpdate(nextProps: Readonly<QuoteBlockProps>, nextState: Readonly<QuoteBlockState>, nextContext: any): boolean {
+    shouldComponentUpdate(nextProps: Readonly<QuoteBlockProps>, nextState: Readonly<QuoteBlockState>): boolean {
         return (
             this.state.quoteIndex !== nextState.quoteIndex ||
             this.props.interval !== nextProps.interval ||

@@ -5,4 +5,4 @@ export default {
     title: "MoodHistory",
 };
 
-export const withRealField = () => <MoodHistory />;
+export const simpleData = () => <MoodHistory />;

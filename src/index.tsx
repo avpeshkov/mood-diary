@@ -1,5 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
-import { MoodHistory } from "./components/MoodHistory";
+import { MainScreen } from "./components/MainScreen";
+import Modal from "react-modal";
 
-render(<MoodHistory />, document.getElementById("root"));
+Modal.setAppElement("#root");
+
+render(<MainScreen />, document.getElementById("root"));
