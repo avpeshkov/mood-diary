@@ -12,12 +12,17 @@ describe("MoodFormComponent", () => {
             comment: "ha ha ha",
         };
         const submitForm = jest.fn();
-        const wrapper = render(<MoodForm moodObject={moodObject} createUpdateMoodObject={submitForm} />);
-        const submitButtonNode = wrapper.getByText("Save");
 
-        const commentNode = wrapper.getByText(moodObject.comment) as HTMLInputElement;
-        fireEvent.change(commentNode, { target: { value: "new updated comment" } });
-        fireEvent.click(submitButtonNode);
+        beforeAll(() => {
+            const wrapper = render(<MoodForm moodObject={moodObject} createUpdateMoodObject={submitForm} />);
+            const submitButtonNode = wrapper.getByText("Save");
+
+            const commentNode = wrapper.getByText(moodObject.comment) as HTMLInputElement;
+            fireEvent.change(commentNode, { target: { value: "new updated comment" } });
+            fireEvent.click(submitButtonNode);
+
+            return { submitForm: submitForm, moodObject: moodObject };
+        });
 
         test("Submits Login with email and password", () => {
             expect(submitForm).toHaveBeenCalledTimes(1); // <- Error. Doesn't get called
