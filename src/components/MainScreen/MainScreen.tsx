@@ -6,11 +6,28 @@ import { MoodHistory } from "../MoodHistory";
 
 const MainScreenWrapper = styled.div`
     display: flex;
+    width: 99%;
+    max-width: 99%;
+    flex-direction: column;
+    position: absolute;
+    height: 99%;
+    max-height: 99%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    overflow-x: hidden;
+    overflow-y: hidden;
+`;
+const MainScreenHeader = styled.h1`
+    display: inline-flex;
+    align-self: center;
+    height: 3%;
+`;
+
+const MainScreenDataWrapper = styled.div`
+    display: inline-flex;
     width: 100%;
     flex-direction: row;
-    position: absolute;
-    height: 100%;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    height: 95%;
+    overflow-x: hidden;
 `;
 
 const HistoryBlockWrapper = styled.div`
@@ -37,20 +54,31 @@ const QuoteBlockWrapper = styled.div`
 `;
 
 // главный компонент, каркас для странички
-export const MainScreen: React.FC<{}> = (props) => {
-    return (
-        <MainScreenWrapper>
-            <HistoryBlockWrapper>
-                <MoodHistory />
-            </HistoryBlockWrapper>
-            <RightBlockWrapper>
-                <GraphBlockWrapper>
-                    <h2>Here will be cool graph</h2>
-                </GraphBlockWrapper>
-                <QuoteBlockWrapper>
-                    <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} />
-                </QuoteBlockWrapper>
-            </RightBlockWrapper>
-        </MainScreenWrapper>
-    );
-};
+// реализует патер Layout component
+// этот компонент и является шаблоном приложения
+export class MainScreen extends React.PureComponent<{}> {
+    shouldComponentUpdate(): boolean {
+        return false;
+    }
+
+    render() {
+        return (
+            <MainScreenWrapper>
+                <MainScreenHeader>Mood diary</MainScreenHeader>
+                <MainScreenDataWrapper>
+                    <HistoryBlockWrapper>
+                        <MoodHistory />
+                    </HistoryBlockWrapper>
+                    <RightBlockWrapper>
+                        <GraphBlockWrapper>
+                            <h2>Here will be cool graph</h2>
+                        </GraphBlockWrapper>
+                        <QuoteBlockWrapper>
+                            <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} />
+                        </QuoteBlockWrapper>
+                    </RightBlockWrapper>
+                </MainScreenDataWrapper>
+            </MainScreenWrapper>
+        );
+    }
+}

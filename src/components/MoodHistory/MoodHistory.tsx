@@ -5,6 +5,7 @@ import { moodHistoryBackEndFake } from "./MoodHistoryBackEndFake";
 import { MoodView } from "../MoodView";
 import Modal from "react-modal";
 import { MoodForm } from "../MoodForm";
+import { getRandomIndex } from "../utils";
 
 interface MoodHistoryState {
     moodList: Array<MoodObject>;
@@ -33,6 +34,10 @@ export const AddNewMoodButton = styled.button`
 `;
 
 // компонент для оборажения накопленной истории
+// компонент рендерит компоненты отображения
+// здесь реализуется подъем состояния и контролируемый ввод
+// все элементы управления списком присуствую
+// редактирование и добавление реализовано через модальное окно с формик формой.
 export class MoodHistory extends React.Component<{}, MoodHistoryState> {
     state: MoodHistoryState = {
         moodList: [],

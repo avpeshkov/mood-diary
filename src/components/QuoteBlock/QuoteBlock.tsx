@@ -55,6 +55,7 @@ const QuoteButton = styled.a`
     padding-left: 10px;
 `;
 
+// здесь тоже реализованно как рандомное отоборажение содержания так и управление выводом
 export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState> {
     intervalID?: NodeJS.Timeout;
     _isMounted: boolean;
