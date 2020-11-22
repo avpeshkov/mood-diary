@@ -44,7 +44,6 @@ const QuoteBlockView = styled.span`
 
 const QuoteButton = styled.a`
     text-decoration: none;
-    font-family: Arial;
     display: block;
     background-color: transparent;
     align-items: center;

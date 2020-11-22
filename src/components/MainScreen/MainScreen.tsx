@@ -9,8 +9,8 @@ const MainScreenWrapper = styled.div`
     width: 100%;
     flex-direction: row;
     position: absolute;
-    width: 100%;
     height: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 `;
 
 const HistoryBlockWrapper = styled.div`
