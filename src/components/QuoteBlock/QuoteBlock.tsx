@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { getRandomIndex } from "../utils";
-import { backEndFake } from "./QuoteBlockBackEndFake";
+import { quoteListBackEndFake } from "./QuoteBlockBackEndFake";
 
 interface QuoteBlockProps {
     interval: number;
@@ -105,7 +105,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         if (this._isMounted) {
             let newId = this.state.quoteIndex;
             while (newId === this.state.quoteIndex) {
-                newId = getRandomIndex(backEndFake.quoteList.length);
+                newId = getRandomIndex(quoteListBackEndFake.quoteList.length);
             }
             this.setState({ quoteIndex: newId });
         }
@@ -113,7 +113,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
 
     setQuote(position: "next" | "previous") {
         let newId = this.state.quoteIndex;
-        const quoteListLength = backEndFake.quoteList.length;
+        const quoteListLength = quoteListBackEndFake.quoteList.length;
         switch (position) {
             case "next":
                 newId++;
@@ -143,8 +143,8 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
             <QuoteWrapper>
                 <QuoteButton onClick={() => this.setQuote("previous")}>{"<"}</QuoteButton>
                 <QuoteBlockView>
-                    {backEndFake.quoteList[quoteIndex].quote}
-                    <footer>{backEndFake.quoteList[quoteIndex].author}</footer>
+                    {quoteListBackEndFake.quoteList[quoteIndex].quote}
+                    <footer>{quoteListBackEndFake.quoteList[quoteIndex].author}</footer>
                 </QuoteBlockView>
                 <QuoteButton onClick={() => this.setQuote("next")}>{">"}</QuoteButton>
             </QuoteWrapper>

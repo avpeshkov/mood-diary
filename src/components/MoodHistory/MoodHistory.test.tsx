@@ -2,7 +2,7 @@ import { shallow } from "enzyme";
 import { Mood, MoodItem, MoodScale } from "../MoodScale";
 import React from "react";
 import { MoodHistory, AddNewMoodButton } from "./MoodHistory";
-import { backEndFake } from "./MoodHistoryBackEndFake";
+import { moodHistoryBackEndFake } from "./MoodHistoryBackEndFake";
 import { MoodView } from "../MoodView";
 import Modal from "react-modal";
 import { MoodObject } from "types/mood";
@@ -12,7 +12,7 @@ describe("MoodHistory", () => {
         const history = shallow(<MoodHistory />);
         expect(history.find(AddNewMoodButton).length).toEqual(1);
         expect(history.find(Modal).length).toEqual(1);
-        expect(history.find(MoodView).length).toEqual(backEndFake.moodList.length);
+        expect(history.find(MoodView).length).toEqual(moodHistoryBackEndFake.moodList.length);
     });
 
     const history = shallow(<MoodHistory />);
@@ -20,7 +20,7 @@ describe("MoodHistory", () => {
     const componentInstance = history.instance() as MoodHistory;
 
     it("test component init", () => {
-        expect(history.state("moodList")).toEqual(backEndFake.moodList);
+        expect(history.state("moodList")).toEqual(moodHistoryBackEndFake.moodList);
     });
 
     it("test component setState", () => {

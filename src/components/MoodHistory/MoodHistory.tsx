@@ -1,7 +1,7 @@
 import React from "react";
 import { MoodObject } from "types/mood";
 import styled from "@emotion/styled";
-import { backEndFake } from "./MoodHistoryBackEndFake";
+import { moodHistoryBackEndFake } from "./MoodHistoryBackEndFake";
 import { MoodView } from "../MoodView";
 import Modal from "react-modal";
 import { MoodForm } from "../MoodForm";
@@ -26,10 +26,8 @@ export const AddNewMoodButton = styled.button`
     border: 0px;
     color: white;
     width: 30%;
-    display: flex;
     align-items: center;
     font-size: 24px;
-    align-self: flex-end;
     justify-content: center;
     align-self: center;
 `;
@@ -42,7 +40,7 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
     };
 
     componentDidMount() {
-        this.setState({ moodList: backEndFake.moodList });
+        this.setState({ moodList: moodHistoryBackEndFake.moodList });
     }
 
     render() {

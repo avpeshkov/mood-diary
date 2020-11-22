@@ -1,6 +1,6 @@
 // тут у нас будет дата получаемая с бекенда, которая пока не понятно что где и как
 
-export const backEndFake: { quoteList: Array<{ quote: string; author: string }> } = {
+export const quoteListBackEndFake: { quoteList: Array<{ quote: string; author: string }> } = {
     quoteList: [
         {
             quote: `Есть только два способа прожить свою жизнь. Первый — так, будто никаких чудес не бывает. Второй — так, будто всё на свете является чудом`,
