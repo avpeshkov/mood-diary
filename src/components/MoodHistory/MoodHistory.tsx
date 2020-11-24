@@ -1,10 +1,10 @@
 import React from "react";
 import { MoodObject } from "types/mood";
 import styled from "@emotion/styled";
-import { MoodView } from "../MoodView";
 import Modal from "react-modal";
-import { MoodForm } from "../MoodForm";
-import { deleteMood, getMoodList, postPatchMood } from "../../api/mood";
+import { MoodForm } from "components/MoodForm";
+import { deleteMood, getMoodList, postPatchMood } from "api/mood";
+import { MoodView } from "components/MoodView";
 
 interface MoodHistoryState {
     moodList: Array<MoodObject>;
@@ -39,11 +39,10 @@ export const AddNewMoodButton = styled.button`
     width: inherit;
 `;
 
-// компонент для оборажения накопленной истории
-// компонент рендерит компоненты отображения
-// здесь реализуется подъем состояния и контролируемый ввод
-// все элементы управления списком присуствую
-// редактирование и добавление реализовано через модальное окно с формик формой.
+/**
+ * компонент для оборажения накопленной истории, рендерит компоненты отображения
+ * */
+
 export class MoodHistory extends React.Component<{}, MoodHistoryState> {
     state: MoodHistoryState = {
         moodList: [],

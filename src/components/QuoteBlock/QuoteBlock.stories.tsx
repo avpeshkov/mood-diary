@@ -5,7 +5,7 @@ import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "./consts";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { storiesOf } from "@storybook/react";
-import { QUOTE_LIST_API } from "../../api/quote";
+import { QUOTE_LIST_API } from "api/quote";
 
 const mock = new MockAdapter(axios);
 

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { MoodItem, moods, Mood } from "./components/MoodItem";
+import { MoodItem } from "./components/MoodItem";
+import { moods, Mood } from "types/mood";
 
 interface MoodScaleProps {
     currentMood: Mood;

@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Mood, moods } from "../MoodScale/components/MoodItem";
 import { MoodScale } from "../MoodScale";
-import { MoodObject } from "types/mood";
+import { Mood, MoodObject, moods } from "types/mood";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
@@ -62,18 +61,15 @@ export const DateWrapper = styled.div`
     font-weight: bold;
 `;
 
-// Комнпонент для редактирования/добавления основной модели прилоежния(Formik форма).
-
+/** Комнпонент для редактирования/добавления основной модели прилоежния(Formik форма). */
 export const MoodForm: React.FC<MoodFormProps> = (props) => {
     const { moodObject } = props;
     const { createUpdateMoodObject } = props;
-    const initialValues: MoodObject = moodObject
-        ? moodObject
-        : {
-              date: new Date(),
-              mood: moods[Math.floor(Math.random() * moods.length)], // задаем начальное значение рандомно
-              comment: "",
-          };
+    const initialValues: MoodObject = moodObject || {
+        date: new Date(),
+        mood: moods[Math.floor(Math.random() * moods.length)], // задаем начальное значение рандомно
+        comment: "",
+    };
     return (
         <Formik
             initialValues={initialValues}

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { getRandomIndex } from "../utils";
 import { QuoteObject } from "types/quote";
-import { getQuoteList } from "../../api/quote";
+import { getQuoteList } from "api/quote";
+import { getRandomIndex } from "components/utils";
 
 interface QuoteBlockProps {
     interval: number;
@@ -57,7 +57,9 @@ const QuoteButton = styled.a`
     padding-left: 10px;
 `;
 
-// здесь тоже реализованно как рандомное отоборажение содержания так и управление выводом
+/**
+ * компонент для оборажения блока с цитатами
+ * */
 export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState> {
     intervalID?: NodeJS.Timeout;
     _isMounted = false;

@@ -12,5 +12,8 @@ module.exports = {
     moduleNameMapper: {
         // https://jestjs.io/docs/en/webpack#handling-static-assets
         "\\.(css|less)$": "<rootDir>/internals/__mocks__/styleMock.js",
+        "^api(.*)$": "<rootDir>/src/api$1",
+        "^types(.*)$": "<rootDir>/src/types$1",
+        "^components(.*)$": "<rootDir>/src/components$1",
     },
 };

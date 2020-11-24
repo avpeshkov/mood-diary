@@ -1,9 +1,9 @@
 import React from "react";
 import snapshotDiff from "snapshot-diff";
 
-import { MoodView } from "./MoodView";
-import { Mood } from "../MoodScale";
 import { shallow } from "enzyme";
+import { Mood } from "components/MoodScale";
+import { MoodView } from "components/MoodView";
 
 describe("MoodView", () => {
     const moodObject = { mood: 5 as Mood, comment: "test", date: new Date("December 16, 2020 03:24:00") };

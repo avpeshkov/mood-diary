@@ -1,8 +1,7 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
 import { MoodForm } from "./MoodForm";
-import { Mood } from "../MoodScale/components/MoodItem";
-import { MoodObject } from "types/mood";
+import { Mood, MoodObject } from "types/mood";
 
 describe("MoodFormComponent", () => {
     describe("Submitting form", () => {

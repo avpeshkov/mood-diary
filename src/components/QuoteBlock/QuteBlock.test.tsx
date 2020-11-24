@@ -24,18 +24,18 @@ describe("QuoteBlock", () => {
     test("active QuoteBlock", async () => {
         jest.useFakeTimers();
         const component = await shallow(<QuoteBlock interval={3000} isAutoSwitchEnabled={true} />);
-        expect(component.state("quoteIndex")).toBe(0); // Success!
+        expect(component.state("quoteIndex")).toBe(0);
         const previousQuoteIndex = await component.state("quoteIndex");
         jest.advanceTimersByTime(3000);
-        expect(previousQuoteIndex !== component.state("quoteIndex")).toBeTruthy(); // Success!
+        expect(previousQuoteIndex !== component.state("quoteIndex")).toBeTruthy();
     });
 
     test("not active QuoteBlock", async () => {
         jest.useFakeTimers();
         const component = await shallow(<QuoteBlock interval={3000} isAutoSwitchEnabled={false} />);
-        expect(component.state("quoteIndex")).toBe(0); // Success!
+        expect(component.state("quoteIndex")).toBe(0);
         const previousQuoteIndex = component.state("quoteIndex");
         jest.advanceTimersByTime(3000);
-        expect(previousQuoteIndex === component.state("quoteIndex")).toBeTruthy(); // Success!
+        expect(previousQuoteIndex === component.state("quoteIndex")).toBeTruthy();
     });
 });

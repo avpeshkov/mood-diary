@@ -3,7 +3,7 @@ import { MoodHistory } from ".";
 import { storiesOf } from "@storybook/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { MOOD_LIST_API } from "../../api/mood";
+import { MOOD_LIST_API } from "api/mood";
 
 const mock = new MockAdapter(axios);
 

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { QuoteBlock } from "../QuoteBlock";
-import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "../QuoteBlock/consts";
-import { MoodHistory } from "../MoodHistory";
+import { QuoteBlock } from "components/QuoteBlock";
+import { MoodHistory } from "components/MoodHistory";
+import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "components/QuoteBlock/consts";
 
 const MainScreenWrapper = styled.div`
     display: flex;
@@ -52,9 +52,7 @@ const QuoteBlockWrapper = styled.div`
     align-self: flex-end;
 `;
 
-// главный компонент, каркас для странички
-// реализует патер Layout component
-// этот компонент и является шаблоном приложения
+/** Главный компонент, каркас для страничк */
 export class MainScreen extends React.Component<{}> {
     shouldComponentUpdate(): boolean {
         return false;

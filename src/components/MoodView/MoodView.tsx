@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { MoodScale } from "../MoodScale";
+import { MoodScale } from "components/MoodScale";
 import { MoodObject } from "types/mood";
 import "react-datepicker/dist/react-datepicker.css";
 import { css } from "@emotion/core";
@@ -61,8 +61,7 @@ const ActionButton = styled.button`
         `}
 `;
 
-// Комнпонент для обображения/редактирования основной модели прилоежния.
-
+/** Комнпонент для обображения/редактирования основной модели прилоежния. */
 export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
     const { moodObject, updateMoodObject } = props;
 
