@@ -13,8 +13,7 @@ const MainScreenWrapper = styled.div`
     height: 99%;
     max-height: 99%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: hidden;
 `;
 const MainScreenHeader = styled.h1`
     display: inline-flex;
@@ -56,7 +55,7 @@ const QuoteBlockWrapper = styled.div`
 // главный компонент, каркас для странички
 // реализует патер Layout component
 // этот компонент и является шаблоном приложения
-export class MainScreen extends React.PureComponent<{}> {
+export class MainScreen extends React.Component<{}> {
     shouldComponentUpdate(): boolean {
         return false;
     }

@@ -6,3 +6,10 @@ export interface MoodObject {
     date: Date;
     comment: string;
 }
+
+export interface MoodObjectResponse {
+    id?: number;
+    mood: Mood;
+    date: string;
+    comment: string;
+}

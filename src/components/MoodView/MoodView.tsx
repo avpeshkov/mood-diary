@@ -48,10 +48,9 @@ const ActionButton = styled.button`
     display: inline-flex;
     background-color: darkgreen;
     border-radius: 5px;
-    border: 0px;
+    border: 0;
     color: white;
     width: fit-content;
-    display: flex;
     align-items: center;
     align-self: flex-end;
     text-align: center;
