@@ -1,14 +1,14 @@
 import React from "react";
 import { MoodObject } from "types/mood";
 import styled from "@emotion/styled";
-import { moodHistoryBackEndFake } from "./MoodHistoryBackEndFake";
-import { MoodView } from "../MoodView";
 import Modal from "react-modal";
-import { MoodForm } from "../MoodForm";
+import { MoodForm } from "components/MoodForm";
+import { deleteMood, getMoodList, postPatchMood } from "api/mood";
+import { MoodView } from "components/MoodView";
 
 interface MoodHistoryState {
     moodList: Array<MoodObject>;
-    moodObjectToEdit: MoodObject | null;
+    moodObjectToEdit?: MoodObject | null;
 }
 
 const MoodHistoryWrapper = styled.div`
@@ -19,28 +19,38 @@ const MoodHistoryWrapper = styled.div`
     align-items: center;
 `;
 
+const HeaderButtonsWrapper = styled.div`
+    display: inline-flex;
+    width: inherit;
+    margin-bottom: 20px;
+`;
+
 export const AddNewMoodButton = styled.button`
     display: inline-flex;
     background-color: darkgreen;
     border-radius: 5px;
     border: 0px;
     color: white;
-    width: 30%;
     align-items: center;
     font-size: 24px;
     justify-content: center;
     align-self: center;
+    position: fixed;
+    width: inherit;
 `;
 
-// компонент для оборажения накопленной истории
+/**
+ * компонент для оборажения накопленной истории, рендерит компоненты отображения
+ * */
+
 export class MoodHistory extends React.Component<{}, MoodHistoryState> {
     state: MoodHistoryState = {
         moodList: [],
-        moodObjectToEdit: null,
+        moodObjectToEdit: undefined,
     };
 
     componentDidMount() {
-        this.setState({ moodList: moodHistoryBackEndFake.moodList });
+        this.updateMoodList();
     }
 
     render() {
@@ -48,7 +58,9 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
         return (
             <>
                 <MoodHistoryWrapper>
-                    <AddNewMoodButton onClick={() => this.addEditMoodObject()}>Add new</AddNewMoodButton>
+                    <HeaderButtonsWrapper>
+                        <AddNewMoodButton onClick={() => this.addEditMoodObject()}>Add new</AddNewMoodButton>
+                    </HeaderButtonsWrapper>
                     {moodList.length > 0 ? (
                         moodList.map((item: MoodObject) => <MoodView moodObject={item} key={item.id} updateMoodObject={this.actionWithArray} />)
                     ) : (
@@ -57,7 +69,7 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
                 </MoodHistoryWrapper>
                 <Modal
                     id="MoodFormModal"
-                    isOpen={Boolean(moodObjectToEdit)}
+                    isOpen={moodObjectToEdit !== undefined}
                     onRequestClose={this.clearEditMoodObject}
                     contentLabel={"Add/Edit mood"}
                     onAfterClose={this.clearEditMoodObject}
@@ -72,11 +84,26 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
                         },
                     }}
                 >
-                    <MoodForm moodObject={moodObjectToEdit} createUpdateMoodObject={this.createUpdateMoodObject} />
+                    <MoodForm moodObject={moodObjectToEdit as MoodObject | null} createUpdateMoodObject={this.createUpdateMoodObject} />
                 </Modal>
             </>
         );
     }
+
+    // обновляем список записей настроения с бекенда
+    updateMoodList = () => {
+        getMoodList((updatedData: MoodObject[]) => this.setState({ moodList: updatedData, moodObjectToEdit: undefined }));
+    };
+
+    // создаем или обновляем запись настроения в бекенде
+    createUpdateMoodObject = (moodObject: MoodObject) => {
+        postPatchMood(moodObject, this.updateMoodList);
+    };
+
+    // удаляем запись в бекенде
+    deleteMoodObject = (moodId: number) => {
+        deleteMood(moodId, this.updateMoodList);
+    };
 
     actionWithArray = (moodId: number, action: "edit" | "delete") => {
         if (action == "delete") {
@@ -84,12 +111,6 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
         } else {
             this.addEditMoodObject(moodId);
         }
-    };
-
-    deleteMoodObject = (moodId: number) => {
-        this.setState((state: MoodHistoryState) => {
-            return { moodList: state.moodList.filter((moodObject: MoodObject) => moodObject.id !== moodId) };
-        });
     };
 
     addEditMoodObject = (moodId?: number) => {
@@ -100,31 +121,11 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
             if (index !== -1) {
                 moodObjectToEdit = moodList[index];
             }
-        } else {
-            moodObjectToEdit = { date: new Date(), mood: 5, comment: "" };
         }
         this.setState({ moodObjectToEdit });
     };
 
-    createUpdateMoodObject = (moodObject: MoodObject) => {
-        this.setState((state: MoodHistoryState) => {
-            const { moodList } = state;
-            if (moodObject.id) {
-                const index = moodList.findIndex((mood: MoodObject) => mood.id === moodObject.id);
-                if (index !== -1) {
-                    moodList[index] = moodObject;
-                }
-            } else {
-                moodList.push({
-                    ...moodObject,
-                    id: moodList.length ? Math.max(...moodList.map((mood: MoodObject) => (mood.id ? mood.id : 0))) + 1 : 1,
-                });
-            }
-            return { moodList, moodObjectToEdit: null };
-        });
-    };
-
     clearEditMoodObject = () => {
-        this.setState({ moodObjectToEdit: null });
+        this.setState({ moodObjectToEdit: undefined });
     };
 }

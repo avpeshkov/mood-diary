@@ -17,7 +17,8 @@
     "test": "npx jest",
     "lint": "npx eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "fix-style": "prettier --config .prettierrc --list-different src/**/*.{ts,scss} --write",
-    "pre-commit-check": "npm run fix-style && npm run lint && npm test && npm run test:loki && git add ."
+    "pre-commit-check": "npm run fix-style && npm run lint && npm test && npm run test:loki && git add .",
+    "json-server": "npx json-server --port 3001 --watch db.json"
   },
   "husky": {
     "hooks": {
@@ -66,6 +67,7 @@
     "@types/react-test-renderer": "^16.9.3",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
+    "axios-mock-adapter": "^1.19.0",
     "babel-jest": "^25.2.4",
     "babel-loader": "^8.1.0",
     "babel-plugin-emotion": "^10.0.33",
@@ -96,6 +98,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "axios": "^0.21.0",
     "formik": "^2.2.5",
     "ramda": "^0.27.0",
     "react": "^16.13.1",

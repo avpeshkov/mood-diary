@@ -1,6 +1,6 @@
 import React from "react";
 import { withKnobs, date, number } from "@storybook/addon-knobs";
-import { Mood } from "../MoodScale/components/MoodItem";
+import { Mood } from "types/mood";
 import { MoodView } from "./MoodView";
 
 export default {

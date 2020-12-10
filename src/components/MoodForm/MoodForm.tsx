@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Mood } from "../MoodScale/components/MoodItem";
 import { MoodScale } from "../MoodScale";
-import { MoodObject } from "types/mood";
+import { Mood, MoodObject, moods } from "types/mood";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
@@ -26,6 +25,12 @@ const FieldWrapper = styled.div`
     margin-bottom: 10px;
 `;
 
+const FooterButtonsWrapper = styled.div`
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
 const SaveButton = styled.button`
     display: inline-flex;
     background-color: darkgreen;
@@ -33,7 +38,18 @@ const SaveButton = styled.button`
     border: 0px;
     color: white;
     width: 70px;
-    display: flex;
+    align-items: center;
+    font-size: 24px;
+    align-self: flex-end;
+`;
+
+const RestButton = styled.button`
+    display: inline-flex;
+    background-color: #555555;
+    border-radius: 5px;
+    border: 0;
+    color: white;
+    width: 80px;
     align-items: center;
     font-size: 24px;
     align-self: flex-end;
@@ -45,12 +61,15 @@ export const DateWrapper = styled.div`
     font-weight: bold;
 `;
 
-// Комнпонент для редактирования/добавления основной модели прилоежния(Formik форма).
-
+/** Комнпонент для редактирования/добавления основной модели прилоежния(Formik форма). */
 export const MoodForm: React.FC<MoodFormProps> = (props) => {
     const { moodObject } = props;
     const { createUpdateMoodObject } = props;
-    const initialValues: MoodObject = moodObject ? moodObject : { date: new Date(), mood: 5, comment: "" };
+    const initialValues: MoodObject = moodObject || {
+        date: new Date(),
+        mood: moods[Math.floor(Math.random() * moods.length)], // задаем начальное значение рандомно
+        comment: "",
+    };
     return (
         <Formik
             initialValues={initialValues}
@@ -58,7 +77,7 @@ export const MoodForm: React.FC<MoodFormProps> = (props) => {
                 createUpdateMoodObject(values);
             }}
         >
-            {({ values, setFieldValue }: FormikProps<MoodObject>) => {
+            {({ values, setFieldValue, handleReset }: FormikProps<MoodObject>) => {
                 return (
                     <Form>
                         <MoodFormWrapper>
@@ -84,7 +103,10 @@ export const MoodForm: React.FC<MoodFormProps> = (props) => {
                                 <label htmlFor="comment">Comment</label>
                                 <Field label="Comment" name="comment" component="textarea" />
                             </FieldWrapper>
-                            <SaveButton type="submit">Save</SaveButton>
+                            <FooterButtonsWrapper>
+                                <RestButton onClick={handleReset}>Reset</RestButton>
+                                <SaveButton type="submit">Save</SaveButton>
+                            </FooterButtonsWrapper>
                         </MoodFormWrapper>
                     </Form>
                 );

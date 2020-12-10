@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "types/*": ["src/types/*"]
+      "types/*": ["src/types/*"],
+      "api/*": ["src/api/*"],
+      "components/*": ["src/components/*"]
     },
     "target": "es5",
     "module": "commonjs",

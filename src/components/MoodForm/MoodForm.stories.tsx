@@ -1,8 +1,8 @@
 import React from "react";
 import { MoodForm } from "./MoodForm";
 import { withKnobs, date, number } from "@storybook/addon-knobs";
-import { Mood } from "../MoodScale/components/MoodItem";
 import { MoodObject } from "types/mood";
+import { Mood } from "components/MoodScale";
 
 export default {
     title: "MoodForm",

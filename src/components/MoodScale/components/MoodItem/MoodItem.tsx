@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/core";
+import { Mood } from "types/mood";
 
 const BaseCell = css`
     width: 25px;
@@ -34,10 +35,6 @@ export const MoodItem = styled.button`
     ${BaseCell};
     ${({ isFilled, mood }: Props) => (isFilled ? filledCell(mood) : EmptyCell)};
 `;
-
-export const moods = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
-
-export type Mood = typeof moods[number];
 
 export const MoodColorMap: { [key in Mood]: string } = {
     1: "#372d21",

@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { getRandomIndex } from "../utils";
-import { quoteListBackEndFake } from "./QuoteBlockBackEndFake";
+import { QuoteObject } from "types/quote";
+import { getQuoteList } from "api/quote";
+import { getRandomIndex } from "components/utils";
 
 interface QuoteBlockProps {
     interval: number;
@@ -10,6 +11,7 @@ interface QuoteBlockProps {
 
 interface QuoteBlockState {
     quoteIndex: number;
+    quoteList: QuoteObject[];
 }
 
 const QuoteWrapper = styled.div`
@@ -55,24 +57,21 @@ const QuoteButton = styled.a`
     padding-left: 10px;
 `;
 
+/**
+ * компонент для оборажения блока с цитатами
+ * */
 export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState> {
     intervalID?: NodeJS.Timeout;
-    _isMounted: boolean;
+    _isMounted = false;
 
-    constructor(props: QuoteBlockProps) {
-        super(props);
-        this.state = {
-            quoteIndex: 0,
-        };
-        this._isMounted = false;
-        this.setRandomQuote = this.setRandomQuote.bind(this);
-        this.setQuote = this.setQuote.bind(this);
-        this.clearWorker = this.clearWorker.bind(this);
-    }
+    state: QuoteBlockState = {
+        quoteIndex: 0,
+        quoteList: [],
+    };
 
     componentDidMount() {
-        this._isMounted = true;
         const { interval, isAutoSwitchEnabled } = this.props;
+        this.updateQuoteList();
         if (isAutoSwitchEnabled) {
             this.intervalID = setInterval(this.setRandomQuote, interval);
         }
@@ -82,7 +81,8 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         return (
             this.state.quoteIndex !== nextState.quoteIndex ||
             this.props.interval !== nextProps.interval ||
-            this.props.isAutoSwitchEnabled !== nextProps.isAutoSwitchEnabled
+            this.props.isAutoSwitchEnabled !== nextProps.isAutoSwitchEnabled ||
+            this.state.quoteList.length !== nextState.quoteList.length
         );
     }
 
@@ -101,19 +101,27 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         this.clearWorker();
     }
 
-    setRandomQuote() {
+    updateQuoteList = () => {
+        getQuoteList((quoteList: QuoteObject[]) => {
+            this.setState({ quoteList }, () => {
+                this._isMounted = true;
+            });
+        });
+    };
+
+    setRandomQuote = () => {
         if (this._isMounted) {
             let newId = this.state.quoteIndex;
             while (newId === this.state.quoteIndex) {
-                newId = getRandomIndex(quoteListBackEndFake.quoteList.length);
+                newId = getRandomIndex(this.state.quoteList.length);
             }
             this.setState({ quoteIndex: newId });
         }
-    }
+    };
 
-    setQuote(position: "next" | "previous") {
+    setQuote = (position: "next" | "previous") => {
         let newId = this.state.quoteIndex;
-        const quoteListLength = quoteListBackEndFake.quoteList.length;
+        const quoteListLength = this.state.quoteList.length;
         switch (position) {
             case "next":
                 newId++;
@@ -128,23 +136,26 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
             newId = quoteListLength - newId;
         }
         this.setState({ quoteIndex: newId });
-    }
+    };
 
-    clearWorker() {
+    clearWorker = () => {
         if (this.intervalID) {
             clearInterval(this.intervalID);
             this.intervalID = undefined;
         }
-    }
+    };
 
     render() {
-        const { quoteIndex } = this.state;
+        const { quoteIndex, quoteList } = this.state;
+        if (quoteList.length == 0) {
+            return <></>;
+        }
         return (
             <QuoteWrapper>
                 <QuoteButton onClick={() => this.setQuote("previous")}>{"<"}</QuoteButton>
                 <QuoteBlockView>
-                    {quoteListBackEndFake.quoteList[quoteIndex].quote}
-                    <footer>{quoteListBackEndFake.quoteList[quoteIndex].author}</footer>
+                    {quoteList[quoteIndex]?.quote}
+                    <footer>{quoteList[quoteIndex]?.author}</footer>
                 </QuoteBlockView>
                 <QuoteButton onClick={() => this.setQuote("next")}>{">"}</QuoteButton>
             </QuoteWrapper>
