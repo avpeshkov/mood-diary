@@ -6,40 +6,23 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Import GPG key
+      -
+        name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v3
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           git-user-signingkey: true
           git-commit-gpgsign: true
-      - name: GitHub Pages
-        # You may pin to the exact commit or the version.
-        # uses: crazy-max/ghaction-github-pages@1510b11c0c2f843eafb8ff41b3da8c467c8d4a9f
+      -
+        name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: public
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-          FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}          
-        uses: crazy-max/ghaction-github-pages@v2.2.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          # GitHub repository where assets will be deployed (default current)
-#           repo: # optional
-          # Git branch where assets will be deployed
-#           target_branch: # optional, default is gh-pages
-          # Create incremental commit instead of doing push force
-#           keep_history: # optional, default is false
-          # Allow an empty commit to be created
-#           allow_empty_commit: # optional, default is true
-          # Build directory to deploy
-          build_dir: /
-          # The committer name and email address
-#           committer: # optional
-#           # The author name and email address
-#           author: # optional
-#           # Commit message
-#           commit_message: # optional
-#           # Write the given domain name to the CNAME file
-#           fqdn: # optional
-#           # Allow Jekyll to build your site
-#           jekyll: # optional, default is true
+          FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
