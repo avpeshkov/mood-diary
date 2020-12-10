@@ -15,6 +15,7 @@ jobs:
           FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}          
         uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           # GitHub repository where assets will be deployed (default current)
 #           repo: # optional
           # Git branch where assets will be deployed
