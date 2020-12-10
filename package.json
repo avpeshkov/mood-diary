@@ -1,5 +1,5 @@
 {
-  "name": "react-js-tutorial",
+  "name": "my-react-js-tutorial",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,7 +18,9 @@
     "lint": "npx eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "fix-style": "prettier --config .prettierrc --list-different src/**/*.{ts,scss} --write",
     "pre-commit-check": "npm run fix-style && npm run lint && npm test && npm run test:loki && git add .",
-    "json-server": "npx json-server --port 3001 --watch db.json"
+    "json-server": "npx json-server --port 3001 --watch db.json",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "husky": {
     "hooks": {
@@ -40,7 +42,7 @@
   },
   "author": "Aleksandr Peshkov",
   "license": "ISC",
-  "homepage": "https://github.com/avpeshkov/my-react-js-tutorial#readme",
+  "homepage": "https://avpeshkov.github.io/my-react-js-tutorial/",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
@@ -79,6 +81,7 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^4.0.3",
     "husky": "^4.3.0",
     "jest": "^25.2.4",
