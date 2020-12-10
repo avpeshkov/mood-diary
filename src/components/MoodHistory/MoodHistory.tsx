@@ -3,12 +3,17 @@ import { MoodObject } from "types/mood";
 import styled from "@emotion/styled";
 import Modal from "react-modal";
 import { MoodForm } from "components/MoodForm";
-import { deleteMood, getMoodList, postPatchMood } from "api/mood";
 import { MoodView } from "components/MoodView";
+import MoodApi from "api/mood";
+
+interface MoodHistoryProps {
+    moodList: Array<MoodObject>;
+    updateMoodList: () => void;
+}
 
 interface MoodHistoryState {
-    moodList: Array<MoodObject>;
     moodObjectToEdit?: MoodObject | null;
+    writeError: null | string;
 }
 
 const MoodHistoryWrapper = styled.div`
@@ -23,6 +28,7 @@ const HeaderButtonsWrapper = styled.div`
     display: inline-flex;
     width: inherit;
     margin-bottom: 20px;
+    padding-top: 15px;
 `;
 
 export const AddNewMoodButton = styled.button`
@@ -43,18 +49,15 @@ export const AddNewMoodButton = styled.button`
  * компонент для оборажения накопленной истории, рендерит компоненты отображения
  * */
 
-export class MoodHistory extends React.Component<{}, MoodHistoryState> {
+export class MoodHistory extends React.Component<MoodHistoryProps, MoodHistoryState> {
     state: MoodHistoryState = {
-        moodList: [],
         moodObjectToEdit: undefined,
+        writeError: null,
     };
 
-    componentDidMount() {
-        this.updateMoodList();
-    }
-
     render() {
-        const { moodList, moodObjectToEdit } = this.state;
+        const { moodObjectToEdit } = this.state;
+        const { moodList } = this.props;
         return (
             <>
                 <MoodHistoryWrapper>
@@ -90,19 +93,28 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
         );
     }
 
-    // обновляем список записей настроения с бекенда
-    updateMoodList = () => {
-        getMoodList((updatedData: MoodObject[]) => this.setState({ moodList: updatedData, moodObjectToEdit: undefined }));
+    onCompleteMoodListChange = (promise: Promise<unknown>): void => {
+        promise
+            .then(() => {
+                this.setState({ moodObjectToEdit: undefined }, () => {
+                    this.props.updateMoodList();
+                });
+            })
+            .catch((error: Error | null) => {
+                this.setState({ writeError: error && error.message, moodObjectToEdit: null });
+            });
     };
 
     // создаем или обновляем запись настроения в бекенде
     createUpdateMoodObject = (moodObject: MoodObject) => {
-        postPatchMood(moodObject, this.updateMoodList);
+        this.setState({ writeError: null }, () => {
+            this.onCompleteMoodListChange(MoodApi.postPatchMood(moodObject));
+        });
     };
 
     // удаляем запись в бекенде
     deleteMoodObject = (moodId: number) => {
-        deleteMood(moodId, this.updateMoodList);
+        this.onCompleteMoodListChange(MoodApi.deleteMood(moodId));
     };
 
     actionWithArray = (moodId: number, action: "edit" | "delete") => {
@@ -114,7 +126,7 @@ export class MoodHistory extends React.Component<{}, MoodHistoryState> {
     };
 
     addEditMoodObject = (moodId?: number) => {
-        const { moodList } = this.state;
+        const { moodList } = this.props;
         let moodObjectToEdit: MoodObject | null = null;
         if (moodId) {
             const index = moodList.findIndex((moodObject: MoodObject) => moodObject.id === moodId);

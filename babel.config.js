@@ -3,10 +3,13 @@ module.exports = {
     plugins: ["@babel/plugin-transform-arrow-functions", "@babel/plugin-proposal-class-properties"],
     env: {
         production: {
-            plugins: ["emotion"],
+            plugins: ["emotion", ["inline-dotenv", { path: ".env" }]],
         },
         development: {
-            plugins: [["emotion", { sourceMap: true }]],
+            plugins: [
+                ["emotion", { sourceMap: true }],
+                ["inline-dotenv", { path: ".env" }],
+            ],
         },
     },
 };

@@ -4,7 +4,10 @@
     "paths": {
       "types/*": ["src/types/*"],
       "api/*": ["src/api/*"],
-      "components/*": ["src/components/*"]
+      "components/*": ["src/components/*"],
+      "pages/*": ["src/pages/*"],
+      "services/*": ["src/services/*"],
+      "helpers/*": ["src/helpers/*"]
     },
     "target": "es5",
     "module": "commonjs",

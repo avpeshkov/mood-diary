@@ -15,5 +15,8 @@ module.exports = {
         "^api(.*)$": "<rootDir>/src/api$1",
         "^types(.*)$": "<rootDir>/src/types$1",
         "^components(.*)$": "<rootDir>/src/components$1",
+        "^services(.*)$": "<rootDir>/src/services$1",
+        "^pages(.*)$": "<rootDir>/src/pages$1",
+        "^helpers(.*)$": "<rootDir>/src/helpers$1",
     },
 };
