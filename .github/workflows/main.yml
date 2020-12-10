@@ -14,7 +14,7 @@ jobs:
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
           FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}          
         uses: crazy-max/ghaction-github-pages@v2.2.0
-#         with:
+        with:
           # GitHub repository where assets will be deployed (default current)
 #           repo: # optional
           # Git branch where assets will be deployed
@@ -24,7 +24,7 @@ jobs:
           # Allow an empty commit to be created
 #           allow_empty_commit: # optional, default is true
           # Build directory to deploy
-#           build_dir: dist
+          build_dir: /
           # The committer name and email address
 #           committer: # optional
 #           # The author name and email address
