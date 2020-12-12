@@ -5,6 +5,8 @@ const webpackRules = require("./webpackRules");
 const webpack = require("webpack");
 const WorkerPlugin = require("worker-plugin");
 
+const PUBLIC_PATH = process.env.PUBLIC_PATH || "/my-react-js-tutorial";
+
 module.exports = {
     entry: "./src/index.tsx",
     devtool: "source-map",
@@ -22,7 +24,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, "/dist"),
         filename: "./index.js",
-        publicPath: "/",
+        publicPath: PUBLIC_PATH,
         globalObject: "(typeof self!='undefined'?self:global)",
     },
     module: {
@@ -43,10 +45,10 @@ module.exports = {
             template: "./public/index.html",
         }),
         new webpack.DefinePlugin({
+            "process.env.PUBLIC_PATH": JSON.stringify(PUBLIC_PATH),
             "process.env.FIREBASE_API_KEY": JSON.stringify(process.env.FIREBASE_API_KEY),
             "process.env.FIREBASE_AUTH_DOMAIN": JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
             "process.env.FIREBASE_DATABASE_URL": JSON.stringify(process.env.FIREBASE_DATABASE_URL),
-            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
         }),
     ],
 };

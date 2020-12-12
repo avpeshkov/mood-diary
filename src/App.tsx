@@ -52,12 +52,15 @@ class App extends React.Component<{}, AppState> {
             return <h2>Loading...</h2>;
         } else {
             return (
-                <Router>
+                <Router basename={process.env.PUBLIC_PATH || "/my-react-js-tutorial"}>
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <PrivateRoute path="/mood" authenticated={authenticated} Component={MainScreen} />
                         <PublicRoute path="/signup" authenticated={authenticated} Component={SignUp} />
                         <PublicRoute path="/login" authenticated={this.state.authenticated} Component={Login} />
+                        <Route path="*">
+                            <Redirect to={{ pathname: "/" }} />
+                        </Route>
                     </Switch>
                 </Router>
             );
