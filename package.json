@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd npx webpack-dev-server --mode development --open --hot",
-    "build": "npx webpack --mode production",
+    "start": "env-cmd -f .env npx webpack-dev-server --mode development --open --hot",
+    "build": "env-cmd -f .env.production npx webpack --mode production",
     "calc": "npx ts-node src/lesson2",
     "loki:update": "npm run build-storybook && npx loki update --requireReference --reactUri file:./storybook-static",
     "loki:approve": "npx loki approve",
