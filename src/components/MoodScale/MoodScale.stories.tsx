@@ -1,8 +1,8 @@
 import React from "react";
 import { withKnobs, number } from "@storybook/addon-knobs";
 import { MoodScale } from "./MoodScale";
-import { Mood } from "./components/MoodItem";
 import { action } from "@storybook/addon-actions";
+import { Mood } from "types/mood";
 
 export default {
     title: "MoodScale",

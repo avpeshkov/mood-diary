@@ -1,10 +1,10 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
-import { auth } from "services/firebase";
-import { SignUp } from "pages/Signup";
-import { Login } from "pages/Login";
-import { MainScreen } from "pages/MainScreen";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "pages/Home";
+import firebaseApi from "services/firebase";
+import MainScreen from "pages/MainScreen";
+import SignUp from "pages/Signup";
+import Login from "pages/Login";
 
 const PrivateRoute = <P extends object>({ Component, authenticated, path }: { Component: React.ComponentType<P>; authenticated: boolean; path: string }) => {
     return (
@@ -31,7 +31,7 @@ class App extends React.Component<{}, AppState> {
     };
 
     componentDidMount() {
-        auth().onAuthStateChanged((user) => {
+        firebaseApi.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({
                     authenticated: true,
@@ -52,17 +52,15 @@ class App extends React.Component<{}, AppState> {
             return <h2>Loading...</h2>;
         } else {
             return (
-                <Router basename={process.env.PUBLIC_PATH || "/my-react-js-tutorial"}>
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <PrivateRoute path="/mood" authenticated={authenticated} Component={MainScreen} />
-                        <PublicRoute path="/signup" authenticated={authenticated} Component={SignUp} />
-                        <PublicRoute path="/login" authenticated={this.state.authenticated} Component={Login} />
-                        <Route path="*">
-                            <Redirect to={{ pathname: "/" }} />
-                        </Route>
-                    </Switch>
-                </Router>
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <PrivateRoute path="/mood" authenticated={authenticated} Component={MainScreen} />
+                    <PublicRoute path="/signup" authenticated={authenticated} Component={SignUp} />
+                    <PublicRoute path="/login" authenticated={this.state.authenticated} Component={Login} />
+                    <Route path="*">
+                        <Redirect to={{ pathname: "/" }} />
+                    </Route>
+                </Switch>
             );
         }
     }

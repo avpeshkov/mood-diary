@@ -1,5 +1,6 @@
-import { auth } from "services/firebase";
+import firebaseApi from "services/firebase";
 
+const { auth } = firebaseApi;
 export const getCurrentUserUid = (): string => (auth().currentUser ? auth().currentUser!.uid : "");
 
 export const signUp = (email: string, password: string) => {

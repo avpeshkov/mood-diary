@@ -5,7 +5,7 @@ const webpackRules = require("./webpackRules");
 const webpack = require("webpack");
 const WorkerPlugin = require("worker-plugin");
 
-const PUBLIC_PATH = process.env.PUBLIC_PATH || "/my-react-js-tutorial";
+const PUBLIC_PATH = process.env.PUBLIC_PATH;
 
 module.exports = {
     entry: "./src/index.tsx",

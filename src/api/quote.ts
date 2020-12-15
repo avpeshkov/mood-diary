@@ -1,10 +1,10 @@
-import { db } from "services/firebase";
+import firebaseApi from "services/firebase";
 import firebase from "firebase";
 
 const QUOTE_LIST_PATH = "quote-list";
 
 const getQuoteList = (): Promise<firebase.database.DataSnapshot> => {
-    return db.ref(QUOTE_LIST_PATH).get();
+    return firebaseApi.db.ref(QUOTE_LIST_PATH).get();
 };
 
 const QuoteApi = {

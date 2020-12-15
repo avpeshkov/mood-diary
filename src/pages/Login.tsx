@@ -1,10 +1,10 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signIn, signInWithGoogle } from "helpers/auth";
 import { Wrapper } from "components/Wrapper";
-import { Button, Col, Divider, Form, Input, Row, Space, Typography } from "antd";
-import { auth } from "services/firebase";
+import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 import { css } from "@emotion/css";
+import { authorizedCheckHoc } from "helpers/authorizedCheckHoc";
 
 const { Title, Text } = Typography;
 
@@ -12,7 +12,7 @@ interface LoginState {
     error: string | null;
 }
 
-export class Login extends React.PureComponent<{}, LoginState> {
+class Login extends React.PureComponent<{}, LoginState> {
     state: LoginState = { error: null };
 
     onFinish = async (values: { email: string; password: string }) => {
@@ -34,9 +34,6 @@ export class Login extends React.PureComponent<{}, LoginState> {
     };
 
     render() {
-        if (auth().currentUser) {
-            return <Redirect to={{ pathname: "/mood" }} />;
-        }
         const { error } = this.state;
         return (
             <Wrapper>
@@ -96,7 +93,7 @@ export class Login extends React.PureComponent<{}, LoginState> {
                             </Space>
                             <Row justify={"space-between"}>
                                 <Text>Don&apos;t have an account?</Text>
-                                <Link component={Button} to="/signup">
+                                <Link className="ant-btn" to="/signup">
                                     Sign up
                                 </Link>
                             </Row>
@@ -107,3 +104,5 @@ export class Login extends React.PureComponent<{}, LoginState> {
         );
     }
 }
+
+export default authorizedCheckHoc(Login);

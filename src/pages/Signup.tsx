@@ -1,10 +1,10 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signInWithGoogle, signUp } from "helpers/auth";
 import { Wrapper } from "components/Wrapper";
 import { Button, Col, Divider, Form, Input, Row, Space, Typography } from "antd";
 import { css } from "@emotion/css";
-import { auth } from "services/firebase";
+import { authorizedCheckHoc } from "helpers/authorizedCheckHoc";
 
 const { Title, Text } = Typography;
 
@@ -12,7 +12,7 @@ interface SignUpState {
     error: string | null;
 }
 
-export class SignUp extends React.Component<{}, SignUpState> {
+class SignUp extends React.Component<{}, SignUpState> {
     state: SignUpState = { error: null };
 
     onFinish = async (values: { email: string; password: string }) => {
@@ -34,9 +34,6 @@ export class SignUp extends React.Component<{}, SignUpState> {
     };
 
     render() {
-        if (auth().currentUser) {
-            return <Redirect to={{ pathname: "/mood" }} />;
-        }
         const { error } = this.state;
         return (
             <Wrapper>
@@ -96,7 +93,7 @@ export class SignUp extends React.Component<{}, SignUpState> {
                             >
                                 <Row justify={"space-between"}>
                                     <Text>Already have an account?</Text>
-                                    <Link component={Button} to="/login">
+                                    <Link className="ant-btn" to="/login">
                                         Login
                                     </Link>
                                 </Row>
@@ -122,3 +119,5 @@ export class SignUp extends React.Component<{}, SignUpState> {
         );
     }
 }
+
+export default authorizedCheckHoc(SignUp);

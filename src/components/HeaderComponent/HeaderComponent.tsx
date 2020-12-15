@@ -1,29 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { auth } from "services/firebase";
 import "antd/dist/antd.css";
 import { Button, Col, Divider, Layout, Row, Typography } from "antd";
 import { css } from "@emotion/css";
+import firebaseApi from "services/firebase";
 
 export const HeaderComponent: React.FC<{ className?: string }> = (props) => {
     return (
         <Layout.Header className={props.className}>
             <Row justify={"space-between"}>
                 <Col>
-                    <Link component={Typography.Link} className="navbar-brand" to="/">
+                    <Link data-testid="home-link-test-id" className="navbar-brand" to="/">
                         Mood Diary
                     </Link>
                 </Col>
                 <Col>
                     <Row>
-                        {auth().currentUser ? (
+                        {firebaseApi.auth().currentUser ? (
                             <>
                                 <Typography.Text
                                     className={css`
                                         color: white;
                                     `}
                                 >
-                                    {auth().currentUser!.email}
+                                    {firebaseApi.auth().currentUser!.email}
                                 </Typography.Text>
                                 <Divider
                                     className={css`
@@ -35,18 +35,18 @@ export const HeaderComponent: React.FC<{ className?: string }> = (props) => {
                                     className={css`
                                         align-self: center;
                                     `}
-                                    onClick={() => auth().signOut()}
+                                    onClick={() => firebaseApi.auth().signOut()}
                                 >
                                     Logout
                                 </Button>
                             </>
                         ) : (
                             <>
-                                <Link component={Button} to="/login">
+                                <Link className="ant-btn" to="/login">
                                     Sign In
                                 </Link>
                                 <Divider type={"vertical"} />
-                                <Link component={Button} to="/signup">
+                                <Link className="ant-btn" to="/signup">
                                     Sign Up
                                 </Link>
                             </>

@@ -57,7 +57,7 @@ interface MainScreenState {
 }
 
 /** Главный компонент, каркас для страничк */
-export class MainScreen extends React.Component<{}, MainScreenState> {
+class MainScreen extends React.Component<{}, MainScreenState> {
     state: MainScreenState = {
         quoteList: [],
         moodList: [],
@@ -71,6 +71,7 @@ export class MainScreen extends React.Component<{}, MainScreenState> {
     getQuoteList = () => {
         QuoteApi.getQuoteList()
             .then((snapshot) => {
+                if (!snapshot.val) return null;
                 this.setState({ quoteList: snapshot.val() });
             })
             .catch((error) => {
@@ -82,6 +83,7 @@ export class MainScreen extends React.Component<{}, MainScreenState> {
     updateMoodList = () => {
         MoodApi.getMoodList()
             .then((snapshot) => {
+                if (!snapshot.val) return null;
                 const moodResponseList: MoodObjectResponse[] = [];
                 snapshot.forEach((snap) => {
                     moodResponseList.push({ ...snap.val(), id: snap.key });
@@ -102,7 +104,7 @@ export class MainScreen extends React.Component<{}, MainScreenState> {
         const { quoteList, moodList } = this.state;
         return (
             <Wrapper>
-                <MainScreenWrapper>
+                <MainScreenWrapper data-testid="main-screen-data-test-id">
                     <MainScreenDataWrapper>
                         <HistoryBlockWrapper>
                             <MoodHistory moodList={moodList} updateMoodList={this.updateMoodList} />
@@ -121,3 +123,5 @@ export class MainScreen extends React.Component<{}, MainScreenState> {
         );
     }
 }
+
+export default MainScreen;

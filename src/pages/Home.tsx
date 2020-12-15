@@ -1,16 +1,14 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Wrapper } from "components/Wrapper";
-import { Button, Col, Row, Typography } from "antd";
+import { Col, Row, Typography } from "antd";
 import { css } from "@emotion/css";
-import { auth } from "services/firebase";
+import { authorizedCheckHoc } from "helpers/authorizedCheckHoc";
 
 const { Title } = Typography;
-export default class Home extends Component {
+
+class Home extends Component {
     render() {
-        if (auth().currentUser) {
-            return <Redirect to={{ pathname: "/mood" }} />;
-        }
         return (
             <Wrapper>
                 <Row justify={"center"}>
@@ -21,16 +19,19 @@ export default class Home extends Component {
                     >
                         <Title level={2}>Welcome to Mood Diary</Title>
                         <Title level={3}>A great place to learn more about yourself</Title>
-                        <Link component={Button} to="/signup">
+                        <Link className="ant-btn" data-testid="signup-data-test-id" to="/signup">
                             Create New Account
                         </Link>
                         <Title level={5}>or</Title>
-                        <Link component={Button} to="/login">
+                        <Link className="ant-btn" data-testid="login-data-test-id" to="/login">
                             Login to Your Account
                         </Link>
                     </Col>
                 </Row>
             </Wrapper>
+            // </>
         );
     }
 }
+
+export default authorizedCheckHoc(Home);
