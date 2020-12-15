@@ -4,7 +4,10 @@ import { HeaderComponent } from "components/HeaderComponent";
 import { Layout } from "antd";
 import { css, cx } from "@emotion/css";
 
-export const Wrapper: React.FC<{}> = (props) => {
+/**
+ * Компонента обертся для страниц
+ */
+export const PageWrapper: React.FC<{}> = (props) => {
     return (
         <Layout
             className={css`

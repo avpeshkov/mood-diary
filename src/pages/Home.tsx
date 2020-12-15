@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Wrapper } from "components/Wrapper";
+import { PageWrapper } from "components/Wrapper";
 import { Col, Row, Typography } from "antd";
 import { css } from "@emotion/css";
 import { authorizedCheckHoc } from "helpers/authorizedCheckHoc";
 
 const { Title } = Typography;
-
+/**
+    Домашняя страница, на которую ведет корень приложения
+ */
 class Home extends Component {
     render() {
         return (
-            <Wrapper>
+            <PageWrapper>
                 <Row justify={"center"}>
                     <Col
                         className={css`
@@ -28,7 +30,7 @@ class Home extends Component {
                         </Link>
                     </Col>
                 </Row>
-            </Wrapper>
+            </PageWrapper>
             // </>
         );
     }

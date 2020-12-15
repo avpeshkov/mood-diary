@@ -5,6 +5,9 @@ import { Button, Col, Divider, Layout, Row, Typography } from "antd";
 import { css } from "@emotion/css";
 import firebaseApi from "services/firebase";
 
+/**
+ *   Компонент недера используемый на всех страницах
+ */
 export const HeaderComponent: React.FC<{ className?: string }> = (props) => {
     return (
         <Layout.Header className={props.className}>

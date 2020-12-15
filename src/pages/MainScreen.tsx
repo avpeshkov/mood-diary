@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { QuoteBlock } from "components/QuoteBlock";
 import { MoodHistory } from "components/MoodHistory";
 import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "components/QuoteBlock/consts";
-import { Wrapper } from "components/Wrapper";
+import { PageWrapper } from "components/Wrapper";
 import { QuoteObject } from "types/quote";
 import QuoteApi from "api/quote";
 import { MoodObject, MoodObjectResponse } from "types/mood";
@@ -56,7 +56,9 @@ interface MainScreenState {
     moodList: Array<MoodObject>;
 }
 
-/** Главный компонент, каркас для страничк */
+/**
+  Главная страница, авторизованный пользователь всегда попадает на нее.
+ */
 class MainScreen extends React.Component<{}, MainScreenState> {
     state: MainScreenState = {
         quoteList: [],
@@ -103,7 +105,7 @@ class MainScreen extends React.Component<{}, MainScreenState> {
     render() {
         const { quoteList, moodList } = this.state;
         return (
-            <Wrapper>
+            <PageWrapper>
                 <MainScreenWrapper data-testid="main-screen-data-test-id">
                     <MainScreenDataWrapper>
                         <HistoryBlockWrapper>
@@ -119,7 +121,7 @@ class MainScreen extends React.Component<{}, MainScreenState> {
                         </RightBlockWrapper>
                     </MainScreenDataWrapper>
                 </MainScreenWrapper>
-            </Wrapper>
+            </PageWrapper>
         );
     }
 }

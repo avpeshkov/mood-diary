@@ -3,6 +3,9 @@ import firebase from "firebase";
 
 const QUOTE_LIST_PATH = "quote-list";
 
+/**
+ *   Получаем записи цитат
+ */
 const getQuoteList = (): Promise<firebase.database.DataSnapshot> => {
     return firebaseApi.db.ref(QUOTE_LIST_PATH).get();
 };

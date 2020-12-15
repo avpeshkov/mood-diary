@@ -7,11 +7,17 @@ const MOOD_LIST_PATH = "user-mood-list";
 
 const { db } = firebaseApi;
 
+/**
+ *  Получаем список запись настроения
+ */
 function getMoodList(): Promise<firebase.database.DataSnapshot> {
     const userUid = getCurrentUserUid();
     return db.ref(`${MOOD_LIST_PATH}/${userUid}`).get();
 }
 
+/**
+ *   Апдейтим/Создаем записи настроения настроения
+ */
 const postPatchMood = (moodObject: MoodObject): Promise<unknown> => {
     const userUid = getCurrentUserUid();
     const updatedObject = { ...moodObject, date: moodObject.date.toString() };
@@ -22,6 +28,9 @@ const postPatchMood = (moodObject: MoodObject): Promise<unknown> => {
     }
 };
 
+/**
+ *   Удаляем записи настроения настроения
+ */
 const deleteMood = (moodId: number): Promise<unknown> => {
     const userUid = getCurrentUserUid();
     return db.ref(`user-mood-list/${userUid}/${moodId}`).remove();

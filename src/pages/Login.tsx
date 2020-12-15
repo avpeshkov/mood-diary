@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { signIn, signInWithGoogle } from "helpers/auth";
-import { Wrapper } from "components/Wrapper";
+import { PageWrapper } from "components/Wrapper";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 import { css } from "@emotion/css";
 import { authorizedCheckHoc } from "helpers/authorizedCheckHoc";
@@ -12,6 +12,9 @@ interface LoginState {
     error: string | null;
 }
 
+/**
+ Страница введения логина
+ */
 class Login extends React.PureComponent<{}, LoginState> {
     state: LoginState = { error: null };
 
@@ -34,7 +37,7 @@ class Login extends React.PureComponent<{}, LoginState> {
     render() {
         const { error } = this.state;
         return (
-            <Wrapper>
+            <PageWrapper>
                 <Row justify={"center"}>
                     <Col>
                         <Space size={"large"} direction={"vertical"}>
@@ -98,7 +101,7 @@ class Login extends React.PureComponent<{}, LoginState> {
                         </Space>
                     </Col>
                 </Row>
-            </Wrapper>
+            </PageWrapper>
         );
     }
 }

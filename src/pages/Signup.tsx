@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { signInWithGoogle, signUp } from "helpers/auth";
-import { Wrapper } from "components/Wrapper";
+import { PageWrapper } from "components/Wrapper";
 import { Button, Col, Divider, Form, Input, Row, Space, Typography } from "antd";
 import { css } from "@emotion/css";
 import { authorizedCheckHoc } from "helpers/authorizedCheckHoc";
@@ -12,6 +12,9 @@ interface SignUpState {
     error: string | null;
 }
 
+/**
+ Страница заведения нового аккаунта
+ */
 class SignUp extends React.Component<{}, SignUpState> {
     state: SignUpState = { error: null };
 
@@ -34,7 +37,7 @@ class SignUp extends React.Component<{}, SignUpState> {
     render() {
         const { error } = this.state;
         return (
-            <Wrapper>
+            <PageWrapper>
                 <Row justify={"center"}>
                     <Col>
                         <Space size={"large"} direction={"vertical"}>
@@ -113,7 +116,7 @@ class SignUp extends React.Component<{}, SignUpState> {
                         </Space>
                     </Col>
                 </Row>
-            </Wrapper>
+            </PageWrapper>
         );
     }
 }
