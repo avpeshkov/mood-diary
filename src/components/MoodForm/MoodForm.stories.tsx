@@ -15,6 +15,6 @@ export const simpleData = () => (
             mood: number("mood", 7) as Mood,
             comment: "",
         }}
-        createUpdateMoodObject={(value: MoodObject) => console.log}
+        createUpdateMoodObject={(value: MoodObject) => console.log(value)}
     />
 );

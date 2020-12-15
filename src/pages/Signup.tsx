@@ -16,11 +16,9 @@ class SignUp extends React.Component<{}, SignUpState> {
     state: SignUpState = { error: null };
 
     onFinish = async (values: { email: string; password: string }) => {
-        console.log("Success:", values);
         try {
             await signUp(values.email, values.password);
         } catch (error) {
-            console.log("Failed:", error.messag);
             this.setState({ error: error.message });
         }
     };

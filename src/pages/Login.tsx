@@ -16,11 +16,9 @@ class Login extends React.PureComponent<{}, LoginState> {
     state: LoginState = { error: null };
 
     onFinish = async (values: { email: string; password: string }) => {
-        console.log("Success:", values);
         try {
             await signIn(values.email, values.password);
         } catch (error) {
-            console.log(error);
             this.setState({ error: error.message });
         }
     };
