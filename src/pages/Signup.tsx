@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { signInWithGoogle, signUp } from "helpers/auth";
+import authHelpers from "helpers/auth";
 import { PageWrapper } from "components/Wrapper";
 import { Button, Col, Divider, Form, Input, Row, Space, Typography } from "antd";
 import { css } from "@emotion/css";
@@ -20,7 +20,7 @@ class SignUp extends React.Component<{}, SignUpState> {
 
     onFinish = async (values: { email: string; password: string }) => {
         try {
-            await signUp(values.email, values.password);
+            await authHelpers.signUp(values.email, values.password);
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -28,7 +28,7 @@ class SignUp extends React.Component<{}, SignUpState> {
 
     googleSignIn = async () => {
         try {
-            await signInWithGoogle();
+            await authHelpers.signInWithGoogle();
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -57,7 +57,7 @@ class SignUp extends React.Component<{}, SignUpState> {
                                         rules={[
                                             {
                                                 required: true,
-                                                message: "Please input your username!",
+                                                message: "Please input your email!",
                                             },
                                         ]}
                                     >

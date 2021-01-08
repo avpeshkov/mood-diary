@@ -4,21 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f .env npx webpack-dev-server --mode development --open --hot",
-    "build": "env-cmd -f .env.production npx webpack --mode production",
-    "calc": "npx ts-node src/lesson2",
-    "loki:update": "npm run build-storybook && npx loki update --requireReference --reactUri file:./storybook-static",
-    "loki:approve": "npx loki approve",
+    "start": "env-cmd -f .env webpack-dev-server --mode development --open --hot",
+    "build": "env-cmd -f .env.production webpack --mode production",
+    "calc": "ts-node src/lesson2",
+    "loki:update": "npm run build-storybook && loki update --requireReference --reactUri file:./storybook-static",
+    "loki:approve": "loki approve",
     "lint-staged": "lint-staged",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "check": "npm run lint && npm test && npm run test:loki",
-    "test:loki": "npm run build-storybook && npx loki --requireReference --reactUri file:./storybook-static",
-    "test": "npx jest",
-    "lint": "npx eslint --ext .js,.jsx,.ts,.tsx --fix ./",
+    "test:loki": "npm run build-storybook && loki --requireReference --reactUri file:./storybook-static",
+    "test": "jest",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "fix-style": "prettier --config .prettierrc --list-different src/**/*.{ts,scss} --write",
     "pre-commit-check": "npm run fix-style && npm run lint && npm test && npm run test:loki && git add .",
-    "json-server": "npx json-server --port 3001 --watch db.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
@@ -90,7 +89,7 @@
     "jest": "^25.2.4",
     "jest-emotion": "^10.0.32",
     "lint-staged": "^10.4.2",
-    "loki": "^0.25.1",
+    "loki": "^0.27.0",
     "prettier": "^2.0.2",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-test-renderer": "^16.13.1",
@@ -116,8 +115,7 @@
     "react-datepicker": "^3.3.0",
     "react-dom": "^16.13.1",
     "react-modal": "^3.11.2",
-    "react-router-dom": "^5.2.0",
-    "yup": "^0.29.3"
+    "react-router-dom": "^5.2.0"
   },
   "loki": {
     "configurations": {

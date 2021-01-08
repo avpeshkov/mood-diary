@@ -71,22 +71,6 @@ test("if no auth user we ca load public pages", () => {
 
     expect(screen.getByText(/Welcome to Mood Diary/i)).toBeInTheDocument();
     expect(history.location.pathname).toEqual("/");
-
-    userEvent.click(screen.getByTestId("signup-data-test-id"));
-    expect(screen.getByText(/Sign Up to Mood Diary/i)).toBeInTheDocument();
-    expect(history.location.pathname).toEqual("/signup");
-
-    userEvent.click(screen.getByTestId("home-link-test-id"));
-    expect(screen.getByText(/Welcome to Mood Diary/i)).toBeInTheDocument();
-    expect(history.location.pathname).toEqual("/");
-
-    userEvent.click(screen.getByTestId("login-data-test-id"));
-    expect(screen.getByText(/Login to Mood Diary/i)).toBeInTheDocument();
-    expect(history.location.pathname).toEqual("/login");
-
-    history.push("/some-random-link");
-    expect(screen.getByText(/Welcome to Mood Diary/i)).toBeInTheDocument();
-    expect(history.location.pathname).toEqual("/");
 });
 
 test("if no auth user authenticated he always get mood page", () => {

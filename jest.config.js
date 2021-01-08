@@ -18,5 +18,6 @@ module.exports = {
         "^services(.*)$": "<rootDir>/src/services$1",
         "^pages(.*)$": "<rootDir>/src/pages$1",
         "^helpers(.*)$": "<rootDir>/src/helpers$1",
+        "^src(.*)$": "<rootDir>/src$1",
     },
 };

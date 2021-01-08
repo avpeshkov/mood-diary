@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { signIn, signInWithGoogle } from "helpers/auth";
+import authHelpers from "helpers/auth";
 import { PageWrapper } from "components/Wrapper";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 import { css } from "@emotion/css";
@@ -20,7 +20,7 @@ class Login extends React.PureComponent<{}, LoginState> {
 
     onFinish = async (values: { email: string; password: string }) => {
         try {
-            await signIn(values.email, values.password);
+            await authHelpers.signIn(values.email, values.password);
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -28,7 +28,7 @@ class Login extends React.PureComponent<{}, LoginState> {
 
     googleSignIn = async () => {
         try {
-            await signInWithGoogle();
+            await authHelpers.signInWithGoogle();
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -71,7 +71,7 @@ class Login extends React.PureComponent<{}, LoginState> {
                                         <Input.Password />
                                     </Form.Item>
                                     <Form.Item>
-                                        <Button type="primary" htmlType="submit">
+                                        <Button id="signup-submit-btn" type="primary" htmlType="submit">
                                             Submit
                                         </Button>
                                     </Form.Item>

@@ -31,7 +31,6 @@ class Home extends Component {
                     </Col>
                 </Row>
             </PageWrapper>
-            // </>
         );
     }
 }
