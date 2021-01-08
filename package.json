@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "env-cmd -f .env webpack-dev-server --mode development --open --hot",
-    "build": "env-cmd --fallback -f .env.production webpack --mode production",
+    "build": "env-cmd --no-override --silent -f .env.production webpack --mode production",
     "calc": "ts-node src/lesson2",
     "loki:update": "npm run build-storybook && loki update --requireReference --reactUri file:./storybook-static",
     "loki:approve": "loki approve",
