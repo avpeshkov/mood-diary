@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { MoodForm } from "./MoodForm";
 import { Mood, MoodObject } from "types/mood";
 
@@ -12,7 +12,7 @@ describe("MoodFormComponent", () => {
         };
         const submitForm = jest.fn();
 
-        beforeAll(() => {
+        test("Submits form", async () => {
             const wrapper = render(<MoodForm moodObject={moodObject} createUpdateMoodObject={submitForm} />);
             const submitButtonNode = wrapper.getByText("Save");
 
@@ -20,12 +20,8 @@ describe("MoodFormComponent", () => {
             fireEvent.change(commentNode, { target: { value: "new updated comment" } });
             fireEvent.click(submitButtonNode);
 
-            return { submitForm: submitForm, moodObject: moodObject };
-        });
-
-        test("Submits form", () => {
-            expect(submitForm).toHaveBeenCalledTimes(1); // <- Error. Doesn't get called
-            expect(submitForm).toHaveBeenCalledWith({ ...moodObject, comment: "new updated comment" });
+            await waitFor(() => expect(submitForm).toHaveBeenCalledTimes(1));
+            await waitFor(() => expect(submitForm).toHaveBeenCalledWith({ ...moodObject, comment: "new updated comment" }));
         });
     });
 
@@ -38,6 +34,10 @@ describe("MoodFormComponent", () => {
         const submitForm = jest.fn();
 
         beforeAll(() => {
+            return { submitForm: submitForm, moodObject: moodObject };
+        });
+
+        test("Submits form after reset", async () => {
             const wrapper = render(<MoodForm moodObject={moodObject} createUpdateMoodObject={submitForm} />);
             const submitButtonNode = wrapper.getByText("Save");
             const resetButtonNode = wrapper.getByText("Reset");
@@ -47,12 +47,8 @@ describe("MoodFormComponent", () => {
             fireEvent.click(resetButtonNode);
             fireEvent.click(submitButtonNode);
 
-            return { submitForm: submitForm, moodObject: moodObject };
-        });
-
-        test("Submits form after reset", () => {
-            expect(submitForm).toHaveBeenCalledTimes(1); // <- Error. Doesn't get called
-            expect(submitForm).toHaveBeenCalledWith({ ...moodObject });
+            await waitFor(() => expect(submitForm).toHaveBeenCalledTimes(1));
+            await waitFor(() => expect(submitForm).toHaveBeenCalledWith({ ...moodObject }));
         });
     });
 });
