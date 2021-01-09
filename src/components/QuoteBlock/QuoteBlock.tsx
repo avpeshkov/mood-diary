@@ -1,24 +1,22 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { QuoteObject } from "types/quote";
-import { getQuoteList } from "api/quote";
 import { getRandomIndex } from "components/utils";
 
 interface QuoteBlockProps {
     interval: number;
     isAutoSwitchEnabled: boolean;
+    quoteList: QuoteObject[];
 }
 
 interface QuoteBlockState {
     quoteIndex: number;
-    quoteList: QuoteObject[];
 }
 
 const QuoteWrapper = styled.div`
     display: flex;
     flex-direction: row;
     color: white;
-    margin-bottom: 20px;
     border-radius: 25px;
     background-color: darkslategrey;
     min-height: 100px;
@@ -66,12 +64,11 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
 
     state: QuoteBlockState = {
         quoteIndex: 0,
-        quoteList: [],
     };
 
     componentDidMount() {
         const { interval, isAutoSwitchEnabled } = this.props;
-        this.updateQuoteList();
+        this._isMounted = true;
         if (isAutoSwitchEnabled) {
             this.intervalID = setInterval(this.setRandomQuote, interval);
         }
@@ -82,7 +79,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
             this.state.quoteIndex !== nextState.quoteIndex ||
             this.props.interval !== nextProps.interval ||
             this.props.isAutoSwitchEnabled !== nextProps.isAutoSwitchEnabled ||
-            this.state.quoteList.length !== nextState.quoteList.length
+            this.props.quoteList.length !== nextProps.quoteList.length
         );
     }
 
@@ -101,19 +98,13 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         this.clearWorker();
     }
 
-    updateQuoteList = () => {
-        getQuoteList((quoteList: QuoteObject[]) => {
-            this.setState({ quoteList }, () => {
-                this._isMounted = true;
-            });
-        });
-    };
-
     setRandomQuote = () => {
+        const { quoteList } = this.props;
+        const { quoteIndex } = this.state;
         if (this._isMounted) {
-            let newId = this.state.quoteIndex;
-            while (newId === this.state.quoteIndex) {
-                newId = getRandomIndex(this.state.quoteList.length);
+            let newId = quoteIndex;
+            while (newId === quoteIndex) {
+                newId = getRandomIndex(quoteList.length);
             }
             this.setState({ quoteIndex: newId });
         }
@@ -121,7 +112,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
 
     setQuote = (position: "next" | "previous") => {
         let newId = this.state.quoteIndex;
-        const quoteListLength = this.state.quoteList.length;
+        const quoteListLength = this.props.quoteList.length;
         switch (position) {
             case "next":
                 newId++;
@@ -146,7 +137,8 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
     };
 
     render() {
-        const { quoteIndex, quoteList } = this.state;
+        const { quoteIndex } = this.state;
+        const { quoteList } = this.props;
         if (quoteList.length == 0) {
             return <></>;
         }

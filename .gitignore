@@ -1,7 +1,9 @@
 .history
 .vscode
 node_modules
-dist
 .idea
 storybook-static
 coverage
+.env
+.env.production
+dist

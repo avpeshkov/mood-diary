@@ -2,7 +2,8 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { MoodScale } from "./MoodScale";
-import { Mood, MoodItem } from ".";
+import { MoodItem } from "components/MoodScale/components";
+import { Mood } from "types/mood";
 
 describe("MoodScale", () => {
     it("renders component", () => {

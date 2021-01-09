@@ -1,15 +1,17 @@
-import axios, { AxiosResponse } from "axios";
-import { QuoteObject, QuoteObjectResponse } from "types/quote";
+import firebaseApi from "services/firebase";
+import firebase from "firebase";
 
-export const QUOTE_LIST_API = "http://localhost:3001/quote-list/";
+const QUOTE_LIST_PATH = "quote-list";
 
-export const getQuoteList = (callBack: (moodList: QuoteObject[]) => void) => {
-    axios
-        .get(QUOTE_LIST_API)
-        .then(({ data }: AxiosResponse<QuoteObjectResponse[]>) => {
-            callBack(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+/**
+ *   Получаем записи цитат
+ */
+const getQuoteList = (): Promise<firebase.database.DataSnapshot> => {
+    return firebaseApi.db.ref(QUOTE_LIST_PATH).get();
 };
+
+const QuoteApi = {
+    getQuoteList,
+};
+
+export default QuoteApi;

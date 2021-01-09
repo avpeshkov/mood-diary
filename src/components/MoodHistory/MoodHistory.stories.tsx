@@ -1,27 +1,29 @@
 import React from "react";
 import { MoodHistory } from ".";
 import { storiesOf } from "@storybook/react";
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
-import { MOOD_LIST_API } from "api/mood";
-
-const mock = new MockAdapter(axios);
+import { MoodObject } from "types/mood";
 
 storiesOf("MoodHistory", module).add("with mocked get", () => {
-    mock.onGet(MOOD_LIST_API).reply(200, [
+    const data: MoodObject[] = [
         {
             id: 1,
             mood: 1,
-            date: "December 10, 2020 03:24:00",
+            date: new Date("December 10, 2020 03:24:00"),
             comment: "Slept all day",
         },
         {
             id: 2,
             mood: 5,
-            date: "December 11, 2020 03:24:00",
+            date: new Date("December 11, 2020 03:24:00"),
             comment: "",
         },
-    ]);
-
-    return <MoodHistory />;
+    ];
+    return (
+        <MoodHistory
+            moodList={data}
+            updateMoodList={() => {
+                console;
+            }}
+        />
+    );
 });

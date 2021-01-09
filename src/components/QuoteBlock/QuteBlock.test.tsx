@@ -2,8 +2,6 @@ import * as React from "react";
 import { shallow } from "enzyme";
 import { QuoteBlock } from "./QuoteBlock";
 
-const axios = require("axios");
-jest.mock("axios");
 const data = [
     {
         quote: "Есть только два способа прожить свою жизнь. Первый — так, будто никаких чудес не бывает. Второй — так, будто всё на свете является чудом",
@@ -18,12 +16,9 @@ const data = [
 ];
 
 describe("QuoteBlock", () => {
-    axios.get.mockResolvedValue({
-        data: data,
-    });
     test("active QuoteBlock", async () => {
         jest.useFakeTimers();
-        const component = await shallow(<QuoteBlock interval={3000} isAutoSwitchEnabled={true} />);
+        const component = await shallow(<QuoteBlock interval={3000} isAutoSwitchEnabled={true} quoteList={data} />);
         expect(component.state("quoteIndex")).toBe(0);
         const previousQuoteIndex = await component.state("quoteIndex");
         jest.advanceTimersByTime(3000);
@@ -32,7 +27,7 @@ describe("QuoteBlock", () => {
 
     test("not active QuoteBlock", async () => {
         jest.useFakeTimers();
-        const component = await shallow(<QuoteBlock interval={3000} isAutoSwitchEnabled={false} />);
+        const component = await shallow(<QuoteBlock interval={3000} isAutoSwitchEnabled={false} quoteList={data} />);
         expect(component.state("quoteIndex")).toBe(0);
         const previousQuoteIndex = component.state("quoteIndex");
         jest.advanceTimersByTime(3000);

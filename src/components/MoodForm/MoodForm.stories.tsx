@@ -1,8 +1,7 @@
 import React from "react";
 import { MoodForm } from "./MoodForm";
 import { withKnobs, date, number } from "@storybook/addon-knobs";
-import { MoodObject } from "types/mood";
-import { Mood } from "components/MoodScale";
+import { MoodObject, Mood } from "types/mood";
 
 export default {
     title: "MoodForm",
@@ -16,6 +15,6 @@ export const simpleData = () => (
             mood: number("mood", 7) as Mood,
             comment: "",
         }}
-        createUpdateMoodObject={(value: MoodObject) => console.log}
+        createUpdateMoodObject={(value: MoodObject) => console.log(value)}
     />
 );
