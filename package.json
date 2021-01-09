@@ -6,6 +6,7 @@
   "scripts": {
     "start": "env-cmd -f .env webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
+    "build-from-local-env": "env-cmd -f .env.production webpack --mode production",
     "calc": "ts-node src/lesson2",
     "loki:update": "npm run build-storybook && loki update --requireReference --reactUri file:./storybook-static",
     "loki:approve": "loki approve",
@@ -18,7 +19,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "fix-style": "prettier --config .prettierrc --list-different src/**/*.{ts,scss} --write",
     "pre-commit-check": "npm run fix-style && npm run lint && npm test && npm run test:loki && git add .",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build-from-local-env",
     "deploy": "gh-pages -d dist"
   },
   "husky": {
