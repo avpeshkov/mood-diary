@@ -26,28 +26,28 @@ describe("quotesSlice test", () => {
     const { addMood, deleteMood, setMoods, updateMood } = moodsActions;
 
     describe("actions", () => {
-        it("test setMoods action creator", () => {
+        it("setMoods_listOfMoodObjectsAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: setMoods.type,
                 payload: moodList,
             };
             expect(setMoods(moodList)).toEqual(expectedAction);
         });
-        it("test addMood action creator", () => {
+        it("addMood_moodObjectAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: addMood.type,
                 payload: newMood,
             };
             expect(addMood(newMood)).toEqual(expectedAction);
         });
-        it("test updateMood action creator", () => {
+        it("updateMood_moodObjectAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: updateMood.type,
                 payload: newMood,
             };
             expect(updateMood(newMood)).toEqual(expectedAction);
         });
-        it("test deleteMood action creator", () => {
+        it("deleteMood_numberAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: deleteMood.type,
                 payload: newMood.id,
@@ -57,14 +57,14 @@ describe("quotesSlice test", () => {
     });
 
     describe("reducers", () => {
-        it("test setMoods reducer", () => {
+        it("moodsReducer_setMoodsActionAs2stParam_setListObjectToStore", () => {
             const initialState: moodsSliceState = [];
             const action = setMoods(moodList);
             const state = moodsReducer(initialState, action);
             expect(state).toEqual(moodList);
         });
 
-        it("test addMood reducer", () => {
+        it("moodsReducer_addMoodActionAs2stParam_addNewObjectToStore", () => {
             const initialState: moodsSliceState = moodList;
             const action = addMood(newMood);
             const updatedState: moodsSliceState = [newMood, ...initialState];
@@ -72,7 +72,7 @@ describe("quotesSlice test", () => {
             expect(state).toEqual(updatedState);
         });
 
-        it("test updateMood reducer", () => {
+        it("moodsReducer_moodToUpdateActionAs2stParam_updateObjectInStore", () => {
             const initialState: moodsSliceState = moodList;
             const moodToUpdate: MoodObject = {
                 id: 2,
@@ -85,7 +85,7 @@ describe("quotesSlice test", () => {
             expect(state[1]).toEqual(moodToUpdate);
         });
 
-        it("test deleteMood reducer", () => {
+        it("moodsReducer_deleteMoodActionAs2stParam_deleteObjectFromStore", () => {
             const initialState: moodsSliceState = moodList;
             const action = deleteMood(1);
             const state = moodsReducer(initialState, action);

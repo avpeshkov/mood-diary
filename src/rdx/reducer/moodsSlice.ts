@@ -2,7 +2,7 @@ import { CaseReducer, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MoodObject } from "types/mood";
 import { sortMoodsByDate } from "helpers/moods";
 
-export type moodsSliceState = Array<MoodObject>;
+export type moodsSliceState = MoodObject[];
 
 const setMoods: CaseReducer<moodsSliceState, PayloadAction<moodsSliceState>> = (state, action) => sortMoodsByDate(action.payload);
 
@@ -10,8 +10,7 @@ const addMood: CaseReducer<moodsSliceState, PayloadAction<MoodObject>> = (state,
     if (!action.payload.id) {
         return state;
     }
-    state.push(action.payload);
-    return sortMoodsByDate(state);
+    return sortMoodsByDate([...state, action.payload]);
 };
 
 const updateMood: CaseReducer<moodsSliceState, PayloadAction<MoodObject>> = (state, action) => {
@@ -20,8 +19,7 @@ const updateMood: CaseReducer<moodsSliceState, PayloadAction<MoodObject>> = (sta
     if (index === -1) {
         return state;
     }
-    state[index] = moodToUpdate;
-    return sortMoodsByDate(state);
+    return sortMoodsByDate([...state.slice(0, index), moodToUpdate, ...state.slice(index + 1)]);
 };
 
 const deleteMood: CaseReducer<moodsSliceState, PayloadAction<number>> = (state, action) => {

@@ -6,14 +6,14 @@ describe("currentUserSlice test", () => {
     const { setCurrentUser, clearCurrentUser } = currentUserActions;
 
     describe("actions", () => {
-        it("test setCurrentUser action creator", () => {
+        it("setCurrentUser_firebaseUserObjectAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: setCurrentUser.type,
                 payload: user,
             };
             expect(setCurrentUser(user)).toEqual(expectedAction);
         });
-        it("test clearCurrentUser action creator", () => {
+        it("clearCurrentUser_firebaseUserObjectAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: clearCurrentUser.type,
             };
@@ -22,14 +22,14 @@ describe("currentUserSlice test", () => {
     });
 
     describe("reducers", () => {
-        it("test setCurrentUser reducer", () => {
+        it("currentUserReducer_setCurrentUserActionAs2stParam_setUserToStore", () => {
             const initialState: currentUserSliceState = null;
             const action = setCurrentUser(user);
             const state = currentUserReducer(initialState, action);
             expect(state).toEqual(user);
         });
 
-        it("test setCurrentUser reducer", () => {
+        it("currentUserReducer_clearCurrentUserActionAs2stParam_setNullToStore", () => {
             const initialState: currentUserSliceState = user;
             const action = clearCurrentUser();
             const state = currentUserReducer(initialState, action);

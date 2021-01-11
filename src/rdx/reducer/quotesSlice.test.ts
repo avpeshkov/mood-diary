@@ -5,7 +5,7 @@ describe("quotesSlice test", () => {
     const { setQuotes } = quotesActions;
 
     describe("actions", () => {
-        it("test setQuotes action creator", () => {
+        it("setQuotes_listOfMoodObjectsAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: setQuotes.type,
                 payload: quoteList,
@@ -17,7 +17,7 @@ describe("quotesSlice test", () => {
     describe("reducers", () => {
         const initialState: quotesSliceState = [];
 
-        it("test setQuotes reducer", () => {
+        it("quotesReducer_setQuotesActionAs2stParam_setListObjectsToStore", () => {
             const action = setQuotes(quoteList);
             const state = quotesReducer(initialState, action);
             expect(state).toEqual(quoteList);

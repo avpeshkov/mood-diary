@@ -3,7 +3,7 @@ import { MoodObject } from "types/mood";
 
 describe("mood utils test", () => {
     it("test sortMoodsByDate", () => {
-        const unsortedMoodList: Array<MoodObject> = [
+        const unsortedMoodList: MoodObject[] = [
             {
                 id: 1,
                 comment: "ha ha",
@@ -29,7 +29,7 @@ describe("mood utils test", () => {
                 mood: 1,
             },
         ];
-        const sortedMoodList: Array<MoodObject> = [
+        const sortedMoodList: MoodObject[] = [
             {
                 id: 2,
                 comment: "ha ha",

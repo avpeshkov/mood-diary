@@ -7,7 +7,7 @@ import { MoodView } from "components/MoodView";
 import MoodApi from "api/mood";
 
 interface MoodHistoryProps {
-    moodList: Array<MoodObject>;
+    moodList: MoodObject[];
     updateMoodList: () => void;
 }
 
