@@ -19,5 +19,6 @@ module.exports = {
         "^pages(.*)$": "<rootDir>/src/pages$1",
         "^helpers(.*)$": "<rootDir>/src/helpers$1",
         "^src(.*)$": "<rootDir>/src$1",
+        "^rdx(.*)$": "<rootDir>/src/rdx$1",
     },
 };

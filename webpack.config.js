@@ -19,6 +19,7 @@ module.exports = {
             services: path.resolve(__dirname, "src/services"),
             pages: path.resolve(__dirname, "src/pages"),
             helpers: path.resolve(__dirname, "src/helpers"),
+            rdx: path.resolve(__dirname, "src/rdx"),
         },
     },
     output: {

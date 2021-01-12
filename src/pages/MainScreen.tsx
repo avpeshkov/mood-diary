@@ -52,8 +52,8 @@ const QuoteBlockWrapper = styled.div`
 `;
 
 interface MainScreenState {
-    quoteList: Array<QuoteObject>;
-    moodList: Array<MoodObject>;
+    quoteList: QuoteObject[];
+    moodList: MoodObject[];
 }
 
 /**
