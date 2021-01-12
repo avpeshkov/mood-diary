@@ -4,10 +4,13 @@ import { QuoteBlock } from "components/QuoteBlock";
 import { MoodHistory } from "components/MoodHistory";
 import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "components/QuoteBlock/consts";
 import { PageWrapper } from "components/Wrapper";
-import { QuoteObject } from "types/quote";
 import QuoteApi from "api/quote";
 import { MoodObject, MoodObjectResponse } from "types/mood";
 import MoodApi from "api/mood";
+import { connect } from "react-redux";
+import { moodsActions } from "rdx/reducer/moodsSlice";
+import { quotesActions } from "rdx/reducer/quotesSlice";
+import { MoodDiaryState } from "rdx/store";
 
 const MainScreenWrapper = styled.div`
     display: flex;
@@ -51,20 +54,24 @@ const QuoteBlockWrapper = styled.div`
     align-self: flex-end;
 `;
 
-interface MainScreenState {
-    quoteList: QuoteObject[];
-    moodList: MoodObject[];
+function mapStateToProps(state: MoodDiaryState) {
+    return {
+        moods: state.moods,
+        quotes: state.quotes,
+    };
 }
 
-/**
-  Главная страница, авторизованный пользователь всегда попадает на нее.
- */
-class MainScreen extends React.Component<{}, MainScreenState> {
-    state: MainScreenState = {
-        quoteList: [],
-        moodList: [],
-    };
+const mapDispatchToProps = {
+    setMoods: moodsActions.setMoods,
+    setQuotes: quotesActions.setQuotes,
+};
 
+type RawMainScreenProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+/**
+ Главная страница, авторизованный пользователь всегда попадает на нее.
+ */
+class RawMainScreen extends React.Component<RawMainScreenProps, {}> {
     componentDidMount() {
         this.updateMoodList();
         this.getQuoteList();
@@ -74,7 +81,7 @@ class MainScreen extends React.Component<{}, MainScreenState> {
         QuoteApi.getQuoteList()
             .then((snapshot) => {
                 if (!snapshot.val) return null;
-                this.setState({ quoteList: snapshot.val() });
+                this.props.setQuotes(snapshot.val());
             })
             .catch((error) => {
                 console.log(error);
@@ -86,16 +93,12 @@ class MainScreen extends React.Component<{}, MainScreenState> {
         MoodApi.getMoodList()
             .then((snapshot) => {
                 if (!snapshot.val) return null;
-                const moodResponseList: MoodObjectResponse[] = [];
+                const moodList: MoodObject[] = [];
                 snapshot.forEach((snap) => {
-                    moodResponseList.push({ ...snap.val(), id: snap.key });
+                    const val: MoodObjectResponse = snap.val();
+                    moodList.push({ ...val, id: snap.key as string, date: new Date(val.date) });
                 });
-                const moodList: MoodObject[] = moodResponseList
-                    .map((moodObjectJson: MoodObjectResponse) => {
-                        return { ...moodObjectJson, date: new Date(moodObjectJson.date) };
-                    })
-                    .sort((a: MoodObject, b: MoodObject) => b.date.getTime() - a.date.getTime()); // сортируем по дате
-                this.setState({ moodList });
+                this.props.setMoods(moodList);
             })
             .catch((error) => {
                 console.log(error);
@@ -103,20 +106,20 @@ class MainScreen extends React.Component<{}, MainScreenState> {
     };
 
     render() {
-        const { quoteList, moodList } = this.state;
+        const { moods, quotes } = this.props;
         return (
             <PageWrapper>
                 <MainScreenWrapper data-testid="main-screen-data-test-id">
                     <MainScreenDataWrapper>
                         <HistoryBlockWrapper>
-                            <MoodHistory moodList={moodList} updateMoodList={this.updateMoodList} />
+                            <MoodHistory moodList={moods} />
                         </HistoryBlockWrapper>
                         <RightBlockWrapper>
                             <GraphBlockWrapper>
                                 <h2>Here will be cool graph</h2>
                             </GraphBlockWrapper>
                             <QuoteBlockWrapper>
-                                <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} quoteList={quoteList} />
+                                <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} quoteList={quotes} />
                             </QuoteBlockWrapper>
                         </RightBlockWrapper>
                     </MainScreenDataWrapper>
@@ -125,5 +128,7 @@ class MainScreen extends React.Component<{}, MainScreenState> {
         );
     }
 }
+
+const MainScreen = connect(mapStateToProps, mapDispatchToProps)(RawMainScreen);
 
 export default MainScreen;
