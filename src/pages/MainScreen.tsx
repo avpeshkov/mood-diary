@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 import { moodsActions } from "rdx/reducer/moodsSlice";
 import { quotesActions } from "rdx/reducer/quotesSlice";
 import { MoodDiaryState } from "rdx/store";
+import { pick } from "ramda";
+import { QuoteObject } from "types/quote";
 
 const MainScreenWrapper = styled.div`
     display: flex;
@@ -54,11 +56,8 @@ const QuoteBlockWrapper = styled.div`
     align-self: flex-end;
 `;
 
-function mapStateToProps(state: MoodDiaryState) {
-    return {
-        moods: state.moods,
-        quotes: state.quotes,
-    };
+function mapStateToProps(state: MoodDiaryState): { moods: MoodObject[]; quotes: QuoteObject[] } {
+    return pick(["moods", "quotes"], state);
 }
 
 const mapDispatchToProps = {

@@ -2,13 +2,14 @@ import { takeEvery, call } from "redux-saga/effects";
 
 import { quotesActions } from "rdx/reducer/quotesSlice";
 import { QuoteObject } from "types/quote";
+import { isEmpty } from "ramda";
 
 const saveQuotesToLocalStorage = async (quotesList: QuoteObject[]) => {
     await localStorage.setItem("quotesList", JSON.stringify(quotesList));
 };
 
 export function* saveQuotes({ payload }: ReturnType<typeof quotesActions.setQuotes>) {
-    if (payload && payload.length > 0) {
+    if (!isEmpty(payload)) {
         yield call(saveQuotesToLocalStorage, payload);
     }
 }

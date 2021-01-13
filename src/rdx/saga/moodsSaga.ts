@@ -2,13 +2,14 @@ import { takeEvery, call, take } from "redux-saga/effects";
 
 import { moodsActions } from "rdx/reducer/moodsSlice";
 import { MoodObject } from "types/mood";
+import { isEmpty } from "ramda";
 
 const setMoodsLocalStorage = async (moodList: MoodObject[]) => {
     await localStorage.setItem("moodList", JSON.stringify(moodList));
 };
 
 export function* setMoods({ payload }: ReturnType<typeof moodsActions.setMoods>) {
-    if (payload && payload.length > 0) {
+    if (!isEmpty(payload)) {
         yield call(setMoodsLocalStorage, payload);
     }
 }
@@ -20,7 +21,7 @@ const addMoodToLocalStorage = async (moodObject: MoodObject) => {
 };
 
 export function* addMood({ payload }: ReturnType<typeof moodsActions.addMood>) {
-    if (payload) {
+    if (!isEmpty(payload)) {
         yield call(addMoodToLocalStorage, payload);
     }
 }
@@ -33,7 +34,7 @@ const updateMoodInLocalStorage = async (moodObject: MoodObject) => {
 };
 
 export function* updateMood({ payload }: ReturnType<typeof moodsActions.updateMood>) {
-    if (payload) {
+    if (!isEmpty(payload)) {
         yield call(updateMoodInLocalStorage, payload);
     }
 }
