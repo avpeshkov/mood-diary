@@ -4,9 +4,7 @@ import { quotesReducer } from "rdx/reducer/quotesSlice";
 import { currentUserReducer } from "rdx/reducer/currentUserSlice";
 
 export const reducer = combineReducers({
-    moodsReducer,
-    quotesReducer,
-    currentUserReducer,
+    moods: moodsReducer,
+    quotes: quotesReducer,
+    currentUser: currentUserReducer,
 });
-
-export type TicTacToeGameState = ReturnType<typeof reducer>;

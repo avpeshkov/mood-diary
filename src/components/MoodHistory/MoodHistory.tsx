@@ -5,16 +5,9 @@ import Modal from "react-modal";
 import { MoodForm } from "components/MoodForm";
 import { MoodView } from "components/MoodView";
 import MoodApi from "api/mood";
-
-interface MoodHistoryProps {
-    moodList: MoodObject[];
-    updateMoodList: () => void;
-}
-
-interface MoodHistoryState {
-    moodObjectToEdit?: MoodObject | null;
-    writeError: null | string;
-}
+import { connect } from "react-redux";
+import { moodsActions } from "rdx/reducer/moodsSlice";
+import firebase from "firebase";
 
 const MoodHistoryWrapper = styled.div`
     display: flex;
@@ -49,7 +42,24 @@ export const AddNewMoodButton = styled.button`
  * компонент для оборажения накопленной истории, рендерит компоненты отображения
  * */
 
-export class MoodHistory extends React.Component<MoodHistoryProps, MoodHistoryState> {
+const mapDispatchToProps = {
+    addMood: moodsActions.addMood,
+    updateMood: moodsActions.updateMood,
+    deleteMood: moodsActions.deleteMood,
+};
+
+interface MoodHistoryPropsLocal {
+    moodList: MoodObject[];
+}
+
+type RawMainScreenProps = MoodHistoryPropsLocal & typeof mapDispatchToProps;
+
+interface MoodHistoryState {
+    moodObjectToEdit?: MoodObject | null;
+    writeError: null | string;
+}
+
+class RawMoodHistory extends React.Component<RawMainScreenProps, MoodHistoryState> {
     state: MoodHistoryState = {
         moodObjectToEdit: undefined,
         writeError: null,
@@ -93,11 +103,15 @@ export class MoodHistory extends React.Component<MoodHistoryProps, MoodHistorySt
         );
     }
 
-    onCompleteMoodListChange = (promise: Promise<unknown>): void => {
-        promise
-            .then(() => {
-                this.setState({ moodObjectToEdit: undefined }, () => {
-                    this.props.updateMoodList();
+    // создаем или обновляем запись настроения в бекенде
+    createUpdateMoodObject = (moodObject: MoodObject) => {
+        const { addMood, updateMood } = this.props;
+        const storeAction = moodObject.id ? updateMood : addMood;
+        MoodApi.postPatchMood(moodObject)
+            .then((moodResponse: firebase.database.DataSnapshot | undefined) => {
+                this.setState({ moodObjectToEdit: undefined, writeError: null }, () => {
+                    const moodObjectToUpdate: MoodObject = moodResponse ? { ...moodObject, id: moodResponse.key as string } : moodObject;
+                    storeAction(moodObjectToUpdate);
                 });
             })
             .catch((error: Error | null) => {
@@ -105,19 +119,20 @@ export class MoodHistory extends React.Component<MoodHistoryProps, MoodHistorySt
             });
     };
 
-    // создаем или обновляем запись настроения в бекенде
-    createUpdateMoodObject = (moodObject: MoodObject) => {
-        this.setState({ writeError: null }, () => {
-            this.onCompleteMoodListChange(MoodApi.postPatchMood(moodObject));
-        });
-    };
-
     // удаляем запись в бекенде
-    deleteMoodObject = (moodId: number) => {
-        this.onCompleteMoodListChange(MoodApi.deleteMood(moodId));
+    deleteMoodObject = (moodId: string) => {
+        MoodApi.deleteMood(moodId)
+            .then(() => {
+                this.setState({ moodObjectToEdit: undefined }, () => {
+                    this.props.deleteMood(moodId);
+                });
+            })
+            .catch((error: Error | null) => {
+                this.setState({ writeError: error && error.message, moodObjectToEdit: null });
+            });
     };
 
-    actionWithArray = (moodId: number, action: "edit" | "delete") => {
+    actionWithArray = (moodId: string, action: "edit" | "delete") => {
         if (action == "delete") {
             this.deleteMoodObject(moodId);
         } else {
@@ -125,7 +140,7 @@ export class MoodHistory extends React.Component<MoodHistoryProps, MoodHistorySt
         }
     };
 
-    addEditMoodObject = (moodId?: number) => {
+    addEditMoodObject = (moodId?: string) => {
         const { moodList } = this.props;
         let moodObjectToEdit: MoodObject | null = null;
         if (moodId) {
@@ -141,3 +156,5 @@ export class MoodHistory extends React.Component<MoodHistoryProps, MoodHistorySt
         this.setState({ moodObjectToEdit: undefined });
     };
 }
+
+export const MoodHistory = connect(undefined, mapDispatchToProps)(RawMoodHistory);

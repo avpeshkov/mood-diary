@@ -22,8 +22,8 @@ const updateMood: CaseReducer<moodsSliceState, PayloadAction<MoodObject>> = (sta
     return sortMoodsByDate([...state.slice(0, index), moodToUpdate, ...state.slice(index + 1)]);
 };
 
-const deleteMood: CaseReducer<moodsSliceState, PayloadAction<number>> = (state, action) => {
-    const moodIdToDelete: number = action.payload;
+const deleteMood: CaseReducer<moodsSliceState, PayloadAction<string>> = (state, action) => {
+    const moodIdToDelete: string = action.payload;
     const index = state.findIndex((mood: MoodObject) => mood.id === moodIdToDelete);
     if (index === -1) {
         return state;

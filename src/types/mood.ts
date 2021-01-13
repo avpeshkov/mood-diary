@@ -2,14 +2,14 @@ export const moods = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 export type Mood = typeof moods[number];
 
 export interface MoodObject {
-    id?: number;
+    id?: string;
     mood: Mood;
     date: Date;
     comment: string;
 }
 
 export interface MoodObjectResponse {
-    id?: number;
+    id?: string;
     mood: Mood;
     date: string;
     comment: string;

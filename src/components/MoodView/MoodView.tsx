@@ -7,7 +7,7 @@ import { css } from "@emotion/core";
 
 interface MoodViewProps {
     moodObject: MoodObject;
-    updateMoodObject?: (moodId: number, action: "edit" | "delete") => void;
+    updateMoodObject?: (moodId: string, action: "edit" | "delete") => void;
 }
 
 const MoodViewWrapper = styled.div`

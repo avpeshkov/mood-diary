@@ -18,20 +18,20 @@ function getMoodList(): Promise<firebase.database.DataSnapshot> {
 /**
  *   Апдейтим/Создаем записи настроения
  */
-const postPatchMood = (moodObject: MoodObject): Promise<unknown> => {
+const postPatchMood = (moodObject: MoodObject): Promise<firebase.database.DataSnapshot | undefined> => {
     const userUid = authHelpers.getCurrentUserUid();
     const updatedObject = { ...moodObject, date: moodObject.date.toString() };
     if (moodObject.id) {
         return db.ref(`${MOOD_LIST_PATH}/${userUid}/${moodObject.id}`).update(updatedObject);
     } else {
-        return (db.ref(`${MOOD_LIST_PATH}/${userUid}/`).push(updatedObject) as unknown) as Promise<unknown>;
+        return db.ref(`${MOOD_LIST_PATH}/${userUid}/`).push(updatedObject).get();
     }
 };
 
 /**
  *   Удаляем записи настроения настроения
  */
-const deleteMood = (moodId: number): Promise<unknown> => {
+const deleteMood = (moodId: string): Promise<unknown> => {
     const userUid = authHelpers.getCurrentUserUid();
     return db.ref(`user-mood-list/${userUid}/${moodId}`).remove();
 };

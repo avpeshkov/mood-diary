@@ -4,20 +4,20 @@ import { MoodObject } from "types/mood";
 describe("quotesSlice test", () => {
     const moodList: Array<MoodObject> = [
         {
-            id: 1,
+            id: "1",
             comment: "ha ha",
             date: new Date("December 14, 2020 03:24:00"),
             mood: 6,
         },
         {
-            id: 2,
+            id: "2",
             comment: "ha ha",
             date: new Date("December 10, 2020 03:24:00"),
             mood: 6,
         },
     ];
     const newMood: MoodObject = {
-        id: 3,
+        id: "3",
         comment: "ha ha",
         date: new Date("December 15, 2020 03:24:00"),
         mood: 6,
@@ -75,7 +75,7 @@ describe("quotesSlice test", () => {
         it("moodsReducer_moodToUpdateActionAs2stParam_updateObjectInStore", () => {
             const initialState: moodsSliceState = moodList;
             const moodToUpdate: MoodObject = {
-                id: 2,
+                id: "2",
                 comment: "new comment",
                 date: new Date("December 14, 2020 03:24:00"),
                 mood: 8,
@@ -87,10 +87,10 @@ describe("quotesSlice test", () => {
 
         it("moodsReducer_deleteMoodActionAs2stParam_deleteObjectFromStore", () => {
             const initialState: moodsSliceState = moodList;
-            const action = deleteMood(1);
+            const action = deleteMood("2");
             const state = moodsReducer(initialState, action);
             expect(state.length).toEqual(1);
-            expect(state[0].id).toEqual(2);
+            expect(state[0].id).toEqual("1");
         });
     });
 });
