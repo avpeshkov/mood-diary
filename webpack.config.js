@@ -13,13 +13,11 @@ module.exports = {
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         alias: {
-            types: path.resolve(__dirname, "src/types"),
-            api: path.resolve(__dirname, "src/api"),
             components: path.resolve(__dirname, "src/components"),
-            services: path.resolve(__dirname, "src/services"),
-            pages: path.resolve(__dirname, "src/pages"),
-            helpers: path.resolve(__dirname, "src/helpers"),
-            rdx: path.resolve(__dirname, "src/rdx"),
+            screens: path.resolve(__dirname, "src/screens"),
+            utils: path.resolve(__dirname, "src/utils"),
+            modules: path.resolve(__dirname, "src/modules"),
+            src: path.resolve(__dirname, "src"),
         },
     },
     output: {

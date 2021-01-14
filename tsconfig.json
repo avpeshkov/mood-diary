@@ -2,13 +2,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "types/*": ["src/types/*"],
-      "api/*": ["src/api/*"],
       "components/*": ["src/components/*"],
-      "pages/*": ["src/pages/*"],
-      "services/*": ["src/services/*"],
-      "helpers/*": ["src/helpers/*"],
-      "rdx/*": ["src/rdx/*"]
+      "screens/*": ["src/screens/*"],
+      "modules/*": ["src/modules/*"],
+      "utils/*": ["src/utils/*"],
+      "src/*": ["src/*"]
     },
     "target": "es5",
     "module": "commonjs",

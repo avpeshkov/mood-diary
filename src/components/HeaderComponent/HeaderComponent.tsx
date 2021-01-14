@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "antd/dist/antd.css";
 import { Button, Col, Divider, Layout, Row, Typography } from "antd";
 import { css } from "@emotion/css";
-import firebaseApi from "services/firebase";
+import firebaseApi from "utils/firebase";
 
 /**
  *   Компонент недера используемый на всех страницах

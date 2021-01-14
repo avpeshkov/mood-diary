@@ -1,21 +1,15 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { createMemoryHistory } from "history";
 import React from "react";
 import { Router } from "react-router-dom";
 import App from "./App";
-import firebaseApi from "services/firebase";
+import firebaseApi from "./utils/firebase";
 import firebase from "firebase";
+import MoodApi from "./modules/MoodHistory/api";
+import QuoteApi from "./modules/QuoteBlock/api";
 
 jest.mock("firebase/app");
-jest.mock("services/firebase");
-jest.mock("firebase/app");
-jest.mock("api/mood");
-jest.mock("api/quote");
-
-import MoodApi from "api/mood";
-import QuoteApi from "api/quote";
 
 jest.spyOn(MoodApi, "getMoodList").mockImplementation(() => {
     return Promise.resolve({} as firebase.database.DataSnapshot);
