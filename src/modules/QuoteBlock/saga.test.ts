@@ -1,10 +1,11 @@
-import { saveQuotes } from "./saga";
-import { quotesActions, quotesSliceState } from "./slice";
+import { quotesSaga, saveQuotes, saveQuotesToLocalStorage } from "./saga";
+import { quotesActions, quotesReducer, quotesSliceState } from "./slice";
+import { expectSaga } from "redux-saga-test-plan";
 
 describe("Quotes saga", () => {
-    it("saveQuotesGenerator__withListOfQuotesInPayload__success", () => {
-        const quoteList: quotesSliceState = [{ id: 1, author: "Hemingway", quote: "HA" }];
+    const quoteList: quotesSliceState = [{ id: 1, author: "Hemingway", quote: "HA" }];
 
+    it("saveQuotesGenerator__withListOfQuotesInPayload__success", () => {
         const generator = saveQuotes({
             type: quotesActions.setQuotes.type,
             payload: quoteList,
@@ -40,5 +41,14 @@ describe("Quotes saga", () => {
             payload: quoteList,
         });
         expect(generator.next().done).toBe(true);
+    });
+
+    it("saveQuotesSaga__withListOfQuotesInPayload__success", () => {
+        return expectSaga(saveQuotes, {
+            type: quotesActions.setQuotes.type,
+            payload: quoteList,
+        })
+            .call(saveQuotesToLocalStorage, quoteList)
+            .run();
     });
 });

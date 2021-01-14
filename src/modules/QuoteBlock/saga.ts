@@ -4,7 +4,7 @@ import { quotesActions } from "./slice";
 import { QuoteObject } from "./types";
 import { isEmpty } from "ramda";
 
-const saveQuotesToLocalStorage = async (quotesList: QuoteObject[]) => {
+export const saveQuotesToLocalStorage = async (quotesList: QuoteObject[]) => {
     await localStorage.setItem("quotesList", JSON.stringify(quotesList));
 };
 
