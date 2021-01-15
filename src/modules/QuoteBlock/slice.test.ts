@@ -2,7 +2,7 @@ import { quotesActions, quotesReducer, quotesSliceState } from "./slice";
 
 describe("quotesSlice test", () => {
     const quoteList: quotesSliceState = [{ id: 1, author: "Hemingway", quote: "HA" }];
-    const { setQuotes } = quotesActions;
+    const { setQuotes, loadQuotes } = quotesActions;
 
     describe("actions", () => {
         it("setQuotes_listOfMoodObjectsAs1stParam_createActionWithPayload", () => {
@@ -11,6 +11,13 @@ describe("quotesSlice test", () => {
                 payload: quoteList,
             };
             expect(setQuotes(quoteList)).toEqual(expectedAction);
+        });
+
+        it("setQuotes_listOfMoodObjectsAs1stParam_createAction", () => {
+            const expectedAction = {
+                type: loadQuotes.type,
+            };
+            expect(loadQuotes()).toEqual(expectedAction);
         });
     });
 

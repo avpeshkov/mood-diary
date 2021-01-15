@@ -1,13 +1,18 @@
-import { CaseReducer, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CaseReducer, createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MoodObject } from "./types";
 import { sortMoodsByDate } from "./utils";
 
 export type moodsSliceState = MoodObject[];
 
+const loadMoods = createAction("moods/loadMoods");
+const addMoodRequest = createAction<MoodObject>("moods/addMoodRequest");
+const updateMoodRequest = createAction<MoodObject>("moods/updateMoodRequest");
+const deleteMoodRequest = createAction<string>("moods/deleteMoodRequest");
+
 const setMoods: CaseReducer<moodsSliceState, PayloadAction<moodsSliceState>> = (state, action) => sortMoodsByDate(action.payload);
 
 const addMood: CaseReducer<moodsSliceState, PayloadAction<MoodObject>> = (state, action) => {
-    if (!action.payload.id) {
+    if (!action.payload?.id) {
         return state;
     }
     return sortMoodsByDate([...state, action.payload]);
@@ -15,7 +20,7 @@ const addMood: CaseReducer<moodsSliceState, PayloadAction<MoodObject>> = (state,
 
 const updateMood: CaseReducer<moodsSliceState, PayloadAction<MoodObject>> = (state, action) => {
     const moodToUpdate: MoodObject = action.payload;
-    const index = state.findIndex((mood: MoodObject) => mood.id === moodToUpdate.id);
+    const index = state.findIndex((mood: MoodObject) => mood.id === moodToUpdate?.id);
     if (index === -1) {
         return state;
     }
@@ -43,5 +48,11 @@ const moodsSlice = createSlice({
     },
 });
 
-export const moodsActions = moodsSlice.actions;
+export const moodsActions = {
+    ...moodsSlice.actions,
+    loadMoods: loadMoods,
+    addMoodRequest: addMoodRequest,
+    updateMoodRequest: updateMoodRequest,
+    deleteMoodRequest: deleteMoodRequest,
+};
 export const moodsReducer = moodsSlice.reducer;

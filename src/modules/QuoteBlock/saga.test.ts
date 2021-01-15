@@ -1,54 +1,28 @@
-import { quotesSaga, saveQuotes, saveQuotesToLocalStorage } from "./saga";
+import { loadQuotes, getQuotesList } from "./saga";
 import { quotesActions, quotesReducer, quotesSliceState } from "./slice";
 import { expectSaga } from "redux-saga-test-plan";
+import * as matchers from "redux-saga-test-plan/matchers";
+
+jest.mock("firebase/app");
 
 describe("Quotes saga", () => {
     const quoteList: quotesSliceState = [{ id: 1, author: "Hemingway", quote: "HA" }];
 
-    it("saveQuotesGenerator__withListOfQuotesInPayload__success", () => {
-        const generator = saveQuotes({
-            type: quotesActions.setQuotes.type,
-            payload: quoteList,
-        });
-        expect(generator.next().value).toMatchInlineSnapshot(`
-      Object {
-        "@@redux-saga/IO": true,
-        "combinator": false,
-        "payload": Object {
-          "args": Array [
-            Array [
-              Object {
-                "author": "Hemingway",
-                "id": 1,
-                "quote": "HA",
-              },
-            ],
-          ],
-          "context": null,
-          "fn": [Function],
-        },
-        "type": "CALL",
-      }
-    `);
-        expect(generator.next().done).toBe(true);
+    it("loadQuotesSaga__successBackEndCallPutSetQuotesAction", () => {
+        return expectSaga(loadQuotes)
+            .withReducer(quotesReducer)
+            .provide([[matchers.call.fn(getQuotesList), quoteList]])
+            .put(quotesActions.setQuotes(quoteList))
+            .hasFinalState(quoteList)
+            .run();
     });
 
-    it("saveQuotesGenerator__withEmptyInPayload__justEnds", () => {
-        const quoteList: quotesSliceState = [];
-
-        const generator = saveQuotes({
-            type: quotesActions.setQuotes.type,
-            payload: quoteList,
-        });
-        expect(generator.next().done).toBe(true);
-    });
-
-    it("saveQuotesSaga__withListOfQuotesInPayload__success", () => {
-        return expectSaga(saveQuotes, {
-            type: quotesActions.setQuotes.type,
-            payload: quoteList,
-        })
-            .call(saveQuotesToLocalStorage, quoteList)
+    it("loadQuotesSaga__withListOfQuotesInPayload__failBackEndCallKeepCurrentState", () => {
+        return expectSaga(loadQuotes)
+            .withReducer(quotesReducer)
+            .provide([[matchers.call.fn(getQuotesList), quoteList]])
+            .put(quotesActions.setQuotes(quoteList))
+            .hasFinalState(quoteList)
             .run();
     });
 });
