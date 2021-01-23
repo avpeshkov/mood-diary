@@ -1,14 +1,20 @@
 import { mount } from "enzyme";
 import React from "react";
-import { MoodHistory, AddNewMoodButton } from "./MoodHistory";
+import { MoodHistory, AddNewMoodButton, getMoodObjectToEdit } from "./MoodHistory";
 import Modal from "react-modal";
 import { MoodObject } from "./types";
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { MoodView } from "modules/MoodHistory/components/MoodView";
-import { reducer } from "src/store";
+import configureStore from "redux-mock-store";
 
 jest.mock("firebase/app");
+
+const moodObjectToSearch: MoodObject = {
+    id: "2",
+    mood: 5,
+    date: new Date("December 11, 2020 03:24:00"),
+    comment: "",
+};
 
 const data: MoodObject[] = [
     {
@@ -17,22 +23,16 @@ const data: MoodObject[] = [
         date: new Date("December 10, 2020 03:24:00"),
         comment: "Slept all day",
     },
-    {
-        id: "2",
-        mood: 5,
-        date: new Date("December 11, 2020 03:24:00"),
-        comment: "",
-    },
+    moodObjectToSearch,
 ];
 
 describe("MoodHistory", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let store: any;
+    const mockStore = configureStore();
 
     beforeEach(() => {
-        store = configureStore({
-            reducer,
-            preloadedState: { moods: data },
-        });
+        store = mockStore({ moods: data });
         jest.spyOn(store, "dispatch");
     });
 
@@ -46,5 +46,17 @@ describe("MoodHistory", () => {
         expect(history.find(AddNewMoodButton).length).toEqual(1);
         expect(history.find(Modal).length).toEqual(1);
         expect(history.find(MoodView).length).toEqual(2);
+    });
+
+    it("getMoodObjectToEdit_forNewMood", () => {
+        expect(getMoodObjectToEdit(data)).toEqual(null);
+    });
+
+    it("getMoodObjectToEdit_forEditMood_success", () => {
+        expect(getMoodObjectToEdit(data, "2")).toEqual(moodObjectToSearch);
+    });
+
+    it("getMoodObjectToEdit_forEditMood_fail", () => {
+        expect(getMoodObjectToEdit(data, "3")).toEqual(null);
     });
 });

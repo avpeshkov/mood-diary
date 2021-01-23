@@ -7,7 +7,8 @@ import { MoodObject } from "modules/MoodHistory/types";
 
 interface MoodViewProps {
     moodObject: MoodObject;
-    updateMoodObject?: (moodId: string, action: "edit" | "delete") => void;
+    editMoodObject?: (moodId: string) => void;
+    deleteMoodObject?: (moodId: string) => void;
 }
 
 const MoodViewWrapper = styled.div`
@@ -63,7 +64,7 @@ const ActionButton = styled.button`
 
 /** Комнпонент для обображения/редактирования основной модели прилоежния. */
 export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
-    const { moodObject, updateMoodObject } = props;
+    const { moodObject, editMoodObject, deleteMoodObject } = props;
 
     return (
         <MoodViewWrapper>
@@ -80,12 +81,18 @@ export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
                     </>
                 )}
             </MoodContentWrapper>
-            {moodObject.id && updateMoodObject && (
+            {moodObject.id && (
                 <MoodEditButtonsWrapper>
-                    <ActionButton onClick={() => updateMoodObject(moodObject.id!, "edit")}>Edit</ActionButton>
-                    <ActionButton onClick={() => updateMoodObject(moodObject.id!, "delete")} backgroundColor="red">
-                        Delete
-                    </ActionButton>
+                    {editMoodObject && (
+                        <ActionButton data-test-id="edit-mood-btn" onClick={() => editMoodObject(moodObject.id!)}>
+                            Edit
+                        </ActionButton>
+                    )}
+                    {deleteMoodObject && (
+                        <ActionButton data-test-id="delete-mood-btn" onClick={() => deleteMoodObject(moodObject.id!)} backgroundColor="red">
+                            Delete
+                        </ActionButton>
+                    )}
                 </MoodEditButtonsWrapper>
             )}
         </MoodViewWrapper>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { QuoteObject } from "./types";
-import { getRandomIndex } from "./utils";
+import { getNewQuoteId, getRandomIndex } from "./utils";
 
 interface QuoteBlockProps {
     interval: number;
@@ -111,22 +111,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
     };
 
     setQuote = (position: "next" | "previous") => {
-        let newId = this.state.quoteIndex;
-        const quoteListLength = this.props.quoteList.length;
-        switch (position) {
-            case "next":
-                newId++;
-                break;
-            case "previous":
-                newId--;
-                break;
-        }
-        if (newId === -1) {
-            newId = quoteListLength - 1;
-        } else if (newId >= quoteListLength) {
-            newId = quoteListLength - newId;
-        }
-        this.setState({ quoteIndex: newId });
+        this.setState({ quoteIndex: getNewQuoteId(this.state.quoteIndex, this.props.quoteList.length, position) });
     };
 
     clearWorker = () => {

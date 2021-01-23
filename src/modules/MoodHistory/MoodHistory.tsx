@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { moodsActions } from "./slice";
 import { MoodView } from "./components/MoodView";
 import { MoodForm } from "./components/MoodForm";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 const MoodHistoryWrapper = styled.div`
     display: flex;
@@ -57,6 +58,18 @@ interface MoodHistoryState {
     writeError: null | string;
 }
 
+export const getMoodObjectToEdit = (moodList: MoodObject[], moodId?: string): MoodObject | null => {
+    let moodObjectToEdit: MoodObject | null = null;
+
+    if (moodId) {
+        const index = moodList.findIndex((moodObject: MoodObject) => moodObject.id === moodId);
+        if (index !== -1) {
+            moodObjectToEdit = moodList[index];
+        }
+    }
+    return moodObjectToEdit;
+};
+
 class RawMoodHistory extends React.Component<RawMainScreenProps, MoodHistoryState> {
     state: MoodHistoryState = {
         moodObjectToEdit: undefined,
@@ -65,7 +78,7 @@ class RawMoodHistory extends React.Component<RawMainScreenProps, MoodHistoryStat
 
     render() {
         const { moodObjectToEdit } = this.state;
-        const { moodList } = this.props;
+        const { moodList, deleteMoodRequest } = this.props;
         return (
             <>
                 <MoodHistoryWrapper>
@@ -73,7 +86,9 @@ class RawMoodHistory extends React.Component<RawMainScreenProps, MoodHistoryStat
                         <AddNewMoodButton onClick={() => this.addEditMoodObject()}>Add new</AddNewMoodButton>
                     </HeaderButtonsWrapper>
                     {moodList.length > 0 ? (
-                        moodList.map((item: MoodObject) => <MoodView moodObject={item} key={item.id} updateMoodObject={this.actionWithArray} />)
+                        moodList.map((item: MoodObject) => (
+                            <MoodView moodObject={item} key={item.id} editMoodObject={this.addEditMoodObject} deleteMoodObject={deleteMoodRequest} />
+                        ))
                     ) : (
                         <span>No data</span>
                     )}
@@ -102,37 +117,14 @@ class RawMoodHistory extends React.Component<RawMainScreenProps, MoodHistoryStat
     }
 
     // создаем или обновляем запись настроения в бекенде
-    createUpdateMoodObject = (moodObject: MoodObject) => {
-        const { addMoodRequest, updateMoodRequest } = this.props;
-        const storeAction = moodObject.id ? updateMoodRequest : addMoodRequest;
+    createUpdateMoodObject = (moodObject: MoodObject) =>
         this.setState({ moodObjectToEdit: undefined, writeError: null }, () => {
-            storeAction(moodObject);
+            (moodObject.id ? this.props.updateMoodRequest : this.props.addMoodRequest)(moodObject);
         });
-    };
 
-    actionWithArray = (moodId: string, action: "edit" | "delete") => {
-        if (action == "delete") {
-            this.props.deleteMoodRequest(moodId);
-        } else {
-            this.addEditMoodObject(moodId);
-        }
-    };
+    addEditMoodObject = (moodId?: string) => this.setState({ moodObjectToEdit: getMoodObjectToEdit(this.props.moodList, moodId) });
 
-    addEditMoodObject = (moodId?: string) => {
-        const { moodList } = this.props;
-        let moodObjectToEdit: MoodObject | null = null;
-        if (moodId) {
-            const index = moodList.findIndex((moodObject: MoodObject) => moodObject.id === moodId);
-            if (index !== -1) {
-                moodObjectToEdit = moodList[index];
-            }
-        }
-        this.setState({ moodObjectToEdit });
-    };
-
-    clearEditMoodObject = () => {
-        this.setState({ moodObjectToEdit: undefined });
-    };
+    clearEditMoodObject = () => this.setState({ moodObjectToEdit: undefined });
 }
 
 export const MoodHistory = connect(undefined, mapDispatchToProps)(RawMoodHistory);

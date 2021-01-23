@@ -8,13 +8,13 @@ import firebase from "firebase";
 
 export const getMoodsList = async () => {
     try {
-        const snapshot = await MoodApi.getMoodList();
+        const snapshot = await MoodApi.getMoodsList();
         if (!snapshot.val) return [];
         const moodList: MoodObject[] = [];
-        snapshot.forEach((snap) => {
-            const val: MoodObjectResponse = snap.val();
-            moodList.push({ ...val, id: snap.key as string, date: new Date(val.date) });
-        });
+        for (const [key, value] of Object.entries(snapshot.val())) {
+            const mood: MoodObject = value as MoodObject;
+            moodList.push({ ...mood, id: key, date: new Date(mood.date) });
+        }
         return moodList;
     } catch (error) {
         console.log(error);
@@ -24,7 +24,7 @@ export const getMoodsList = async () => {
 
 export function* loadMoodsSaga() {
     const moodList: MoodObject[] = yield call(getMoodsList);
-    if (!isEmpty(moodList)) {
+    if (Array.isArray(moodList) && !isEmpty(moodList)) {
         yield put(moodsActions.setMoods(moodList));
     }
 }
@@ -42,7 +42,7 @@ export const createUpdateMoodObject = async (moodObject: MoodObject) => {
 export function* addMoodRequestSaga({ payload }: ReturnType<typeof moodsActions.addMood>) {
     const mood: MoodObject = yield call(createUpdateMoodObject, payload);
 
-    if (!isEmpty(mood)) {
+    if (typeof mood === "object" && !isEmpty(mood)) {
         yield put(moodsActions.addMood(mood));
     }
 }
@@ -50,7 +50,7 @@ export function* addMoodRequestSaga({ payload }: ReturnType<typeof moodsActions.
 export function* updateMoodRequestSaga({ payload }: ReturnType<typeof moodsActions.updateMood>) {
     const mood: MoodObject = yield call(createUpdateMoodObject, payload);
 
-    if (!isEmpty(mood)) {
+    if (typeof mood === "object" && !isEmpty(mood)) {
         yield put(moodsActions.updateMood(mood));
     }
 }
@@ -70,7 +70,7 @@ export const deleteMoodObject = async (moodId: string) => {
 export function* deleteMoodRequestSaga({ payload }: ReturnType<typeof moodsActions.deleteMood>) {
     const moodIdToDelete: string = yield call(deleteMoodObject, payload);
 
-    if (moodIdToDelete) {
+    if (typeof moodIdToDelete === "string" && moodIdToDelete) {
         yield put(moodsActions.deleteMood(moodIdToDelete));
     }
 }

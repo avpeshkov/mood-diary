@@ -11,8 +11,11 @@ import {
 import { MoodObject } from "./types";
 import { expectSaga } from "redux-saga-test-plan";
 import * as matchers from "redux-saga-test-plan/matchers";
+import firebase from "firebase";
+import MoodApi from "modules/MoodHistory/api";
 
 jest.mock("firebase/app");
+jest.mock("modules/MoodHistory/api");
 
 describe("Moods saga", () => {
     const moodList: moodsSliceState = [
@@ -132,5 +135,36 @@ describe("Moods saga", () => {
             .provide([[matchers.call.fn(deleteMoodObject), null]])
             .hasFinalState(moodList)
             .run();
+    });
+
+    it("getMoodsList__success", async () => {
+        jest.spyOn(MoodApi, "getMoodsList").mockImplementation(() => {
+            return Promise.resolve({
+                val: () => {
+                    return { "4": moodToUpdate };
+                },
+            } as firebase.database.DataSnapshot);
+        });
+
+        expect(await getMoodsList()).toEqual([moodToUpdate]);
+    });
+
+    it("getMoodsList__fail", async () => {
+        jest.spyOn(MoodApi, "getMoodsList").mockImplementation(() => {
+            return Promise.resolve({
+                val: () => {
+                    throw Error();
+                    return [];
+                },
+            } as firebase.database.DataSnapshot);
+        });
+
+        expect(await getMoodsList()).toEqual([]);
+
+        jest.spyOn(MoodApi, "getMoodsList").mockImplementation(() => {
+            return Promise.resolve({} as firebase.database.DataSnapshot);
+        });
+
+        expect(await getMoodsList()).toEqual([]);
     });
 });

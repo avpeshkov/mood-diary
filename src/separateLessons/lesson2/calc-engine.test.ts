@@ -5,7 +5,7 @@ describe("prioritiesCalc with zero priority", () => {
         expect(prioritiesCalc(0, ["**", 6])).toEqual([36]);
     });
 
-    it("[**, 6]", () => {
+    it("[**, 3]", () => {
         expect(prioritiesCalc(0, ["**", 3])).toEqual([9]);
     });
 

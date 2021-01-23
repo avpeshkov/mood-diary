@@ -38,7 +38,7 @@ class Login extends React.PureComponent<{}, LoginState> {
         const { error } = this.state;
         return (
             <ScreenWrapper>
-                <Row justify={"center"}>
+                <Row justify={"center"} id="login-page-id">
                     <Col>
                         <Space size={"large"} direction={"vertical"}>
                             <Title level={3}>Login to Mood Diary</Title>
