@@ -23,9 +23,15 @@ describe("quotesSlice test", () => {
         mood: 6,
     };
 
-    const { addMood, deleteMood, setMoods, updateMood } = moodsActions;
+    const { addMood, deleteMood, setMoods, updateMood, loadMoods } = moodsActions;
 
     describe("actions", () => {
+        it("loadMoods_listOfMoodObjectsAs1stParam_createActionWithPayload", () => {
+            const expectedAction = {
+                type: loadMoods.type,
+            };
+            expect(loadMoods()).toEqual(expectedAction);
+        });
         it("setMoods_listOfMoodObjectsAs1stParam_createActionWithPayload", () => {
             const expectedAction = {
                 type: setMoods.type,

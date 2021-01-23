@@ -1,12 +1,12 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import { fork } from "redux-saga/effects";
-import { quotesSaga } from "./modules/QuoteBlock/saga";
-import { moodsSaga } from "./modules/MoodHistory/saga";
+import { quotesSaga } from "modules/QuoteBlock/saga";
+import { moodsSaga } from "modules/MoodHistory/saga";
 import { combineReducers } from "redux";
-import { moodsReducer } from "./modules/MoodHistory/slice";
-import { quotesReducer } from "./modules/QuoteBlock/slice";
-import { currentUserReducer } from "./modules/users/slice";
+import { moodsReducer } from "modules/MoodHistory/slice";
+import { quotesReducer } from "modules/QuoteBlock/slice";
+import { currentUserReducer } from "modules/users/slice";
 
 export const reducer = combineReducers({
     moods: moodsReducer,

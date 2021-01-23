@@ -2,10 +2,8 @@ import React from "react";
 import { MoodObject } from "./types";
 import styled from "@emotion/styled";
 import Modal from "react-modal";
-import MoodApi from "./api";
 import { connect } from "react-redux";
 import { moodsActions } from "./slice";
-import firebase from "firebase";
 import { MoodView } from "./components/MoodView";
 import { MoodForm } from "./components/MoodForm";
 
@@ -43,9 +41,9 @@ export const AddNewMoodButton = styled.button`
  * */
 
 const mapDispatchToProps = {
-    addMood: moodsActions.addMood,
-    updateMood: moodsActions.updateMood,
-    deleteMood: moodsActions.deleteMood,
+    addMoodRequest: moodsActions.addMoodRequest,
+    updateMoodRequest: moodsActions.updateMoodRequest,
+    deleteMoodRequest: moodsActions.deleteMoodRequest,
 };
 
 interface MoodHistoryPropsLocal {
@@ -105,36 +103,16 @@ class RawMoodHistory extends React.Component<RawMainScreenProps, MoodHistoryStat
 
     // создаем или обновляем запись настроения в бекенде
     createUpdateMoodObject = (moodObject: MoodObject) => {
-        const { addMood, updateMood } = this.props;
-        const storeAction = moodObject.id ? updateMood : addMood;
-        MoodApi.postPatchMood(moodObject)
-            .then((moodResponse: firebase.database.DataSnapshot | undefined) => {
-                this.setState({ moodObjectToEdit: undefined, writeError: null }, () => {
-                    const moodObjectToUpdate: MoodObject = moodResponse ? { ...moodObject, id: moodResponse.key as string } : moodObject;
-                    storeAction(moodObjectToUpdate);
-                });
-            })
-            .catch((error: Error | null) => {
-                this.setState({ writeError: error && error.message, moodObjectToEdit: null });
-            });
-    };
-
-    // удаляем запись в бекенде
-    deleteMoodObject = (moodId: string) => {
-        MoodApi.deleteMood(moodId)
-            .then(() => {
-                this.setState({ moodObjectToEdit: undefined }, () => {
-                    this.props.deleteMood(moodId);
-                });
-            })
-            .catch((error: Error | null) => {
-                this.setState({ writeError: error && error.message, moodObjectToEdit: null });
-            });
+        const { addMoodRequest, updateMoodRequest } = this.props;
+        const storeAction = moodObject.id ? updateMoodRequest : addMoodRequest;
+        this.setState({ moodObjectToEdit: undefined, writeError: null }, () => {
+            storeAction(moodObject);
+        });
     };
 
     actionWithArray = (moodId: string, action: "edit" | "delete") => {
         if (action == "delete") {
-            this.deleteMoodObject(moodId);
+            this.props.deleteMoodRequest(moodId);
         } else {
             this.addEditMoodObject(moodId);
         }

@@ -1,59 +1,83 @@
-import { takeEvery, call, take } from "redux-saga/effects";
+import { takeEvery, call, take, put, apply } from "redux-saga/effects";
 
 import { moodsActions } from "./slice";
-import { MoodObject } from "./types";
+import { MoodObject, MoodObjectResponse } from "./types";
 import { isEmpty } from "ramda";
+import MoodApi from "modules/MoodHistory/api";
+import firebase from "firebase";
 
-export const setMoodsLocalStorage = async (moodList: MoodObject[]) => {
-    await localStorage.setItem("moodList", JSON.stringify(moodList));
+export const getMoodsList = async () => {
+    try {
+        const snapshot = await MoodApi.getMoodList();
+        if (!snapshot.val) return [];
+        const moodList: MoodObject[] = [];
+        snapshot.forEach((snap) => {
+            const val: MoodObjectResponse = snap.val();
+            moodList.push({ ...val, id: snap.key as string, date: new Date(val.date) });
+        });
+        return moodList;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
 };
 
-export function* setMoods({ payload }: ReturnType<typeof moodsActions.setMoods>) {
-    if (!isEmpty(payload)) {
-        yield call(setMoodsLocalStorage, payload);
+export function* loadMoodsSaga() {
+    const moodList: MoodObject[] = yield call(getMoodsList);
+    if (!isEmpty(moodList)) {
+        yield put(moodsActions.setMoods(moodList));
     }
 }
 
-export const addMoodToLocalStorage = async (moodObject: MoodObject) => {
-    const moodList: MoodObject[] = JSON.parse((await localStorage.getItem("moodList")) || "[]");
-    moodList.push(moodObject);
-    await localStorage.setItem("moodList", JSON.stringify(moodList));
+export const createUpdateMoodObject = async (moodObject: MoodObject) => {
+    try {
+        const moodResponse: firebase.database.DataSnapshot | undefined = await MoodApi.postPatchMood(moodObject);
+        return moodResponse ? { ...moodObject, id: moodResponse.key as string } : moodObject;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 };
 
-export function* addMood({ payload }: ReturnType<typeof moodsActions.addMood>) {
-    if (!isEmpty(payload)) {
-        yield call(addMoodToLocalStorage, payload);
+export function* addMoodRequestSaga({ payload }: ReturnType<typeof moodsActions.addMood>) {
+    const mood: MoodObject = yield call(createUpdateMoodObject, payload);
+
+    if (!isEmpty(mood)) {
+        yield put(moodsActions.addMood(mood));
     }
 }
 
-export const updateMoodInLocalStorage = async (moodObject: MoodObject) => {
-    let moodList: MoodObject[] = JSON.parse((await localStorage.getItem("moodList")) || "[]");
-    moodList = moodList.filter((mood: MoodObject) => mood.id !== moodObject.id);
-    moodList.push(moodObject);
-    await localStorage.setItem("moodList", JSON.stringify(moodList));
-};
+export function* updateMoodRequestSaga({ payload }: ReturnType<typeof moodsActions.updateMood>) {
+    const mood: MoodObject = yield call(createUpdateMoodObject, payload);
 
-export function* updateMood({ payload }: ReturnType<typeof moodsActions.updateMood>) {
-    if (!isEmpty(payload)) {
-        yield call(updateMoodInLocalStorage, payload);
+    if (!isEmpty(mood)) {
+        yield put(moodsActions.updateMood(mood));
     }
 }
 
-export const deleteMoodFromLocalStorage = async (moodId: string) => {
-    let moodList: MoodObject[] = JSON.parse((await localStorage.getItem("moodList")) || "[]");
-    moodList = moodList.filter((mood: MoodObject) => mood.id !== moodId);
-    await localStorage.setItem("moodList", JSON.stringify(moodList));
+export const deleteMoodObject = async (moodId: string) => {
+    try {
+        const result = await MoodApi.deleteMood(moodId);
+        if (result === undefined) {
+            return moodId;
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 };
 
-export function* deleteMood({ payload }: ReturnType<typeof moodsActions.deleteMood>) {
-    if (payload) {
-        yield call(deleteMoodFromLocalStorage, payload);
+export function* deleteMoodRequestSaga({ payload }: ReturnType<typeof moodsActions.deleteMood>) {
+    const moodIdToDelete: string = yield call(deleteMoodObject, payload);
+
+    if (moodIdToDelete) {
+        yield put(moodsActions.deleteMood(moodIdToDelete));
     }
 }
 
 export function* moodsSaga() {
-    yield takeEvery(moodsActions.setMoods.type, setMoods);
-    yield takeEvery(moodsActions.addMood.type, addMood);
-    yield takeEvery(moodsActions.updateMood.type, updateMood);
-    yield takeEvery(moodsActions.deleteMood.type, deleteMood);
+    yield takeEvery(moodsActions.loadMoods.type, loadMoodsSaga);
+    yield takeEvery(moodsActions.addMoodRequest.type, addMoodRequestSaga);
+    yield takeEvery(moodsActions.updateMoodRequest.type, updateMoodRequestSaga);
+    yield takeEvery(moodsActions.deleteMoodRequest.type, deleteMoodRequestSaga);
 }
