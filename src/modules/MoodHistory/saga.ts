@@ -4,7 +4,7 @@ import { moodsActions } from "./slice";
 import { MoodObject } from "./types";
 import { isEmpty } from "ramda";
 
-const setMoodsLocalStorage = async (moodList: MoodObject[]) => {
+export const setMoodsLocalStorage = async (moodList: MoodObject[]) => {
     await localStorage.setItem("moodList", JSON.stringify(moodList));
 };
 
@@ -14,7 +14,7 @@ export function* setMoods({ payload }: ReturnType<typeof moodsActions.setMoods>)
     }
 }
 
-const addMoodToLocalStorage = async (moodObject: MoodObject) => {
+export const addMoodToLocalStorage = async (moodObject: MoodObject) => {
     const moodList: MoodObject[] = JSON.parse((await localStorage.getItem("moodList")) || "[]");
     moodList.push(moodObject);
     await localStorage.setItem("moodList", JSON.stringify(moodList));
@@ -26,7 +26,7 @@ export function* addMood({ payload }: ReturnType<typeof moodsActions.addMood>) {
     }
 }
 
-const updateMoodInLocalStorage = async (moodObject: MoodObject) => {
+export const updateMoodInLocalStorage = async (moodObject: MoodObject) => {
     let moodList: MoodObject[] = JSON.parse((await localStorage.getItem("moodList")) || "[]");
     moodList = moodList.filter((mood: MoodObject) => mood.id !== moodObject.id);
     moodList.push(moodObject);
@@ -39,7 +39,7 @@ export function* updateMood({ payload }: ReturnType<typeof moodsActions.updateMo
     }
 }
 
-const deleteMoodFromLocalStorage = async (moodId: string) => {
+export const deleteMoodFromLocalStorage = async (moodId: string) => {
     let moodList: MoodObject[] = JSON.parse((await localStorage.getItem("moodList")) || "[]");
     moodList = moodList.filter((mood: MoodObject) => mood.id !== moodId);
     await localStorage.setItem("moodList", JSON.stringify(moodList));

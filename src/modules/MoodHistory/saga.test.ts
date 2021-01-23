@@ -1,6 +1,16 @@
 import { moodsActions, moodsSliceState } from "./slice";
-import { addMood, deleteMood, setMoods, updateMood } from "./saga";
+import {
+    addMood,
+    addMoodToLocalStorage,
+    deleteMood,
+    deleteMoodFromLocalStorage,
+    setMoods,
+    setMoodsLocalStorage,
+    updateMood,
+    updateMoodInLocalStorage,
+} from "./saga";
 import { MoodObject } from "./types";
+import { expectSaga } from "redux-saga-test-plan";
 
 describe("Moods saga", () => {
     const moodList: moodsSliceState = [
@@ -47,6 +57,15 @@ describe("Moods saga", () => {
         expect(generator.next().done).toBe(true);
     });
 
+    it("setMoodsSaga__withListOfMoodsInPayload__success", () => {
+        return expectSaga(setMoods, {
+            type: moodsActions.setMoods.type,
+            payload: moodList,
+        })
+            .call(setMoodsLocalStorage, moodList)
+            .run();
+    });
+
     it("addMoodGenerator__withMoodObjectInPayload__success", () => {
         const generator = addMood({
             type: moodsActions.addMood.type,
@@ -72,6 +91,15 @@ describe("Moods saga", () => {
             }
         `);
         expect(generator.next().done).toBe(true);
+    });
+
+    it("addMoodSaga__withMoodObjectInPayload__success", () => {
+        return expectSaga(addMood, {
+            type: moodsActions.addMood.type,
+            payload: newMood,
+        })
+            .call(addMoodToLocalStorage, newMood)
+            .run();
     });
 
     it("updateMoodGenerator__withMoodObjectInPayload__success", () => {
@@ -101,6 +129,15 @@ describe("Moods saga", () => {
         expect(generator.next().done).toBe(true);
     });
 
+    it("updateMoodSaga__withMoodObjectInPayload__success", () => {
+        return expectSaga(updateMood, {
+            type: moodsActions.updateMood.type,
+            payload: newMood,
+        })
+            .call(updateMoodInLocalStorage, newMood)
+            .run();
+    });
+
     it("deleteMoodGenerator__withMoodIdInPayload__success", () => {
         const generator = deleteMood({
             type: moodsActions.deleteMood.type,
@@ -121,5 +158,14 @@ describe("Moods saga", () => {
             }
         `);
         expect(generator.next().done).toBe(true);
+    });
+
+    it("deleteMoodSaga__withMoodIdInPayload__success", () => {
+        return expectSaga(deleteMood, {
+            type: moodsActions.deleteMood.type,
+            payload: "1",
+        })
+            .call(deleteMoodFromLocalStorage, "1")
+            .run();
     });
 });
