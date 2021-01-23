@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Home from "pages/Home";
-import firebaseApi from "services/firebase";
-import MainScreen from "pages/MainScreen";
-import SignUp from "pages/Signup";
-import Login from "pages/Login";
+import Home from "./screens/Home";
+import firebaseApi from "./utils/firebase";
+import MainScreen from "./screens/MainScreen";
+import SignUp from "./screens/Signup";
+import Login from "./screens/Login";
 import { Provider } from "react-redux";
-import { store } from "rdx/store";
+import { store } from "./store";
 
 const PrivateRoute = <P extends object>({ Component, authenticated, path }: { Component: React.ComponentType<P>; authenticated: boolean; path: string }) => {
     return (

@@ -7,7 +7,7 @@
     "start": "env-cmd -f .env webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
     "build-from-local-env": "env-cmd -f .env.production webpack --mode production",
-    "calc": "ts-node src/lesson2",
+    "calc": "ts-node src/separateLessons/lesson2",
     "loki:update": "npm run build-storybook && loki update --requireReference --reactUri file:./storybook-static",
     "loki:approve": "loki approve",
     "lint-staged": "lint-staged",
