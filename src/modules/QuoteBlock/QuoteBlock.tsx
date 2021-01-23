@@ -139,7 +139,7 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
     render() {
         const { quoteIndex } = this.state;
         const { quoteList } = this.props;
-        if (quoteList.length == 0) {
+        if (!quoteList || quoteList.length == 0) {
             return <></>;
         }
         return (

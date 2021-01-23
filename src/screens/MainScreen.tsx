@@ -1,17 +1,15 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { ScreenWrapper } from "components/ScreenWrapper";
-import { MoodObject, MoodObjectResponse } from "modules/MoodHistory/types";
+import { MoodObject } from "modules/MoodHistory/types";
 import { connect } from "react-redux";
 import { moodsActions } from "modules/MoodHistory/slice";
 import { quotesActions } from "modules/QuoteBlock/slice";
 import { pick } from "ramda";
 import { QuoteObject } from "modules/QuoteBlock/types";
 import { MoodDiaryState } from "src/store";
-import QuoteApi from "modules/QuoteBlock/api";
 import { MoodHistory, QuoteBlock } from "src/modules";
 import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "modules/QuoteBlock/consts";
-import MoodApi from "modules/MoodHistory/api";
 
 const MainScreenWrapper = styled.div`
     display: flex;
@@ -60,8 +58,8 @@ function mapStateToProps(state: MoodDiaryState): { moods: MoodObject[]; quotes: 
 }
 
 const mapDispatchToProps = {
-    setMoods: moodsActions.setMoods,
-    setQuotes: quotesActions.setQuotes,
+    loadMoods: moodsActions.loadMoods,
+    loadQuotes: quotesActions.loadQuotes,
 };
 
 type RawMainScreenProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
@@ -71,37 +69,9 @@ type RawMainScreenProps = ReturnType<typeof mapStateToProps> & typeof mapDispatc
  */
 class RawMainScreen extends React.Component<RawMainScreenProps, {}> {
     componentDidMount() {
-        this.updateMoodList();
-        this.getQuoteList();
+        this.props.loadMoods();
+        this.props.loadQuotes();
     }
-
-    getQuoteList = () => {
-        QuoteApi.getQuoteList()
-            .then((snapshot) => {
-                if (!snapshot.val) return null;
-                this.props.setQuotes(snapshot.val());
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    // обновляем список записей настроения с бекенда
-    updateMoodList = () => {
-        MoodApi.getMoodList()
-            .then((snapshot) => {
-                if (!snapshot.val) return null;
-                const moodList: MoodObject[] = [];
-                snapshot.forEach((snap) => {
-                    const val: MoodObjectResponse = snap.val();
-                    moodList.push({ ...val, id: snap.key as string, date: new Date(val.date) });
-                });
-                this.props.setMoods(moodList);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
 
     render() {
         const { moods, quotes } = this.props;

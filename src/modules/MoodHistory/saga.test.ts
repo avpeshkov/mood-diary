@@ -1,171 +1,136 @@
-import { moodsActions, moodsSliceState } from "./slice";
+import { moodsActions, moodsReducer, moodsSliceState } from "./slice";
 import {
-    addMood,
-    addMoodToLocalStorage,
-    deleteMood,
-    deleteMoodFromLocalStorage,
-    setMoods,
-    setMoodsLocalStorage,
-    updateMood,
-    updateMoodInLocalStorage,
+    addMoodRequestSaga,
+    createUpdateMoodObject,
+    deleteMoodObject,
+    deleteMoodRequestSaga,
+    getMoodsList,
+    loadMoodsSaga,
+    updateMoodRequestSaga,
 } from "./saga";
 import { MoodObject } from "./types";
 import { expectSaga } from "redux-saga-test-plan";
+import * as matchers from "redux-saga-test-plan/matchers";
+
+jest.mock("firebase/app");
 
 describe("Moods saga", () => {
     const moodList: moodsSliceState = [
         {
-            id: "1",
-            mood: 1,
+            id: "2",
+            mood: 5,
             date: new Date("December 10, 2020 03:24:00"),
+            comment: "Slept all day",
+        },
+        {
+            id: "1",
+            mood: 6,
+            date: new Date("December 9, 2020 03:24:00"),
             comment: "Slept all day",
         },
     ];
     const newMood: MoodObject = {
-        id: "2",
         mood: 1,
         date: new Date("December 11, 2020 03:24:00"),
         comment: "Slept all day",
     };
 
-    it("setMoodsGenerator__withListOfMoodsInPayload__success", () => {
-        const generator = setMoods({
-            type: moodsActions.setMoods.type,
-            payload: moodList,
-        });
-        expect(generator.next().value).toMatchInlineSnapshot(`
-                  Object {
-                    "@@redux-saga/IO": true,
-                    "combinator": false,
-                    "payload": Object {
-                      "args": Array [
-                        Array [
-                          Object {
-                            "comment": "Slept all day",
-                            "date": 2020-12-10T00:24:00.000Z,
-                            "id": "1",
-                            "mood": 1,
-                          },
-                        ],
-                      ],
-                      "context": null,
-                      "fn": [Function],
-                    },
-                    "type": "CALL",
-                  }
-            `);
-        expect(generator.next().done).toBe(true);
-    });
+    const moodToUpdate: MoodObject = {
+        id: "4",
+        mood: 1,
+        date: new Date("December 20, 2020 03:24:00"),
+        comment: "Slept all day",
+    };
 
-    it("setMoodsSaga__withListOfMoodsInPayload__success", () => {
-        return expectSaga(setMoods, {
-            type: moodsActions.setMoods.type,
-            payload: moodList,
-        })
-            .call(setMoodsLocalStorage, moodList)
+    it("loadMoodsSaga__successBackEndCallPutSetMoodsAction", () => {
+        return expectSaga(loadMoodsSaga)
+            .withReducer(moodsReducer)
+            .provide([[matchers.call.fn(getMoodsList), moodList]])
+            .put(moodsActions.setMoods(moodList))
+            .hasFinalState(moodList)
             .run();
     });
 
-    it("addMoodGenerator__withMoodObjectInPayload__success", () => {
-        const generator = addMood({
-            type: moodsActions.addMood.type,
-            payload: newMood,
-        });
-        expect(generator.next().value).toMatchInlineSnapshot(`
-            Object {
-              "@@redux-saga/IO": true,
-              "combinator": false,
-              "payload": Object {
-                "args": Array [
-                  Object {
-                    "comment": "Slept all day",
-                    "date": 2020-12-11T00:24:00.000Z,
-                    "id": "2",
-                    "mood": 1,
-                  },
-                ],
-                "context": null,
-                "fn": [Function],
-              },
-              "type": "CALL",
-            }
-        `);
-        expect(generator.next().done).toBe(true);
-    });
-
-    it("addMoodSaga__withMoodObjectInPayload__success", () => {
-        return expectSaga(addMood, {
-            type: moodsActions.addMood.type,
-            payload: newMood,
-        })
-            .call(addMoodToLocalStorage, newMood)
+    it("loadMoodsSaga__failBackEndCallKeepCurrentState", () => {
+        return expectSaga(loadMoodsSaga)
+            .withReducer(moodsReducer)
+            .provide([[matchers.call.fn(getMoodsList), []]])
+            .hasFinalState([])
             .run();
     });
 
-    it("updateMoodGenerator__withMoodObjectInPayload__success", () => {
-        const generator = updateMood({
-            type: moodsActions.updateMood.type,
-            payload: newMood,
-        });
-        expect(generator.next().value).toMatchInlineSnapshot(`
-            Object {
-              "@@redux-saga/IO": true,
-              "combinator": false,
-              "payload": Object {
-                "args": Array [
-                  Object {
-                    "comment": "Slept all day",
-                    "date": 2020-12-11T00:24:00.000Z,
-                    "id": "2",
-                    "mood": 1,
-                  },
-                ],
-                "context": null,
-                "fn": [Function],
-              },
-              "type": "CALL",
-            }
-        `);
-        expect(generator.next().done).toBe(true);
-    });
-
-    it("updateMoodSaga__withMoodObjectInPayload__success", () => {
-        return expectSaga(updateMood, {
-            type: moodsActions.updateMood.type,
+    it("addMoodRequestSaga__success", () => {
+        return expectSaga(addMoodRequestSaga, {
+            type: moodsActions.addMoodRequest.type,
             payload: newMood,
         })
-            .call(updateMoodInLocalStorage, newMood)
+            .withReducer(moodsReducer)
+            .provide([[matchers.call.fn(createUpdateMoodObject), { id: "3", ...newMood }]])
+            .put(moodsActions.addMood({ id: "3", ...newMood }))
+            .hasFinalState([{ id: "3", ...newMood }])
             .run();
     });
 
-    it("deleteMoodGenerator__withMoodIdInPayload__success", () => {
-        const generator = deleteMood({
-            type: moodsActions.deleteMood.type,
-            payload: "1",
-        });
-        expect(generator.next().value).toMatchInlineSnapshot(`
-            Object {
-              "@@redux-saga/IO": true,
-              "combinator": false,
-              "payload": Object {
-                "args": Array [
-                  "1",
-                ],
-                "context": null,
-                "fn": [Function],
-              },
-              "type": "CALL",
-            }
-        `);
-        expect(generator.next().done).toBe(true);
+    it("addMoodRequestSaga__fail", () => {
+        return expectSaga(addMoodRequestSaga, {
+            type: moodsActions.addMoodRequest.type,
+            payload: newMood,
+        })
+            .withReducer(moodsReducer)
+            .provide([[matchers.call.fn(createUpdateMoodObject), null]])
+            .hasFinalState([])
+            .run();
     });
 
-    it("deleteMoodSaga__withMoodIdInPayload__success", () => {
-        return expectSaga(deleteMood, {
-            type: moodsActions.deleteMood.type,
+    it("updateMoodRequestSaga__success", () => {
+        const updatedMood: MoodObject = { ...moodToUpdate, mood: 10 };
+        return expectSaga(updateMoodRequestSaga, {
+            type: moodsActions.updateMoodRequest.type,
+            payload: newMood,
+        })
+            .withReducer(moodsReducer)
+            .withState([moodToUpdate, ...moodList])
+            .provide([[matchers.call.fn(createUpdateMoodObject), updatedMood]])
+            .put(moodsActions.updateMood(updatedMood))
+            .hasFinalState([updatedMood, ...moodList])
+            .run();
+    });
+
+    it("updateMoodRequestSaga__fail", () => {
+        const updatedMood: MoodObject = (null as unknown) as MoodObject;
+        return expectSaga(updateMoodRequestSaga, {
+            type: moodsActions.updateMoodRequest.type,
+            payload: newMood,
+        })
+            .withReducer(moodsReducer)
+            .withState([moodToUpdate, ...moodList])
+            .provide([[matchers.call.fn(createUpdateMoodObject), updatedMood]])
+            .hasFinalState([moodToUpdate, ...moodList])
+            .run();
+    });
+
+    it("deleteMoodRequestSaga__success", () => {
+        return expectSaga(deleteMoodRequestSaga, {
+            type: moodsActions.deleteMoodRequest.type,
             payload: "1",
         })
-            .call(deleteMoodFromLocalStorage, "1")
+            .withReducer(moodsReducer)
+            .withState(moodList)
+            .provide([[matchers.call.fn(deleteMoodObject), "1"]])
+            .put(moodsActions.deleteMood("1"))
+            .hasFinalState([moodList[0]])
+            .run();
+    });
+
+    it("deleteMoodRequestSaga__fail", () => {
+        return expectSaga(deleteMoodRequestSaga, {
+            type: moodsActions.deleteMoodRequest.type,
+            payload: "1",
+        })
+            .withReducer(moodsReducer)
+            .withState(moodList)
+            .provide([[matchers.call.fn(deleteMoodObject), null]])
+            .hasFinalState(moodList)
             .run();
     });
 });
