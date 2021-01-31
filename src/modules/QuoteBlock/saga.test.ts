@@ -5,7 +5,6 @@ import * as matchers from "redux-saga-test-plan/matchers";
 import QuoteApi from "modules/QuoteBlock/api";
 import firebase from "firebase";
 
-jest.mock("firebase/app");
 jest.mock("modules/QuoteBlock/api");
 
 describe("Quotes saga", () => {

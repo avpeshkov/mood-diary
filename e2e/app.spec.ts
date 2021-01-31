@@ -1,7 +1,5 @@
 import "expect-puppeteer";
 
-jest.mock("firebase/app");
-
 describe("MoodDiary", () => {
     beforeAll(async () => {
         await page.goto("http://localhost:8080");

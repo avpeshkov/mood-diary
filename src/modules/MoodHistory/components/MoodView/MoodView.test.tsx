@@ -4,7 +4,6 @@ import snapshotDiff from "snapshot-diff";
 import { shallow } from "enzyme";
 import { MoodView } from "./index";
 import { Mood } from "modules/MoodHistory/types";
-import { AddNewMoodButton } from "src/modules";
 
 describe("MoodView", () => {
     const moodObject = { mood: 5 as Mood, comment: "test", date: new Date("December 16, 2020 03:24:00"), id: "1" };

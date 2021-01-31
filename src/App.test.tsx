@@ -9,28 +9,12 @@ import firebase from "firebase";
 import MoodApi from "./modules/MoodHistory/api";
 import QuoteApi from "./modules/QuoteBlock/api";
 
-jest.mock("firebase/app");
-
 jest.spyOn(MoodApi, "getMoodsList").mockImplementation(() => {
     return Promise.resolve({} as firebase.database.DataSnapshot);
 });
 
 jest.spyOn(QuoteApi, "getQuoteList").mockImplementation(() => {
     return Promise.resolve({} as firebase.database.DataSnapshot);
-});
-
-Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // deprecated
-        removeListener: jest.fn(), // deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-    })),
 });
 
 test("at first we render loading", () => {

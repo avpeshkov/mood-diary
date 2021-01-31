@@ -14,7 +14,6 @@ import * as matchers from "redux-saga-test-plan/matchers";
 import firebase from "firebase";
 import MoodApi from "modules/MoodHistory/api";
 
-jest.mock("firebase/app");
 jest.mock("modules/MoodHistory/api");
 
 describe("Moods saga", () => {

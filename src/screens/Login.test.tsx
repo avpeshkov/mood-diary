@@ -8,22 +8,6 @@ import { screen } from "@testing-library/dom";
 import authHelpers from "utils/auth";
 import firebaseApi from "utils/firebase";
 
-jest.mock("firebase/app");
-
-Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // deprecated
-        removeListener: jest.fn(), // deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-    })),
-});
-
 jest.spyOn(firebaseApi, "auth").mockImplementation(() => {
     const onAuthStateChanged: (value: () => void) => void = (value) => {
         value();

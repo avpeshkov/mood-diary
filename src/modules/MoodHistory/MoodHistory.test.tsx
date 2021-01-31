@@ -7,8 +7,6 @@ import { Provider } from "react-redux";
 import { MoodView } from "modules/MoodHistory/components/MoodView";
 import configureStore from "redux-mock-store";
 
-jest.mock("firebase/app");
-
 const moodObjectToSearch: MoodObject = {
     id: "2",
     mood: 5,

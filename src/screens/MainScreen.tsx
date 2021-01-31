@@ -8,7 +8,7 @@ import { quotesActions } from "modules/QuoteBlock/slice";
 import { pick } from "ramda";
 import { QuoteObject } from "modules/QuoteBlock/types";
 import { MoodDiaryState } from "src/store";
-import { MoodHistory, QuoteBlock } from "src/modules";
+import { MoodHistory, QuoteBlock, MoodCharts } from "src/modules";
 import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "modules/QuoteBlock/consts";
 
 const MainScreenWrapper = styled.div`
@@ -41,16 +41,20 @@ const RightBlockWrapper = styled.div`
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 800px;
 `;
 
 const GraphBlockWrapper = styled.div`
     display: inline-flex;
     align-self: flex-start;
+    flex-direction: column;
+    width: 100%;
 `;
 
 const QuoteBlockWrapper = styled.div`
     display: inline-flex;
     align-self: flex-end;
+    width: 100%;
 `;
 
 function mapStateToProps(state: MoodDiaryState): { moods: MoodObject[]; quotes: QuoteObject[] } {
@@ -84,7 +88,7 @@ class RawMainScreen extends React.Component<RawMainScreenProps, {}> {
                         </HistoryBlockWrapper>
                         <RightBlockWrapper>
                             <GraphBlockWrapper>
-                                <h2>Here will be cool graph</h2>
+                                <MoodCharts moodList={moods.filter((mood: MoodObject) => mood.date < new Date(Date.now() - 12096e5))} />
                             </GraphBlockWrapper>
                             <QuoteBlockWrapper>
                                 <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} quoteList={quotes} />
