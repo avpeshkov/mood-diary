@@ -5,7 +5,7 @@ import { QuoteObject } from "./types";
 import { isEmpty } from "ramda";
 import QuoteApi from "modules/QuoteBlock/api";
 
-export const getQuotesList = async () => {
+export const getQuotesListForSaga = async () => {
     const snapshot = await QuoteApi.getQuoteList();
     if (!snapshot.val) return [];
     return snapshot.val();
@@ -13,7 +13,7 @@ export const getQuotesList = async () => {
 
 export function* loadQuotes() {
     try {
-        const quotesList: QuoteObject[] = yield call(getQuotesList);
+        const quotesList: QuoteObject[] = yield call(getQuotesListForSaga);
         if (!quotesList) {
             throw Error("Can't load quotes");
         }

@@ -11,7 +11,7 @@ import QuoteApi from "./modules/QuoteBlock/api";
 
 jest.mock("firebase/app");
 
-jest.spyOn(MoodApi, "getMoodList").mockImplementation(() => {
+jest.spyOn(MoodApi, "getMoodsList").mockImplementation(() => {
     return Promise.resolve({} as firebase.database.DataSnapshot);
 });
 

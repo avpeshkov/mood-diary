@@ -38,7 +38,7 @@ class SignUp extends React.Component<{}, SignUpState> {
         const { error } = this.state;
         return (
             <ScreenWrapper>
-                <Row justify={"center"}>
+                <Row justify={"center"} id="signup-page-id">
                     <Col>
                         <Space size={"large"} direction={"vertical"}>
                             <Title level={3}>Sign Up to Mood Diary</Title>

@@ -7,3 +7,5 @@ coverage
 .env
 .env.production
 dist
+reports
+.stryker-tmp

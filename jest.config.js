@@ -9,6 +9,7 @@ module.exports = {
     transform: {
         "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
     },
+    testPathIgnorePatterns: ["e2e"],
     moduleNameMapper: {
         // https://jestjs.io/docs/en/webpack#handling-static-assets
         "\\.(css|less)$": "<rootDir>/internals/__mocks__/styleMock.js",
@@ -17,5 +18,13 @@ module.exports = {
         "^src(.*)$": "<rootDir>/src$1",
         "^modules(.*)$": "<rootDir>/src/modules$1",
         "^utils(.*)$": "<rootDir>/src/utils$1",
+    },
+    coverageThreshold: {
+        global: {
+            branches: 75,
+            functions: 75,
+            lines: 75,
+            statements: -85,
+        },
     },
 };

@@ -10,7 +10,7 @@ const { db } = firebaseApi;
 /**
  *  Получаем список запись настроения
  */
-function getMoodList(): Promise<firebase.database.DataSnapshot> {
+function getMoodsList(): Promise<firebase.database.DataSnapshot> {
     const userUid = authHelpers.getCurrentUserUid();
     return db.ref(`${MOOD_LIST_PATH}/${userUid}`).get();
 }
@@ -37,7 +37,7 @@ const deleteMood = (moodId: string): Promise<unknown> => {
 };
 
 const MoodApi = {
-    getMoodList,
+    getMoodsList,
     postPatchMood,
     deleteMood,
 };
