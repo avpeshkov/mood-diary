@@ -33,7 +33,7 @@ const FooterButtonsWrapper = styled.div`
 
 const SaveButton = styled.button`
     display: inline-flex;
-    background-color: darkgreen;
+    background-color: #6180da;
     border-radius: 5px;
     border: 0px;
     color: white;

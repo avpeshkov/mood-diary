@@ -37,14 +37,14 @@ export const MoodItem = styled.button`
 `;
 
 export const MoodColorMap: { [key in Mood]: string } = {
-    1: "#372d21",
-    2: "#606f4e",
+    1: "#17325a",
+    2: "#7223b9",
     3: "#6978dd",
     4: "#5ecacc",
     5: "#a8d765",
     6: "#f8ea55",
     7: "#f8b94f",
-    8: "#f46a3b",
+    8: "#ea863f",
     9: "#f86959",
-    10: "#D60567",
+    10: "#e2200c",
 };

@@ -11,7 +11,7 @@ export const ScreenWrapper: React.FC<{}> = (props) => {
     return (
         <Layout
             className={css`
-                height: 100vh;
+                height: 100%;
             `}
         >
             <HeaderComponent
@@ -21,14 +21,17 @@ export const ScreenWrapper: React.FC<{}> = (props) => {
             />
             <Layout.Content
                 className={css`
-                    height: calc(100vh - 114px);
+                    height: calc(100% - 119px);
                 `}
             >
                 {props.children}
             </Layout.Content>
             <FooterComponent
                 className={css`
-                    height: 55px;
+                    height: 40px;
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
                 `}
             />
         </Layout>

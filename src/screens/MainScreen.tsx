@@ -21,6 +21,7 @@ const MainScreenWrapper = styled.div`
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     overflow: hidden;
     height: inherit;
+    margin-left: 20px;
 `;
 
 const MainScreenDataWrapper = styled.div`
@@ -28,6 +29,7 @@ const MainScreenDataWrapper = styled.div`
     width: 100%;
     flex-direction: row;
     overflow-x: hidden;
+    min-height: 100%;
 `;
 
 const HistoryBlockWrapper = styled.div`
@@ -35,6 +37,10 @@ const HistoryBlockWrapper = styled.div`
     border-right: 2px solid lightgray;
     margin-right: 10px;
     overflow: scroll;
+    overflow-x: hidden;
+    width: 550px;
+    max-width: 550px;
+    min-width: 550px;
 `;
 
 const RightBlockWrapper = styled.div`
@@ -55,6 +61,7 @@ const QuoteBlockWrapper = styled.div`
     display: inline-flex;
     align-self: flex-end;
     width: 100%;
+    justify-content: center;
 `;
 
 function mapStateToProps(state: MoodDiaryState): { moods: MoodObject[]; quotes: QuoteObject[] } {
@@ -88,7 +95,7 @@ class RawMainScreen extends React.Component<RawMainScreenProps, {}> {
                         </HistoryBlockWrapper>
                         <RightBlockWrapper>
                             <GraphBlockWrapper>
-                                <MoodCharts moodList={moods.filter((mood: MoodObject) => mood.date < new Date(Date.now() - 12096e5))} />
+                                <MoodCharts moodList={moods.filter((mood: MoodObject) => mood.date > new Date(Date.now() - 12096e5))} />
                             </GraphBlockWrapper>
                             <QuoteBlockWrapper>
                                 <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} quoteList={quotes} />

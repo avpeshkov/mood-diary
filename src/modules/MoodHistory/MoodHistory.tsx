@@ -6,13 +6,14 @@ import { connect } from "react-redux";
 import { moodsActions } from "./slice";
 import { MoodView } from "./components/MoodView";
 import { MoodForm } from "./components/MoodForm";
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 const MoodHistoryWrapper = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px;
     width: 550px;
+    max-width: 550px;
+    min-width: 550px;
     align-items: center;
 `;
 
@@ -21,11 +22,12 @@ const HeaderButtonsWrapper = styled.div`
     width: inherit;
     margin-bottom: 20px;
     padding-top: 15px;
+    justify-content: center;
 `;
 
 export const AddNewMoodButton = styled.button`
     display: inline-flex;
-    background-color: darkgreen;
+    background-color: #6180da;
     border-radius: 5px;
     border: 0px;
     color: white;
@@ -34,7 +36,7 @@ export const AddNewMoodButton = styled.button`
     justify-content: center;
     align-self: center;
     position: fixed;
-    width: inherit;
+    width: 500px;
 `;
 
 /**

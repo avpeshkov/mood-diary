@@ -18,7 +18,7 @@ const QuoteWrapper = styled.div`
     flex-direction: row;
     color: white;
     border-radius: 25px;
-    background-color: darkslategrey;
+    background-color: #2f7f80;
     min-height: 100px;
     max-width: 550px;
 `;
@@ -53,6 +53,7 @@ const QuoteButton = styled.a`
     font-weight: bold;
     font-size: 25px;
     padding-left: 10px;
+    color: white;
 `;
 
 /**

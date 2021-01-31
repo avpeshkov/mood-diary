@@ -47,7 +47,7 @@ export const DateWrapper = styled.div`
 `;
 const ActionButton = styled.button`
     display: inline-flex;
-    background-color: darkgreen;
+    background-color: #6180da;
     border-radius: 5px;
     border: 0;
     color: white;
@@ -89,7 +89,7 @@ export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
                         </ActionButton>
                     )}
                     {deleteMoodObject && (
-                        <ActionButton data-test-id="delete-mood-btn" onClick={() => deleteMoodObject(moodObject.id!)} backgroundColor="red">
+                        <ActionButton data-test-id="delete-mood-btn" onClick={() => deleteMoodObject(moodObject.id!)} backgroundColor="#ff6464">
                             Delete
                         </ActionButton>
                     )}
