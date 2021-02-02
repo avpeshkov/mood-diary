@@ -50,18 +50,19 @@ class App extends React.Component<{}, AppState> {
 
     render() {
         const { loading, authenticated } = this.state;
+        const PUBLIC_PATH = process.env.PUBLIC_PATH || "/";
         if (loading) {
             return <h2>Loading...</h2>;
         } else {
             return (
                 <Provider store={store}>
                     <Switch>
-                        <Route exact path="/" component={Home} />
-                        <PrivateRoute path="/mood" authenticated={authenticated} Component={MainScreen} />
-                        <PublicRoute path="/signup" authenticated={authenticated} Component={SignUp} />
-                        <PublicRoute path="/login" authenticated={this.state.authenticated} Component={Login} />
+                        <Route exact path={`${PUBLIC_PATH}`} component={Home} />
+                        <PrivateRoute path={`${PUBLIC_PATH}mood`} authenticated={authenticated} Component={MainScreen} />
+                        <PublicRoute path={`${PUBLIC_PATH}signup`} authenticated={authenticated} Component={SignUp} />
+                        <PublicRoute path={`${PUBLIC_PATH}login`} authenticated={this.state.authenticated} Component={Login} />
                         <Route path="*">
-                            <Redirect to={{ pathname: "/" }} />
+                            <Redirect to={{ pathname: `${PUBLIC_PATH}` }} />
                         </Route>
                     </Switch>
                 </Provider>
