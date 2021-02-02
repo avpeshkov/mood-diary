@@ -57,12 +57,12 @@ class App extends React.Component<{}, AppState> {
             return (
                 <Provider store={store}>
                     <Switch>
-                        <Route exact path={`${PUBLIC_PATH}`} component={Home} />
+                        <Route exact path={`/`} component={Home} />
                         <PrivateRoute path={`${PUBLIC_PATH}mood`} authenticated={authenticated} Component={MainScreen} />
                         <PublicRoute path={`${PUBLIC_PATH}signup`} authenticated={authenticated} Component={SignUp} />
                         <PublicRoute path={`${PUBLIC_PATH}login`} authenticated={this.state.authenticated} Component={Login} />
                         <Route path="*">
-                            <Redirect to={{ pathname: `${PUBLIC_PATH}` }} />
+                            <Redirect to={{ pathname: `/` }} />
                         </Route>
                     </Switch>
                 </Provider>
