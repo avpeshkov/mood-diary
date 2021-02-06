@@ -16,13 +16,17 @@ const MoodScaleWrapper = styled.div`
     width: fit-content;
 `;
 
+export const getOnClick = (onMoodUpdate?: (currentMood: Mood) => void) =>
+    onMoodUpdate ? (event: React.MouseEvent<HTMLButtonElement>) => onMoodUpdate((event.currentTarget.getAttribute("value") as unknown) as Mood) : undefined;
+
 export class MoodScale extends React.Component<MoodScaleProps> {
     render() {
         const { currentMood, onMoodUpdate } = this.props;
+        const onClick = getOnClick(onMoodUpdate);
         return (
             <MoodScaleWrapper>
                 {moods.map((mood: Mood) => (
-                    <MoodItem type="button" key={mood} mood={mood} isFilled={mood <= currentMood} onClick={onMoodUpdate && (() => onMoodUpdate(mood))} />
+                    <MoodItem type="button" key={mood} mood={mood} isFilled={mood <= currentMood} value={mood} onClick={onClick} />
                 ))}
             </MoodScaleWrapper>
         );

@@ -2,24 +2,26 @@ import { mount } from "enzyme";
 import React from "react";
 import { MoodHistory, AddNewMoodButton, getMoodObjectToEdit } from "./MoodHistory";
 import Modal from "react-modal";
-import { MoodObject } from "./types";
+import { Mood, MoodObject } from "./types";
 import { Provider } from "react-redux";
 import { MoodView } from "modules/MoodHistory/components/MoodView";
 import configureStore from "redux-mock-store";
+import { random, date, lorem } from "faker";
 
+const moodObjectToSearchID = random.uuid();
 const moodObjectToSearch: MoodObject = {
-    id: "2",
-    mood: 5,
-    date: new Date("December 11, 2020 03:24:00"),
-    comment: "",
+    id: moodObjectToSearchID,
+    mood: random.number(10) as Mood,
+    date: date.future(),
+    comment: lorem.sentence(),
 };
 
 const data: MoodObject[] = [
     {
-        id: "1",
-        mood: 1,
-        date: new Date("December 10, 2020 03:24:00"),
-        comment: "Slept all day",
+        id: random.uuid(),
+        mood: random.number(10) as Mood,
+        date: date.recent(),
+        comment: lorem.sentence(),
     },
     moodObjectToSearch,
 ];
@@ -34,7 +36,7 @@ describe("MoodHistory", () => {
         jest.spyOn(store, "dispatch");
     });
 
-    it("should generate action on click", () => {
+    it("MoodHistory generate", () => {
         const history = mount(
             <Provider store={store}>
                 <MoodHistory moodList={store.getState().moods} />
@@ -51,10 +53,10 @@ describe("MoodHistory", () => {
     });
 
     it("getMoodObjectToEdit_forEditMood_success", () => {
-        expect(getMoodObjectToEdit(data, "2")).toEqual(moodObjectToSearch);
+        expect(getMoodObjectToEdit(data, moodObjectToSearchID)).toEqual(moodObjectToSearch);
     });
 
     it("getMoodObjectToEdit_forEditMood_fail", () => {
-        expect(getMoodObjectToEdit(data, "3")).toEqual(null);
+        expect(getMoodObjectToEdit(data, random.uuid())).toEqual(null);
     });
 });

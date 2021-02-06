@@ -2,13 +2,14 @@ import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { MoodForm } from "./MoodForm";
 import { Mood, MoodObject } from "modules/MoodHistory/types";
+import { date, lorem, random } from "faker";
 
 describe("MoodFormComponent", () => {
     describe("Submitting form", () => {
         const moodObject: MoodObject = {
-            date: new Date("December 16, 2020 03:24:00"),
-            mood: 7 as Mood,
-            comment: "ha ha ha",
+            mood: random.number(10) as Mood,
+            date: date.recent(),
+            comment: lorem.sentence(),
         };
         const submitForm = jest.fn();
 
@@ -27,9 +28,9 @@ describe("MoodFormComponent", () => {
 
     describe("Reset form", () => {
         const moodObject: MoodObject = {
-            date: new Date("December 16, 2020 03:24:00"),
-            mood: 7 as Mood,
-            comment: "ha ha ha",
+            mood: random.number(10) as Mood,
+            date: date.recent(),
+            comment: lorem.sentence(),
         };
         const submitForm = jest.fn();
 

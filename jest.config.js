@@ -8,8 +8,8 @@ module.exports = {
     setupFilesAfterEnv: ["<rootDir>/internals/jestSettings.js"],
     transform: {
         "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+        "^.+\\.mdx$": "@storybook/addon-docs/jest-transform-mdx",
     },
-    testPathIgnorePatterns: ["e2e"],
     moduleNameMapper: {
         // https://jestjs.io/docs/en/webpack#handling-static-assets
         "\\.(css|less)$": "<rootDir>/internals/__mocks__/styleMock.js",
@@ -19,12 +19,14 @@ module.exports = {
         "^modules(.*)$": "<rootDir>/src/modules$1",
         "^utils(.*)$": "<rootDir>/src/utils$1",
     },
+    testPathIgnorePatterns: ["e2e"],
+    moduleDirectories: ["node_modules", "src"],
     coverageThreshold: {
         global: {
-            branches: 75,
-            functions: 75,
-            lines: 75,
-            statements: -85,
+            branches: 85,
+            functions: 74,
+            lines: 85,
+            statements: -100,
         },
     },
 };

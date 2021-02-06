@@ -1,60 +1,36 @@
 import { sortMoodsByDate } from "./utils";
-import { MoodObject } from "./types";
+import { Mood, MoodObject } from "./types";
+import { date, lorem, random } from "faker";
 
 describe("mood utils test", () => {
     it("test sortMoodsByDate", () => {
         const unsortedMoodList: MoodObject[] = [
             {
-                id: "1",
-                comment: "ha ha",
-                date: new Date("December 10, 2020 03:24:00"),
-                mood: 6,
+                id: random.uuid(),
+                mood: random.number(10) as Mood,
+                date: date.past(),
+                comment: lorem.sentence(),
             },
             {
-                id: "2",
-                comment: "ha ha",
-                date: new Date("December 10, 2021 03:24:00"),
-                mood: 6,
+                id: random.uuid(),
+                mood: random.number(10) as Mood,
+                date: date.soon(),
+                comment: lorem.sentence(),
             },
             {
-                id: "3",
-                comment: "ha",
-                date: new Date("December 24, 2020 03:24:00"),
-                mood: 4,
+                id: random.uuid(),
+                mood: random.number(10) as Mood,
+                date: date.future(4),
+                comment: lorem.sentence(),
             },
             {
-                id: "4",
-                comment: "ha ha",
-                date: new Date("December 20, 2020 03:24:00"),
-                mood: 1,
+                id: random.uuid(),
+                mood: random.number(10) as Mood,
+                date: date.recent(),
+                comment: lorem.sentence(),
             },
         ];
-        const sortedMoodList: MoodObject[] = [
-            {
-                id: "2",
-                comment: "ha ha",
-                date: new Date("December 10, 2021 03:24:00"),
-                mood: 6,
-            },
-            {
-                id: "3",
-                comment: "ha",
-                date: new Date("December 24, 2020 03:24:00"),
-                mood: 4,
-            },
-            {
-                id: "4",
-                comment: "ha ha",
-                date: new Date("December 20, 2020 03:24:00"),
-                mood: 1,
-            },
-            {
-                id: "1",
-                comment: "ha ha",
-                date: new Date("December 10, 2020 03:24:00"),
-                mood: 6,
-            },
-        ];
+        const sortedMoodList: MoodObject[] = [unsortedMoodList[2], unsortedMoodList[1], unsortedMoodList[3], unsortedMoodList[0]];
 
         expect(sortMoodsByDate(unsortedMoodList)).toEqual(sortedMoodList);
     });

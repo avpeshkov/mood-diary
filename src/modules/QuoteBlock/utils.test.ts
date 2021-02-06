@@ -1,4 +1,5 @@
 import { getNewQuoteId, getRandomIndex } from "./utils";
+import { Steps } from "modules/QuoteBlock/types";
 
 describe("Test components utils", () => {
     test("getRandomIndex test", () => {
@@ -24,10 +25,10 @@ describe("Test components utils", () => {
     });
 
     test("getNewQuoteId test", () => {
-        expect(getNewQuoteId(0, 10, "next")).toBe(1);
-        expect(getNewQuoteId(1, 10, "next")).toBe(2);
-        expect(getNewQuoteId(9, 10, "next")).toBe(0);
-        expect(getNewQuoteId(1, 10, "previous")).toBe(0);
-        expect(getNewQuoteId(0, 10, "previous")).toBe(9);
+        expect(getNewQuoteId(0, 10, Steps.NEXT)).toBe(1);
+        expect(getNewQuoteId(1, 10, Steps.NEXT)).toBe(2);
+        expect(getNewQuoteId(9, 10, Steps.NEXT)).toBe(0);
+        expect(getNewQuoteId(1, 10, Steps.PREVIOUS)).toBe(0);
+        expect(getNewQuoteId(0, 10, Steps.PREVIOUS)).toBe(9);
     });
 });

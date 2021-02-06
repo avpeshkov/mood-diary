@@ -8,40 +8,45 @@ import {
     loadMoodsSaga,
     updateMoodRequestSaga,
 } from "./saga";
-import { MoodObject } from "./types";
+import { Mood, MoodObject } from "./types";
 import { expectSaga } from "redux-saga-test-plan";
 import * as matchers from "redux-saga-test-plan/matchers";
 import firebase from "firebase";
 import MoodApi from "modules/MoodHistory/api";
+import * as faker from "faker";
 
+const { random, date, lorem } = faker;
 jest.mock("modules/MoodHistory/api");
 
 describe("Moods saga", () => {
+    const moodToDeleteId = random.uuid();
+    const moodToUpdateId = random.uuid();
     const moodList: moodsSliceState = [
         {
-            id: "2",
-            mood: 5,
-            date: new Date("December 10, 2020 03:24:00"),
-            comment: "Slept all day",
+            id: moodToDeleteId,
+            mood: random.number(10) as Mood,
+            date: date.soon(),
+            comment: lorem.sentence(),
         },
         {
-            id: "1",
-            mood: 6,
-            date: new Date("December 9, 2020 03:24:00"),
-            comment: "Slept all day",
+            id: moodToUpdateId,
+            mood: random.number(10) as Mood,
+            date: date.recent(),
+            comment: lorem.sentence(),
         },
     ];
+    const newMoodId = random.uuid();
     const newMood: MoodObject = {
-        mood: 1,
-        date: new Date("December 11, 2020 03:24:00"),
-        comment: "Slept all day",
+        mood: random.number(10) as Mood,
+        date: date.future(),
+        comment: lorem.sentence(),
     };
 
     const moodToUpdate: MoodObject = {
-        id: "4",
-        mood: 1,
-        date: new Date("December 20, 2020 03:24:00"),
-        comment: "Slept all day",
+        id: moodToUpdateId,
+        mood: random.number(10) as Mood,
+        date: date.future(),
+        comment: lorem.sentence(),
     };
 
     it("loadMoodsSaga__successBackEndCallPutSetMoodsAction", () => {
@@ -67,9 +72,9 @@ describe("Moods saga", () => {
             payload: newMood,
         })
             .withReducer(moodsReducer)
-            .provide([[matchers.call.fn(createUpdateMoodObject), { id: "3", ...newMood }]])
-            .put(moodsActions.addMood({ id: "3", ...newMood }))
-            .hasFinalState([{ id: "3", ...newMood }])
+            .provide([[matchers.call.fn(createUpdateMoodObject), { id: newMoodId, ...newMood }]])
+            .put(moodsActions.addMood({ id: newMoodId, ...newMood }))
+            .hasFinalState([{ id: newMoodId, ...newMood }])
             .run();
     });
 
@@ -114,13 +119,13 @@ describe("Moods saga", () => {
     it("deleteMoodRequestSaga__success", () => {
         return expectSaga(deleteMoodRequestSaga, {
             type: moodsActions.deleteMoodRequest.type,
-            payload: "1",
+            payload: moodToDeleteId,
         })
             .withReducer(moodsReducer)
             .withState(moodList)
-            .provide([[matchers.call.fn(deleteMoodObject), "1"]])
-            .put(moodsActions.deleteMood("1"))
-            .hasFinalState([moodList[0]])
+            .provide([[matchers.call.fn(deleteMoodObject), moodToDeleteId]])
+            .put(moodsActions.deleteMood(moodToDeleteId))
+            .hasFinalState([moodList[1]])
             .run();
     });
 
@@ -140,7 +145,7 @@ describe("Moods saga", () => {
         jest.spyOn(MoodApi, "getMoodsList").mockImplementation(() => {
             return Promise.resolve({
                 val: () => {
-                    return { "4": moodToUpdate };
+                    return { [moodToUpdateId]: moodToUpdate };
                 },
             } as firebase.database.DataSnapshot);
         });
