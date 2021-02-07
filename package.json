@@ -37,7 +37,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/avpeshkov/my-react-js-tutorial.git"
+    "url": "git+https://github.com/avpeshkov/my-react-js-tutorial"
   },
   "author": "Aleksandr Peshkov",
   "license": "ISC",
