@@ -8,25 +8,25 @@ describe("mood utils test", () => {
             {
                 id: random.uuid(),
                 mood: random.number(10) as Mood,
-                date: date.past(),
+                date: date.past().toString(),
                 comment: lorem.sentence(),
             },
             {
                 id: random.uuid(),
                 mood: random.number(10) as Mood,
-                date: date.soon(),
+                date: date.soon().toString(),
                 comment: lorem.sentence(),
             },
             {
                 id: random.uuid(),
                 mood: random.number(10) as Mood,
-                date: date.future(4),
+                date: date.future(4).toString(),
                 comment: lorem.sentence(),
             },
             {
                 id: random.uuid(),
                 mood: random.number(10) as Mood,
-                date: date.recent(),
+                date: date.recent().toString().toString(),
                 comment: lorem.sentence(),
             },
         ];

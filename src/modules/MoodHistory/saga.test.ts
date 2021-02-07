@@ -25,27 +25,27 @@ describe("Moods saga", () => {
         {
             id: moodToDeleteId,
             mood: random.number(10) as Mood,
-            date: date.soon(),
+            date: date.soon().toString(),
             comment: lorem.sentence(),
         },
         {
             id: moodToUpdateId,
             mood: random.number(10) as Mood,
-            date: date.recent(),
+            date: date.recent().toString(),
             comment: lorem.sentence(),
         },
     ];
     const newMoodId = random.uuid();
     const newMood: MoodObject = {
         mood: random.number(10) as Mood,
-        date: date.future(),
+        date: date.future().toString(),
         comment: lorem.sentence(),
     };
 
     const moodToUpdate: MoodObject = {
         id: moodToUpdateId,
         mood: random.number(10) as Mood,
-        date: date.future(),
+        date: date.future().toString(),
         comment: lorem.sentence(),
     };
 

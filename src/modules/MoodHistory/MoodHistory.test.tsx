@@ -12,7 +12,7 @@ const moodObjectToSearchID = random.uuid();
 const moodObjectToSearch: MoodObject = {
     id: moodObjectToSearchID,
     mood: random.number(10) as Mood,
-    date: date.future(),
+    date: date.future().toString(),
     comment: lorem.sentence(),
 };
 
@@ -20,7 +20,7 @@ const data: MoodObject[] = [
     {
         id: random.uuid(),
         mood: random.number(10) as Mood,
-        date: date.recent(),
+        date: date.recent().toString(),
         comment: lorem.sentence(),
     },
     moodObjectToSearch,

@@ -44,6 +44,7 @@ export const DateWrapper = styled.div`
     display: inline-flex;
     margin-bottom: 5px;
     font-weight: bold;
+    padding-left: 10px;
 `;
 const ActionButton = styled.button`
     display: inline-flex;
@@ -71,7 +72,7 @@ export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
             <MoodContentWrapper>
                 <ViewWrapper>
                     <label>Date: </label>
-                    <DateWrapper> {moodObject.date.toDateString()}</DateWrapper>
+                    <DateWrapper> {moodObject.date.split("GMT")[0]}</DateWrapper>
                 </ViewWrapper>
                 <MoodScale currentMood={moodObject.mood} />
                 {moodObject.comment && (

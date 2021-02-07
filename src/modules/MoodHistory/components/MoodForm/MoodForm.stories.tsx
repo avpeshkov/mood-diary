@@ -11,7 +11,7 @@ export default {
 export const simpleData = () => (
     <MoodForm
         moodObject={{
-            date: new Date(date("date", new Date("December 16, 2020 03:24:00"))),
+            date: new Date(date("date", new Date("December 16, 2020 03:24:00"))).toString(),
             mood: number("mood", 7) as Mood,
             comment: "",
         }}

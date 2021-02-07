@@ -8,7 +8,7 @@ describe("MoodFormComponent", () => {
     describe("Submitting form", () => {
         const moodObject: MoodObject = {
             mood: random.number(10) as Mood,
-            date: date.recent(),
+            date: date.recent().toString(),
             comment: lorem.sentence(),
         };
         const submitForm = jest.fn();
@@ -29,7 +29,7 @@ describe("MoodFormComponent", () => {
     describe("Reset form", () => {
         const moodObject: MoodObject = {
             mood: random.number(10) as Mood,
-            date: date.recent(),
+            date: date.recent().toString(),
             comment: lorem.sentence(),
         };
         const submitForm = jest.fn();

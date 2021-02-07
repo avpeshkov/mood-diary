@@ -4,7 +4,7 @@ export type Mood = typeof moods[number];
 export interface MoodObject {
     id?: string;
     mood: Mood;
-    date: Date;
+    date: string;
     comment: string;
 }
 

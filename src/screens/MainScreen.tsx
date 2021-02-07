@@ -95,7 +95,7 @@ class RawMainScreen extends React.Component<RawMainScreenProps, {}> {
                         </HistoryBlockWrapper>
                         <RightBlockWrapper>
                             <GraphBlockWrapper>
-                                <MoodCharts moodList={moods.filter((mood: MoodObject) => mood.date > new Date(Date.now() - 12096e5))} />
+                                <MoodCharts moodList={moods.filter((mood: MoodObject) => new Date(mood.date) > new Date(Date.now() - 12096e5))} />
                             </GraphBlockWrapper>
                             <QuoteBlockWrapper>
                                 <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} quoteList={quotes} />

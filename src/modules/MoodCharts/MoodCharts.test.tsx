@@ -11,7 +11,7 @@ const data: MoodObject[] = range(1, 20).map((index: number) => {
     return {
         id: random.uuid(),
         mood: random.number(10) as Mood,
-        date: date.soon(index),
+        date: date.soon(index).toString(),
         comment: lorem.sentence(),
     };
 });

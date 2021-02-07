@@ -11,25 +11,25 @@ storiesOf("MoodCharts", module).add("with mocked data", () => {
         {
             id: "2",
             mood: 7,
-            date: new Date("December 13, 2020 03:24:00"),
+            date: "December 13, 2020 03:24:00",
             comment: "",
         },
         {
             id: "2",
             mood: 6,
-            date: new Date("December 12, 2020 03:24:00"),
+            date: "December 12, 2020 03:24:00",
             comment: "",
         },
         {
             id: "2",
             mood: 5,
-            date: new Date("December 11, 2020 03:24:00"),
+            date: "December 11, 2020 03:24:00",
             comment: "",
         },
         {
             id: "1",
             mood: 1,
-            date: new Date("December 10, 2020 03:24:00"),
+            date: "December 10, 2020 03:24:00",
             comment: "Slept all day",
         },
     ];

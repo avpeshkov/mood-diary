@@ -13,7 +13,7 @@ export const getMoodsList = async () => {
         const moodList: MoodObject[] = [];
         for (const [key, value] of Object.entries(snapshot.val())) {
             const mood: MoodObject = value as MoodObject;
-            moodList.push({ ...mood, id: key, date: new Date(mood.date) });
+            moodList.push({ ...mood, id: key });
         }
         return moodList;
     } catch (error) {

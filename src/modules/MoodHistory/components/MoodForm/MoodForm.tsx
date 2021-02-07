@@ -65,7 +65,7 @@ export const DateWrapper = styled.div`
 export const MoodForm: React.FC<MoodFormProps> = (props) => {
     const { moodObject, createUpdateMoodObject } = props;
     const initialValues: MoodObject = moodObject || {
-        date: new Date(),
+        date: new Date().toString(),
         mood: moods[Math.floor(Math.random() * moods.length)], // задаем начальное значение рандомно
         comment: "",
     };
@@ -78,9 +78,9 @@ export const MoodForm: React.FC<MoodFormProps> = (props) => {
                             <FieldWrapper>
                                 <label htmlFor="date">Date</label>
                                 <DatePicker
-                                    selected={values.date}
+                                    selected={new Date(values.date)}
                                     onChange={(date: Date) => {
-                                        setFieldValue("date", date);
+                                        setFieldValue("date", date.toString());
                                     }}
                                 />
                             </FieldWrapper>

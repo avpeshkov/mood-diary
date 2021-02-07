@@ -9,7 +9,7 @@ describe("MoodView", () => {
     const moodObject = {
         id: random.uuid(),
         mood: random.number(10) as Mood,
-        date: date.recent(),
+        date: date.recent().toString(),
         comment: lorem.sentence(),
     };
     const moodObjectWithoutComment = { ...moodObject, comment: "" };

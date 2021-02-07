@@ -20,11 +20,10 @@ function getMoodsList(): Promise<firebase.database.DataSnapshot> {
  */
 const postPatchMood = (moodObject: MoodObject): Promise<firebase.database.DataSnapshot | undefined> => {
     const userUid = authHelpers.getCurrentUserUid();
-    const updatedObject = { ...moodObject, date: moodObject.date.toString() };
     if (moodObject.id) {
-        return db.ref(`${MOOD_LIST_PATH}/${userUid}/${moodObject.id}`).update(updatedObject);
+        return db.ref(`${MOOD_LIST_PATH}/${userUid}/${moodObject.id}`).update(moodObject);
     } else {
-        return db.ref(`${MOOD_LIST_PATH}/${userUid}/`).push(updatedObject).get();
+        return db.ref(`${MOOD_LIST_PATH}/${userUid}/`).push(moodObject).get();
     }
 };
 
