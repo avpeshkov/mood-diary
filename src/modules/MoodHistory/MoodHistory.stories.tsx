@@ -5,6 +5,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { reducer } from "src/store";
 import { MoodHistory } from "src/modules";
+import styled from "@emotion/styled";
+
+const Window = styled.div`
+    .List {
+        height: 400px !important;
+    }
+    #mood-view-wrapper {
+        height: 120px !important;
+    }
+`;
 
 storiesOf("MoodHistory", module).add("with mocked get", () => {
     const data: MoodObject[] = [
@@ -27,7 +37,9 @@ storiesOf("MoodHistory", module).add("with mocked get", () => {
     });
     return (
         <Provider store={store}>
-            <MoodHistory moodList={store.getState().moods} />
+            <Window>
+                <MoodHistory moodList={store.getState().moods} />
+            </Window>
         </Provider>
     );
 });

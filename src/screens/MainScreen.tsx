@@ -36,8 +36,7 @@ const HistoryBlockWrapper = styled.div`
     display: inline-flex;
     border-right: 2px solid lightgray;
     margin-right: 10px;
-    overflow: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
     width: 550px;
     max-width: 550px;
     min-width: 550px;

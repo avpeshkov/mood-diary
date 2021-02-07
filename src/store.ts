@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware, MiddlewareArray } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import { fork } from "redux-saga/effects";
 import { quotesSaga } from "modules/QuoteBlock/saga";
@@ -16,18 +16,23 @@ export const reducer = combineReducers({
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [...getDefaultMiddleware(), sagaMiddleware];
+// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getLocalMiddleware = (nodeEnv: string | undefined) => {
+    const middleware = [...getDefaultMiddleware(), sagaMiddleware];
 
-if (process.env.NODE_ENV === `development`) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { logger } = require(`redux-logger`);
+    if (nodeEnv === `development`) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { logger } = require(`redux-logger`);
 
-    middleware.push(logger);
-}
+        middleware.push(logger);
+    }
+    return middleware;
+};
 
 export const store = configureStore({
     reducer,
-    middleware,
+    middleware: getLocalMiddleware(process.env.NODE_ENV),
 });
 
 function* rootSaga() {
