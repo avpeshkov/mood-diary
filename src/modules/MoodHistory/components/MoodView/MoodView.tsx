@@ -5,12 +5,6 @@ import { css } from "@emotion/core";
 import { MoodScale } from "modules/MoodHistory/components/MoodScale";
 import { MoodObject } from "modules/MoodHistory/types";
 
-interface MoodViewProps {
-    moodObject: MoodObject;
-    editMoodObject?: (moodId: string) => void;
-    deleteMoodObject?: (moodId: string) => void;
-}
-
 const MoodViewWrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -62,13 +56,31 @@ const ActionButton = styled.button`
             background-color: ${props.backgroundColor};
         `}
 `;
+const Comment = styled.span`
+    margin-top: 10px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 400px;
+`;
+
+interface MoodViewProps {
+    moodObject: MoodObject;
+    editMoodObject?: (moodId: string) => void;
+    deleteMoodObject?: (moodId: string) => void;
+    style?: React.CSSProperties;
+}
 
 /** Комнпонент для обображения/редактирования основной модели прилоежния. */
 export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
-    const { moodObject, editMoodObject, deleteMoodObject } = props;
+    const { moodObject, editMoodObject, deleteMoodObject, style } = props;
 
     return (
-        <MoodViewWrapper>
+        <MoodViewWrapper style={style} id="mood-view-wrapper">
             <MoodContentWrapper>
                 <ViewWrapper>
                     <label>Date: </label>
@@ -76,10 +88,10 @@ export const MoodView: React.FC<MoodViewProps> = (props: MoodViewProps) => {
                 </ViewWrapper>
                 <MoodScale currentMood={moodObject.mood} />
                 {moodObject.comment && (
-                    <>
-                        <label>Comment:</label>
-                        <span id="comment">{moodObject.comment}</span>
-                    </>
+                    <Comment id="comment" title={moodObject.comment}>
+                        <label>Comment: </label>
+                        {moodObject.comment}
+                    </Comment>
                 )}
             </MoodContentWrapper>
             {moodObject.id && (

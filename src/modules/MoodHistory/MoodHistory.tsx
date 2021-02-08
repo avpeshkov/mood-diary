@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 import Modal from "react-modal";
 import { connect } from "react-redux";
 import { moodsActions } from "./slice";
-import { MoodView } from "./components/MoodView";
 import { MoodForm } from "./components/MoodForm";
+import MoodListView from "modules/MoodHistory/components/MoodListView/MoodListView";
 
 const MoodHistoryWrapper = styled.div`
     display: flex;
@@ -14,7 +14,6 @@ const MoodHistoryWrapper = styled.div`
     width: 550px;
     max-width: 550px;
     min-width: 550px;
-    align-items: center;
 `;
 
 const HeaderButtonsWrapper = styled.div`
@@ -22,7 +21,6 @@ const HeaderButtonsWrapper = styled.div`
     width: inherit;
     margin-bottom: 20px;
     padding-top: 15px;
-    justify-content: center;
 `;
 
 export const AddNewMoodButton = styled.button`
@@ -88,9 +86,7 @@ class RawMoodHistory extends React.Component<RawMainScreenProps, MoodHistoryStat
                         <AddNewMoodButton onClick={() => this.addEditMoodObject()}>Add new</AddNewMoodButton>
                     </HeaderButtonsWrapper>
                     {moodList.length > 0 ? (
-                        moodList.map((item: MoodObject) => (
-                            <MoodView moodObject={item} key={item.id} editMoodObject={this.addEditMoodObject} deleteMoodObject={deleteMoodRequest} />
-                        ))
+                        <MoodListView moodList={moodList} editMoodObject={this.addEditMoodObject} deleteMoodRequest={deleteMoodRequest} />
                     ) : (
                         <span>No data</span>
                     )}
