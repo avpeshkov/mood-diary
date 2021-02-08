@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { QuoteObject } from "./types";
+import { QuoteObject, Steps, StepsTypes } from "./types";
 import { getNewQuoteId, getRandomIndex } from "./utils";
 
 interface QuoteBlockProps {
@@ -69,7 +69,6 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
 
     componentDidMount() {
         const { interval, isAutoSwitchEnabled } = this.props;
-        this._isMounted = true;
         if (isAutoSwitchEnabled) {
             this.intervalID = setInterval(this.setRandomQuote, interval);
         }
@@ -95,23 +94,20 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
     }
 
     componentWillUnmount() {
-        this._isMounted = false;
         this.clearWorker();
     }
 
     setRandomQuote = () => {
         const { quoteList } = this.props;
         const { quoteIndex } = this.state;
-        if (this._isMounted) {
-            let newId = quoteIndex;
-            while (newId === quoteIndex) {
-                newId = getRandomIndex(quoteList.length);
-            }
-            this.setState({ quoteIndex: newId });
+        let newId = quoteIndex;
+        while (newId === quoteIndex) {
+            newId = getRandomIndex(quoteList.length);
         }
+        this.setState({ quoteIndex: newId });
     };
 
-    setQuote = (position: "next" | "previous") => {
+    setQuote = (position: StepsTypes) => {
         this.setState({ quoteIndex: getNewQuoteId(this.state.quoteIndex, this.props.quoteList.length, position) });
     };
 
@@ -130,12 +126,12 @@ export class QuoteBlock extends React.Component<QuoteBlockProps, QuoteBlockState
         }
         return (
             <QuoteWrapper>
-                <QuoteButton onClick={() => this.setQuote("previous")}>{"<"}</QuoteButton>
+                <QuoteButton onClick={() => this.setQuote(Steps.PREVIOUS)}>{"<"}</QuoteButton>
                 <QuoteBlockView>
                     {quoteList[quoteIndex]?.quote}
                     <footer>{quoteList[quoteIndex]?.author}</footer>
                 </QuoteBlockView>
-                <QuoteButton onClick={() => this.setQuote("next")}>{">"}</QuoteButton>
+                <QuoteButton onClick={() => this.setQuote(Steps.NEXT)}>{">"}</QuoteButton>
             </QuoteWrapper>
         );
     }

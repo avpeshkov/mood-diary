@@ -1,6 +1,7 @@
 .history
 .vscode
 .idea
+.dist
 node_modules
 dist
 storybook-static

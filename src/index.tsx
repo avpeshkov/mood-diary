@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import Modal from "react-modal";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
+import "./index.css";
 
 Modal.setAppElement("#root");
 const PUBLIC_PATH = process.env.PUBLIC_PATH || "/";

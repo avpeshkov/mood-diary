@@ -63,20 +63,14 @@ export const DateWrapper = styled.div`
 
 /** Комнпонент для редактирования/добавления основной модели прилоежния(Formik форма). */
 export const MoodForm: React.FC<MoodFormProps> = (props) => {
-    const { moodObject } = props;
-    const { createUpdateMoodObject } = props;
+    const { moodObject, createUpdateMoodObject } = props;
     const initialValues: MoodObject = moodObject || {
         date: new Date(),
         mood: moods[Math.floor(Math.random() * moods.length)], // задаем начальное значение рандомно
         comment: "",
     };
     return (
-        <Formik
-            initialValues={initialValues}
-            onSubmit={(values: MoodObject, actions: FormikHelpers<MoodObject>) => {
-                createUpdateMoodObject(values);
-            }}
-        >
+        <Formik initialValues={initialValues} onSubmit={(values: MoodObject, actions: FormikHelpers<MoodObject>) => createUpdateMoodObject(values)}>
             {({ values, setFieldValue, handleReset }: FormikProps<MoodObject>) => {
                 return (
                     <Form>

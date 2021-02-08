@@ -17,7 +17,6 @@ export const getMoodsList = async () => {
         }
         return moodList;
     } catch (error) {
-        console.log(error);
         return [];
     }
 };

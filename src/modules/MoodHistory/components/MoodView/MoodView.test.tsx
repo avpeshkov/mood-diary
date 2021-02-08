@@ -1,19 +1,18 @@
 import React from "react";
-import snapshotDiff from "snapshot-diff";
 
 import { shallow } from "enzyme";
 import { MoodView } from "./index";
 import { Mood } from "modules/MoodHistory/types";
+import { date, lorem, random } from "faker";
 
 describe("MoodView", () => {
-    const moodObject = { mood: 5 as Mood, comment: "test", date: new Date("December 16, 2020 03:24:00"), id: "1" };
-    test("no snapshot difference between equal components", () => {
-        expect(snapshotDiff(<MoodView moodObject={moodObject} />, <MoodView moodObject={moodObject} />)).toMatchSnapshot();
-    });
+    const moodObject = {
+        id: random.uuid(),
+        mood: random.number(10) as Mood,
+        date: date.recent(),
+        comment: lorem.sentence(),
+    };
     const moodObjectWithoutComment = { ...moodObject, comment: "" };
-    test("no snapshot difference between components", () => {
-        expect(snapshotDiff(<MoodView moodObject={moodObjectWithoutComment} />, <MoodView moodObject={moodObjectWithoutComment} />)).toMatchSnapshot();
-    });
 
     it("renders component with comment", () => {
         const view = shallow(<MoodView moodObject={moodObject} />);

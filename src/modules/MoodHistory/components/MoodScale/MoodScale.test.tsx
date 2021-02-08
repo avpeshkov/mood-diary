@@ -1,32 +1,18 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { MoodScale } from "./MoodScale";
+import { getOnClick, MoodScale } from "./MoodScale";
 import { MoodItem } from "./components";
-import { Mood } from "modules/MoodHistory/types";
 
 describe("MoodScale", () => {
+    const onMoodUpdate = jest.fn();
     it("renders component", () => {
-        const scale = shallow(
-            <MoodScale
-                currentMood={5}
-                onMoodUpdate={(mood: number) => {
-                    console.log(mood);
-                }}
-            />
-        );
+        const scale = shallow(<MoodScale currentMood={5} onMoodUpdate={onMoodUpdate} />);
         expect(scale.find(MoodItem).length).toEqual(10);
     });
 
     it("updates sate through props change", () => {
-        const scale = shallow(
-            <MoodScale
-                currentMood={7}
-                onMoodUpdate={(mood: Mood) => {
-                    console.log(mood);
-                }}
-            />
-        );
+        const scale = shallow(<MoodScale currentMood={7} onMoodUpdate={onMoodUpdate} />);
 
         expect(
             scale.find(MoodItem).filterWhere((item) => {
@@ -41,5 +27,10 @@ describe("MoodScale", () => {
                 return item.props().isFilled;
             }).length
         ).toEqual(4);
+    });
+
+    it("test getOnClick", () => {
+        expect(getOnClick(undefined)).toEqual(undefined);
+        expect(getOnClick(onMoodUpdate)).toBeTruthy();
     });
 });

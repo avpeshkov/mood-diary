@@ -2,36 +2,19 @@ import { shallow } from "enzyme";
 import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import { MoodObject } from "modules/MoodHistory/types";
+import { Mood, MoodObject } from "modules/MoodHistory/types";
 import { getTendencyResult, MoodCharts } from "src/modules";
-import * as faker from "faker";
+import { range } from "ramda";
+import { date, lorem, random } from "faker";
 
-const data: MoodObject[] = [
-    {
-        id: "4",
-        mood: 7,
-        date: faker.date.recent(),
-        comment: "",
-    },
-    {
-        id: "3",
-        mood: 6,
-        date: faker.date.recent(),
-        comment: "",
-    },
-    {
-        id: "2",
-        mood: 5,
-        date: faker.date.recent(),
-        comment: "",
-    },
-    {
-        id: "1",
-        mood: 1,
-        date: faker.date.recent(),
-        comment: "Slept all day",
-    },
-];
+const data: MoodObject[] = range(1, 20).map((index: number) => {
+    return {
+        id: random.uuid(),
+        mood: random.number(10) as Mood,
+        date: date.soon(index),
+        comment: lorem.sentence(),
+    };
+});
 
 describe("MoodCharts", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
