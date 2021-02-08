@@ -21,7 +21,7 @@ const sagaMiddleware = createSagaMiddleware();
 export const getLocalMiddleware = (nodeEnv: string | undefined) => {
     const middleware = [...getDefaultMiddleware(), sagaMiddleware];
 
-    if (nodeEnv === `development`) {
+    if (nodeEnv === "development") {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const { logger } = require(`redux-logger`);
 

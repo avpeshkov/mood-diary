@@ -10,27 +10,31 @@ interface MoodListViewProps {
     deleteMoodRequest?: (moodId: string) => void;
 }
 
-const MoodListView: React.FC<MoodListViewProps> = (props) => {
-    const { moodList, editMoodObject, deleteMoodRequest } = props;
+class MoodListView extends React.Component<MoodListViewProps> {
+    row = ({ index, style }: { index: number; style: React.CSSProperties }): JSX.Element => {
+        const { moodList, editMoodObject, deleteMoodRequest } = this.props;
+        return (
+            <MoodView
+                moodObject={moodList[index]}
+                key={`${index}-${moodList[index].id}`}
+                editMoodObject={editMoodObject}
+                deleteMoodObject={deleteMoodRequest}
+                style={style}
+            />
+        );
+    };
 
-    const Row: ({ index, style }: { index: number; style: React.CSSProperties }) => JSX.Element = ({ index, style }) => (
-        <MoodView
-            moodObject={moodList[index]}
-            key={`${index}-${moodList[index].id}`}
-            editMoodObject={editMoodObject}
-            deleteMoodObject={deleteMoodRequest}
-            style={style}
-        />
-    );
+    render() {
+        return (
+            <AutoSizer disableWidth={true}>
+                {({ height }) => (
+                    <List className="List" height={height} itemCount={this.props.moodList.length} itemSize={150} width={500}>
+                        {this.row}
+                    </List>
+                )}
+            </AutoSizer>
+        );
+    }
+}
 
-    return (
-        <AutoSizer disableWidth={true}>
-            {({ height }) => (
-                <List className="List" height={height} itemCount={moodList.length} itemSize={150} width={500}>
-                    {Row}
-                </List>
-            )}
-        </AutoSizer>
-    );
-};
 export default MoodListView;
