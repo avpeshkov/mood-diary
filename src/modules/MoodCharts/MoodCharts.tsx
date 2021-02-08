@@ -42,7 +42,7 @@ export const MoodCharts: React.FC<MoodChartsProps> = (props) => {
     const tendency: number[] = findLineByLeastSquares(moods.map((mood: MoodObject) => mood.mood));
 
     const data = {
-        labels: moods.map((mood: MoodObject) => `${mood.date.getMonth() + 1}-${mood.date.getDate()}`),
+        labels: moods.map((mood: MoodObject) => `${new Date(mood.date).getMonth() + 1}-${new Date(mood.date).getDate()}`),
         datasets: [
             {
                 label: "Moods for last 2 weeks",

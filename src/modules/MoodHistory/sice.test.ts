@@ -6,20 +6,20 @@ describe("quotesSlice test", () => {
         {
             id: "1",
             comment: "ha ha",
-            date: new Date("December 14, 2020 03:24:00"),
+            date: "December 14, 2020 03:24:00",
             mood: 6,
         },
         {
             id: "2",
             comment: "ha ha",
-            date: new Date("December 10, 2020 03:24:00"),
+            date: "December 10, 2020 03:24:00",
             mood: 6,
         },
     ];
     const newMood: MoodObject = {
         id: "3",
         comment: "ha ha",
-        date: new Date("December 15, 2020 03:24:00"),
+        date: "December 15, 2020 03:24:00",
         mood: 6,
     };
 
@@ -83,7 +83,7 @@ describe("quotesSlice test", () => {
             const moodToUpdate: MoodObject = {
                 id: "2",
                 comment: "new comment",
-                date: new Date("December 14, 2020 03:24:00"),
+                date: "December 14, 2020 03:24:00",
                 mood: 8,
             };
             const action = updateMood(moodToUpdate);
