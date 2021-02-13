@@ -2,7 +2,7 @@ export const getTendencyResult = (tendency: number[]): string => {
     const tendencyFirst = tendency[0];
     const tendencyLast = tendency[tendency.length - 1];
     let tendencyResult = "";
-    if (tendency.length < 4) {
+    if (tendency.length < 7) {
         return "Not enough data to analyze tendency";
     }
     if (Math.round(tendencyFirst) === Math.round(tendencyLast)) {
