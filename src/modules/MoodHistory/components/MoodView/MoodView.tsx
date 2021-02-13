@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import "react-datepicker/dist/react-datepicker.css";
 import { css } from "@emotion/core";
 import { MoodScale } from "modules/MoodHistory/components/MoodScale";
 import { MoodObject } from "modules/MoodHistory/types";

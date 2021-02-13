@@ -55,12 +55,6 @@ const RestButton = styled.button`
     align-self: flex-end;
 `;
 
-export const DateWrapper = styled.div`
-    display: inline-flex;
-    margin-bottom: 5px;
-    font-weight: bold;
-`;
-
 /** Комнпонент для редактирования/добавления основной модели прилоежния(Formik форма). */
 export const MoodForm: React.FC<MoodFormProps> = (props) => {
     const { moodObject, createUpdateMoodObject } = props;
@@ -89,7 +83,7 @@ export const MoodForm: React.FC<MoodFormProps> = (props) => {
                                 <MoodScale
                                     currentMood={values.mood}
                                     onMoodUpdate={(mood: Mood) => {
-                                        setFieldValue("mood", mood);
+                                        setFieldValue("mood", Number(mood));
                                     }}
                                 />
                             </FieldWrapper>

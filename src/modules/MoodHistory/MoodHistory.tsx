@@ -14,6 +14,7 @@ const MoodHistoryWrapper = styled.div`
     width: 550px;
     max-width: 550px;
     min-width: 550px;
+    margin-bottom: 20px;
 `;
 
 const HeaderButtonsWrapper = styled.div`

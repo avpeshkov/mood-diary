@@ -1,1 +1,1 @@
-export * from "./MoodCharts";
+export * from "./ResultAnalise";

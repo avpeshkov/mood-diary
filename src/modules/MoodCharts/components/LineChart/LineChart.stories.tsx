@@ -1,13 +1,11 @@
 import { storiesOf } from "@storybook/react";
 import { MoodObject } from "modules/MoodHistory/types";
-import { configureStore } from "@reduxjs/toolkit";
-import { reducer } from "src/store";
-import { Provider } from "react-redux";
-import { MoodCharts } from "src/modules";
 import React from "react";
+import { LineChart } from "./LineChart";
+import { findLineByLeastSquares } from "utils/stat";
 
-storiesOf("MoodCharts", module).add("with mocked data", () => {
-    const data: MoodObject[] = [
+storiesOf("LineChart", module).add("with mocked data", () => {
+    const moods: MoodObject[] = [
         {
             id: "2",
             mood: 7,
@@ -33,13 +31,7 @@ storiesOf("MoodCharts", module).add("with mocked data", () => {
             comment: "Slept all day",
         },
     ];
-    const store = configureStore({
-        reducer,
-        preloadedState: { moods: data },
-    });
-    return (
-        <Provider store={store}>
-            <MoodCharts moodList={store.getState().moods} />
-        </Provider>
-    );
+    const tendency: number[] = findLineByLeastSquares(moods.map((mood: MoodObject) => mood.mood));
+
+    return <LineChart moodList={moods} label={"Moods"} tendency={tendency} />;
 });
