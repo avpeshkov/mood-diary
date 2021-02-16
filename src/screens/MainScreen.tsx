@@ -8,7 +8,7 @@ import { quotesActions } from "modules/QuoteBlock/slice";
 import { pick } from "ramda";
 import { QuoteObject } from "modules/QuoteBlock/types";
 import { MoodDiaryState } from "src/store";
-import { MoodHistory, QuoteBlock, MoodCharts } from "src/modules";
+import { MoodHistory, QuoteBlock, ResultAnalise } from "src/modules";
 import { QUOTE_BLOCK_DEFAULT_INTERVAL } from "modules/QuoteBlock/consts";
 
 const MainScreenWrapper = styled.div`
@@ -94,7 +94,7 @@ class RawMainScreen extends React.Component<RawMainScreenProps, {}> {
                         </HistoryBlockWrapper>
                         <RightBlockWrapper>
                             <GraphBlockWrapper>
-                                <MoodCharts moodList={moods.filter((mood: MoodObject) => new Date(mood.date) > new Date(Date.now() - 12096e5))} />
+                                <ResultAnalise moodList={moods} />
                             </GraphBlockWrapper>
                             <QuoteBlockWrapper>
                                 <QuoteBlock interval={QUOTE_BLOCK_DEFAULT_INTERVAL} isAutoSwitchEnabled={true} quoteList={quotes} />
