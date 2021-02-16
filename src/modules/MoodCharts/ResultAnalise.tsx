@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { MoodObject } from "modules/MoodHistory/types";
 import { findLineByLeastSquares } from "utils/stat";
 import styled from "@emotion/styled";
@@ -36,13 +36,15 @@ const DatePickerLabel = styled.label`
 `;
 
 export const ResultAnalise: React.FC<MoodChartsProps> = (props) => {
+    const { moodList } = props;
     const [from, setFrom] = useState<Date>(new Date(Date.now() - 12096e5));
     const [to, setTo] = useState<Date>(new Date());
     const [chart, setChart] = useState<string>("line");
 
-    const moods = props.moodList.filter((mood: MoodObject) => new Date(mood.date) > from && new Date(mood.date) < to).reverse();
+    const moods = useMemo(() => moodList.filter((mood: MoodObject) => new Date(mood.date) > from && new Date(mood.date) < to).reverse(), [moodList, from, to]);
 
-    const tendency: number[] = findLineByLeastSquares(moods.map((mood: MoodObject) => mood.mood));
+    const tendency: number[] = useMemo(() => findLineByLeastSquares(moods.map((mood: MoodObject) => mood.mood)), [moods]);
+
     const radioOptions: CheckboxOptionType[] = [
         { label: "Line", value: "line" },
         { label: "Pie", value: "pie" },
