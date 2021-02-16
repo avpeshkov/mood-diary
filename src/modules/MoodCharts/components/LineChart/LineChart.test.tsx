@@ -17,7 +17,7 @@ const moods: MoodObject[] = range(1, 20).map((index: number) => {
 
 const tendency: number[] = findLineByLeastSquares(moods.map((mood: MoodObject) => mood.mood));
 
-describe("MoodCharts", () => {
+describe("LineChart", () => {
     it("should contain chart", () => {
         const wrapper = shallow(<LineChart moodList={moods} tendency={tendency} label={"Moods"} />, { lifecycleExperimental: true });
 
