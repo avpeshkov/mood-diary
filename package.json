@@ -1,5 +1,5 @@
 {
-  "name": "my-react-js-tutorial",
+  "name": "mood-diary",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -38,11 +38,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/avpeshkov/my-react-js-tutorial"
+    "url": "git+https://github.com/avpeshkov/mood-diary"
   },
   "author": "Aleksandr Peshkov",
   "license": "ISC",
-  "homepage": "https://avpeshkov.github.io/my-react-js-tutorial/",
+  "homepage": "https://avpeshkov.github.io/mood-diary/",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
